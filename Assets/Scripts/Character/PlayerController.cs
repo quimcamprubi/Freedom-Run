@@ -7,11 +7,13 @@ public class PlayerController : MonoBehaviour
 {
     // Public attributes
     public float movementSpeed;
-    public float jumpSpeed = 8.0f;
+    public float jumpSpeed;
     public Transform groundCheck;
-    public float groundCheckRadius;
+    public float groundDistanceCheck;
     public LayerMask platformLayer;
     public float slopeCheckDistance;
+    public PhysicsMaterial2D noFriction;
+    public PhysicsMaterial2D fullFriction;
 
     // Private attributes
     private bool _isSprinting = false;
@@ -55,12 +57,12 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInput() {
         _input = Input.GetAxisRaw("Horizontal");
-        if (Input.GetButtonDown("Jump")) Jump();
+        if (Input.GetButtonDown("Jump") && _isGrounded) Jump();
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
     }
 
     private void CheckGround() {
-        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, platformLayer);
+        _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundDistanceCheck);
         if (_rigidbody2D.velocity.y <= 0.0f) {
             _isJumping = false;
         }
@@ -71,7 +73,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Jump() {
-        if (_canJump && Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, platformLayer)) {
+        if (_canJump) {
             _sprintJump = _isSprinting;
             _canJump = false;
             _isJumping = true;
@@ -119,17 +121,25 @@ public class PlayerController : MonoBehaviour
                 _isOnSlope = true;
             }
             _slopeDownAngleOld = _slopeDownAngle;
-            Debug.DrawRay(hit.point, _slopeNormalPerp, Color.blue);
-            Debug.DrawRay(hit.point, hit.normal, Color.green);
+        }
+        if (_isOnSlope && _input == 0.0f) {
+            _rigidbody2D.gravityScale = 0.0f;
+        } else {
+            _rigidbody2D.gravityScale = 5.0f;
         }
     }
     
     private void ApplyMovement() {
+        if (_input < 0.0f) {
+            transform.localScale = new Vector2(-1.0f, 1.0f);
+        } else if (_input > 0.0f) {
+            transform.localScale = new Vector2(1.0f, 1.0f);
+        }
         CheckSprintModifier();
         if (_isGrounded && !_isOnSlope && !_isJumping) {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
-        } else if (_isGrounded && _isOnSlope) {
+        } else if (_isGrounded && _isOnSlope && !_isJumping) {
             _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input, movementSpeed * _slopeNormalPerp.y * -_input);
             _rigidbody2D.velocity = _newVelocity;
         } else if (!_isGrounded) {

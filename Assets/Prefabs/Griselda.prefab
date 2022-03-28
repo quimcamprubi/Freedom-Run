@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 3395019274955847826}
   - component: {fileID: 3395019274955847827}
   - component: {fileID: 3395019274955847829}
-  - component: {fileID: 3546987899233944838}
   - component: {fileID: 4652662492999582039}
-  - component: {fileID: 6421247579082985690}
+  - component: {fileID: 6257391893482043938}
   m_Layer: 8
   m_Name: Griselda
   m_TagString: Untagged
@@ -76,12 +75,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7333318363430488555, guid: 7c51f5a7bd01db447b481da7b018e438, type: 3}
+  m_Sprite: {fileID: -5071563641634004584, guid: f08bea4dcff2ece48bc4b9a259bd8d23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.125, y: 2.75}
+  m_Size: {x: 1, y: 2.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -99,31 +98,15 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &3546987899233944838
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3395019274955847830}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 124d724cffbd7714b9e959172eddc78c, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.059802055, y: -0.0897212}
-  m_Size: {x: 0.93845177, y: 2.5705576}
-  m_Direction: 0
 --- !u!114 &4652662492999582039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,14 +120,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  jumpSpeed: 7
+  jumpSpeed: 9
   groundCheck: {fileID: 5569981364994877386}
-  groundCheckRadius: 0.2
+  groundDistanceCheck: 1.75
   platformLayer:
     serializedVersion: 2
     m_Bits: 64
-  slopeCheckDistance: 1
---- !u!70 &6421247579082985690
+  slopeCheckDistance: 0.8
+  noFriction: {fileID: 6200000, guid: 125e7e80b2ac2c94cb18383906fbf2af, type: 2}
+  fullFriction: {fileID: 6200000, guid: 124d724cffbd7714b9e959172eddc78c, type: 2}
+--- !u!70 &6257391893482043938
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,8 +142,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.05764103, y: -0.057683825}
-  m_Size: {x: 0.955637, y: 2.5064833}
+  m_Offset: {x: 0.12482548, y: -0.09413493}
+  m_Size: {x: 0.75034904, y: 2.5617301}
   m_Direction: 0
 --- !u!1 &9011698160012267176
 GameObject:
