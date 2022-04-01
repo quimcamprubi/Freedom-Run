@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public float slopeCheckDistance;
     public PhysicsMaterial2D noFriction;
     public PhysicsMaterial2D fullFriction;
+    public float jumpTime;
+    public float coyoteTime;
 
     // Private attributes
     private bool _isSprinting = false;
@@ -36,6 +38,9 @@ public class PlayerController : MonoBehaviour
     private float _slopeDownAngle;
     private float _slopeSideAngle;
     private float _slopeDownAngleOld;
+    private float _jumpTimeCounter;
+    private float _modifiedJumpSpeed;
+    private float _coyoteTimeCounter;
 
     void Start() 
     {
@@ -56,8 +61,12 @@ public class PlayerController : MonoBehaviour
     }
 
     private void CheckInput() {
+        if (Input.GetButtonUp("Jump"))
+        {
+            _isJumping = false;
+        }
         _input = Input.GetAxisRaw("Horizontal");
-        if (Input.GetButtonDown("Jump") && _isGrounded) Jump();
+        if (Input.GetButton("Jump")) Jump();
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
     }
 
@@ -69,25 +78,45 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded && !_isJumping) {
             _canJump = true;
             _sprintJump = false;
+            _coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            _coyoteTimeCounter -= Time.fixedDeltaTime;
         }
     }
 
-    private void Jump() {
-        if (_canJump) {
-            _sprintJump = _isSprinting;
+    private void Jump() { 
+        if (_coyoteTimeCounter>0f && _canJump)
+        {
             _canJump = false;
             _isJumping = true;
-            _newForce.Set(0.0f, jumpSpeed);
-            _rigidbody2D.AddForce(_newForce, ForceMode2D.Impulse);
+            _sprintJump = _isSprinting;
+            _jumpTimeCounter = jumpTime;
+            _coyoteTimeCounter = 0f;
+        }
+        if (_isJumping)
+        {
+            if (_jumpTimeCounter > 0)
+            {
+                _modifiedJumpSpeed = jumpSpeed;
+                _newForce.Set(_rigidbody2D.velocity.x, _modifiedJumpSpeed);
+                _rigidbody2D.velocity = _newForce;
+                _jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                _isJumping = false;
+            }
         }
     }
 
     private void CheckSprintModifier() {
         if (_isGrounded) {
-            _sprintModifier = _isSprinting ? 2.0f : 1.0f;
+            _sprintModifier = _isSprinting ? 1.5f : 1.0f;
             _sprintFall = _isSprinting;
         } else {
-            _sprintModifier = _sprintJump || _sprintFall ? 2.0f : 1.0f;
+            _sprintModifier = _sprintJump || _sprintFall ? 1.5f : 1.0f;
         }
     }
     
