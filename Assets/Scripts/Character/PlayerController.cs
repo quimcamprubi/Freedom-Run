@@ -10,20 +10,29 @@ public class PlayerController : MonoBehaviour
     public float jumpSpeed;
     public Transform groundCheck;
     public float groundDistanceCheck;
+    public float wallDistanceCheck;
     public LayerMask platformLayer;
     public float slopeCheckDistance;
     public PhysicsMaterial2D noFriction;
     public PhysicsMaterial2D fullFriction;
-
+    public Transform frontCheck;
+    public float wallSlidingSpeed;
+    public float xWallForce;
+    public float yWallForce;
+    
     // Private attributes
     private bool _isSprinting = false;
     private bool _isGrounded;
     private bool _isJumping;
     private bool _canJump;
+    private bool _canWallJump;
     private bool _sprintJump;
     private bool _isOnSlope;
     private bool _sprintFall;
-
+    private bool _isTouchingFront;
+    private bool _isWallSliding;
+    private bool _isWallJumping;
+    
     private CapsuleCollider2D _capsuleCollider;
     private Rigidbody2D _rigidbody2D;
     private Vector2 _colliderSize;
@@ -37,8 +46,7 @@ public class PlayerController : MonoBehaviour
     private float _slopeSideAngle;
     private float _slopeDownAngleOld;
 
-    void Start() 
-    {
+    void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
@@ -52,13 +60,32 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate() {
         CheckGround();
         CheckSlope();
+        CheckFront();
         ApplyMovement();
     }
 
     private void CheckInput() {
         _input = Input.GetAxisRaw("Horizontal");
-        if (Input.GetButtonDown("Jump") && _isGrounded) Jump();
+        if (Input.GetButtonDown("Jump")) {
+            if (_isGrounded) Jump();
+            if (_isWallSliding) {
+                _isWallSliding = false;
+                transform.localScale = transform.localScale.Equals(new Vector2(1.0f, 1.0f))
+                    ? new Vector2(-1.0f, 1.0f)
+                    : new Vector2(1.0f, 1.0f);
+                WallJump();
+            }
+        }
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
+    }
+
+    private void WallJump() {
+        if (_canWallJump) {
+            _canWallJump = false;
+            _isWallJumping = true;
+            _newForce.Set(-xWallForce * -transform.localScale.x, yWallForce);
+            _rigidbody2D.AddForce(_newForce, ForceMode2D.Impulse);
+        }
     }
 
     private void CheckGround() {
@@ -68,8 +95,15 @@ public class PlayerController : MonoBehaviour
         }
         if (_isGrounded && !_isJumping) {
             _canJump = true;
+            _isWallJumping = false;
+            _canWallJump = false;
             _sprintJump = false;
         }
+    }
+
+    private void CheckFront() {
+        _isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, wallDistanceCheck, platformLayer);
+        _isWallSliding = _isTouchingFront && !_isGrounded;
     }
 
     private void Jump() {
@@ -122,7 +156,7 @@ public class PlayerController : MonoBehaviour
             }
             _slopeDownAngleOld = _slopeDownAngle;
         }
-        if (_isOnSlope && _input == 0.0f) {
+        if (_isOnSlope && _input == 0.0f && _slopeDownAngle != 0.0f) {
             _rigidbody2D.gravityScale = 0.0f;
         } else {
             _rigidbody2D.gravityScale = 5.0f;
@@ -136,13 +170,19 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector2(1.0f, 1.0f);
         }
         CheckSprintModifier();
-        if (_isGrounded && !_isOnSlope && !_isJumping) {
+
+        if (_isWallSliding) {
+            _canWallJump = true;
+            _isWallJumping = false;
+            _newVelocity.Set(0.0f, Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            _rigidbody2D.velocity = _newVelocity;
+        } else if (_isGrounded && !_isOnSlope && !_isJumping) {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         } else if (_isGrounded && _isOnSlope && !_isJumping) {
             _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input, movementSpeed * _slopeNormalPerp.y * -_input);
             _rigidbody2D.velocity = _newVelocity;
-        } else if (!_isGrounded) {
+        } else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0)) {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         }
