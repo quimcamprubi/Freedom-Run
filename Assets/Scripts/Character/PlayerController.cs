@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private bool _sprintJump;
     private bool _isOnSlope;
     private bool _sprintFall;
+    private Animator Animator;
 
     private CapsuleCollider2D _capsuleCollider;
     private Rigidbody2D _rigidbody2D;
@@ -47,11 +48,13 @@ public class PlayerController : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
+        Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update() {
         CheckInput();
+        
     }
 
     private void FixedUpdate() {
@@ -66,6 +69,9 @@ public class PlayerController : MonoBehaviour
             _isJumping = false;
         }
         _input = Input.GetAxisRaw("Horizontal");
+
+        Animator.SetBool("running", _input != 0.0f);
+
         if (Input.GetButton("Jump")) Jump();
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
     }
