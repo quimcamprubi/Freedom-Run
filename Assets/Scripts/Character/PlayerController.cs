@@ -74,6 +74,13 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButton("Jump")) Jump();
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
+
+        if(_canJump == false) { Animator.SetBool("isGrounded", false); }
+        if (_canJump == true) { Animator.SetBool("isGrounded", true); }
+
+        if (_isJumping == false) { Animator.SetBool("isJumping", false); }
+        if (_isJumping == true) { Animator.SetBool("isJumping", true); }
+
     }
 
     private void CheckGround() {
