@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 3395019274955847829}
   - component: {fileID: 4652662492999582039}
   - component: {fileID: 6257391893482043938}
+  - component: {fileID: 6610065902366301411}
   m_Layer: 8
   m_Name: Griselda
   m_TagString: Untagged
@@ -162,9 +163,11 @@ MonoBehaviour:
   noFriction: {fileID: 6200000, guid: 125e7e80b2ac2c94cb18383906fbf2af, type: 2}
   fullFriction: {fileID: 6200000, guid: 124d724cffbd7714b9e959172eddc78c, type: 2}
   frontCheck: {fileID: 1930424323}
-  wallSlidingSpeed: 3
+  wallSlidingSpeed: 5
   xWallForce: 7
   yWallForce: 10
+  jumpTime: 0.18
+  coyoteTime: 0.1
 --- !u!70 &6257391893482043938
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -181,6 +184,25 @@ CapsuleCollider2D:
   m_Offset: {x: 0.12482548, y: -0.09413493}
   m_Size: {x: 0.75034904, y: 2.5617301}
   m_Direction: 0
+--- !u!95 &6610065902366301411
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395019274955847830}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 299310497c92bd14591deb529f7f9a78, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &9011698160012267176
 GameObject:
   m_ObjectHideFlags: 0
