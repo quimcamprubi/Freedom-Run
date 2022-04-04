@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     public float xWallForce;
     public float yWallForce;
     
+    public float jumpTime;
+    public float coyoteTime;
+
     // Private attributes
     private bool _isSprinting = false;
     private bool _isGrounded;
@@ -33,6 +36,8 @@ public class PlayerController : MonoBehaviour
     private bool _isWallJumping;
     private float _previousWallJumpDirection = 0.0f;
     
+    private Animator Animator;
+
     private CapsuleCollider2D _capsuleCollider;
     private Rigidbody2D _rigidbody2D;
     private Vector2 _colliderSize;
@@ -45,16 +50,21 @@ public class PlayerController : MonoBehaviour
     private float _slopeDownAngle;
     private float _slopeSideAngle;
     private float _slopeDownAngleOld;
+    private float _jumpTimeCounter;
+    private float _modifiedJumpSpeed;
+    private float _coyoteTimeCounter;
 
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
+        Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update() {
         CheckInput();
+        
     }
 
     private void FixedUpdate() {
@@ -65,6 +75,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void CheckInput() {
+        if (Input.GetButtonUp("Jump"))
+        {
+            _isJumping = false;
+        }
         _input = Input.GetAxisRaw("Horizontal");
         if (Input.GetButtonDown("Jump")) {
             if (_isGrounded) Jump();
@@ -73,7 +87,18 @@ public class PlayerController : MonoBehaviour
                 WallJump();
             }
         }
+
+        Animator.SetBool("running", _input != 0.0f);
+
+        if (Input.GetButton("Jump")) Jump();
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
+
+        if(_canJump == false) { Animator.SetBool("isGrounded", false); }
+        if (_canJump == true) { Animator.SetBool("isGrounded", true); }
+
+        if (_isJumping == false) { Animator.SetBool("isJumping", false); }
+        if (_isJumping == true) { Animator.SetBool("isJumping", true); }
+
     }
 
     private void WallJump() {
@@ -100,6 +125,11 @@ public class PlayerController : MonoBehaviour
             _isWallJumping = false;
             _isWallSliding = false;
             _sprintJump = false;
+            _coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            _coyoteTimeCounter -= Time.fixedDeltaTime;
         }
     }
 
@@ -108,22 +138,37 @@ public class PlayerController : MonoBehaviour
         _isWallSliding = _isTouchingFront && !_isGrounded;
     }
 
-    private void Jump() {
-        if (_canJump) {
-            _sprintJump = _isSprinting;
+    private void Jump() { 
+        if (_coyoteTimeCounter>0f && _canJump)
+        {
             _canJump = false;
             _isJumping = true;
-            _newForce.Set(0.0f, jumpSpeed);
-            _rigidbody2D.AddForce(_newForce, ForceMode2D.Impulse);
+            _sprintJump = _isSprinting;
+            _jumpTimeCounter = jumpTime;
+            _coyoteTimeCounter = 0f;
+        }
+        if (_isJumping)
+        {
+            if (_jumpTimeCounter > 0)
+            {
+                _modifiedJumpSpeed = jumpSpeed;
+                _newForce.Set(_rigidbody2D.velocity.x, _modifiedJumpSpeed);
+                _rigidbody2D.velocity = _newForce;
+                _jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                _isJumping = false;
+            }
         }
     }
 
     private void CheckSprintModifier() {
         if (_isGrounded) {
-            _sprintModifier = _isSprinting ? 2.0f : 1.0f;
+            _sprintModifier = _isSprinting ? 1.5f : 1.0f;
             _sprintFall = _isSprinting;
         } else {
-            _sprintModifier = _sprintJump || _sprintFall ? 2.0f : 1.0f;
+            _sprintModifier = _sprintJump || _sprintFall ? 1.5f : 1.0f;
         }
     }
     
