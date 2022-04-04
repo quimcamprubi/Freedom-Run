@@ -25,13 +25,13 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded;
     private bool _isJumping;
     private bool _canJump;
-    private bool _canWallJump;
     private bool _sprintJump;
     private bool _isOnSlope;
     private bool _sprintFall;
     private bool _isTouchingFront;
     private bool _isWallSliding;
     private bool _isWallJumping;
+    private float _previousWallJumpDirection = 0.0f;
     
     private CapsuleCollider2D _capsuleCollider;
     private Rigidbody2D _rigidbody2D;
@@ -70,9 +70,6 @@ public class PlayerController : MonoBehaviour
             if (_isGrounded) Jump();
             if (_isWallSliding) {
                 _isWallSliding = false;
-                transform.localScale = transform.localScale.Equals(new Vector2(1.0f, 1.0f))
-                    ? new Vector2(-1.0f, 1.0f)
-                    : new Vector2(1.0f, 1.0f);
                 WallJump();
             }
         }
@@ -80,11 +77,15 @@ public class PlayerController : MonoBehaviour
     }
 
     private void WallJump() {
-        if (_canWallJump) {
-            _canWallJump = false;
+        if (_isWallSliding && Mathf.Sign(-_input) != Mathf.Sign(_previousWallJumpDirection) || Mathf.Approximately(_previousWallJumpDirection,0.0f)) {
+            _previousWallJumpDirection = _input;
+            _isWallSliding = false;
             _isWallJumping = true;
-            _newForce.Set(-xWallForce * -transform.localScale.x, yWallForce);
+            _newForce.Set(-xWallForce * transform.localScale.x, yWallForce);
             _rigidbody2D.AddForce(_newForce, ForceMode2D.Impulse);
+            transform.localScale = transform.localScale.Equals(new Vector2(1.0f, 1.0f))
+                    ? new Vector2(-1.0f, 1.0f)
+                    : new Vector2(1.0f, 1.0f);
         }
     }
 
@@ -94,9 +95,10 @@ public class PlayerController : MonoBehaviour
             _isJumping = false;
         }
         if (_isGrounded && !_isJumping) {
+            _previousWallJumpDirection = 0.0f;
             _canJump = true;
             _isWallJumping = false;
-            _canWallJump = false;
+            _isWallSliding = false;
             _sprintJump = false;
         }
     }
@@ -172,9 +174,8 @@ public class PlayerController : MonoBehaviour
         CheckSprintModifier();
 
         if (_isWallSliding) {
-            _canWallJump = true;
             _isWallJumping = false;
-            _newVelocity.Set(0.0f, Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            _newVelocity.Set(_rigidbody2D.velocity.x, Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
             _rigidbody2D.velocity = _newVelocity;
         } else if (_isGrounded && !_isOnSlope && !_isJumping) {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
