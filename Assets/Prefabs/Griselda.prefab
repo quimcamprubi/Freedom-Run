@@ -151,8 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a707438b8faaf7a4b9a24b72a5f3d11b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  jumpSpeed: 9
+  movementSpeed: 10
+  jumpSpeed: 13
   groundCheck: {fileID: 5569981364994877386}
   groundDistanceCheck: 1.75
   wallDistanceCheck: 0.2
@@ -166,7 +166,7 @@ MonoBehaviour:
   wallSlidingSpeed: 5
   xWallForce: 7
   yWallForce: 10
-  jumpTime: 0.18
+  jumpTime: 0.22
   coyoteTime: 0.1
 --- !u!70 &6257391893482043938
 CapsuleCollider2D:
