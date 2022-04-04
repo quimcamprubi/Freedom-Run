@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1930424322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1930424323}
+  m_Layer: 8
+  m_Name: FrontCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1930424323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930424322}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: -0.172, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3395019274955847826}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3395019274955847830
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,7 +43,6 @@ GameObject:
   - component: {fileID: 3395019274955847829}
   - component: {fileID: 4652662492999582039}
   - component: {fileID: 6257391893482043938}
-  - component: {fileID: -1420825045839686623}
   m_Layer: 8
   m_Name: Griselda
   m_TagString: Untagged
@@ -33,6 +62,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5569981364994877386}
+  - {fileID: 1930424323}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -124,14 +154,17 @@ MonoBehaviour:
   jumpSpeed: 9
   groundCheck: {fileID: 5569981364994877386}
   groundDistanceCheck: 1.75
+  wallDistanceCheck: 0.2
   platformLayer:
     serializedVersion: 2
     m_Bits: 64
   slopeCheckDistance: 0.8
   noFriction: {fileID: 6200000, guid: 125e7e80b2ac2c94cb18383906fbf2af, type: 2}
   fullFriction: {fileID: 6200000, guid: 124d724cffbd7714b9e959172eddc78c, type: 2}
-  jumpTime: 0
-  coyoteTime: 0
+  frontCheck: {fileID: 1930424323}
+  wallSlidingSpeed: 3
+  xWallForce: 7
+  yWallForce: 10
 --- !u!70 &6257391893482043938
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -148,25 +181,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.12482548, y: -0.09413493}
   m_Size: {x: 0.75034904, y: 2.5617301}
   m_Direction: 0
---- !u!95 &-1420825045839686623
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3395019274955847830}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 299310497c92bd14591deb529f7f9a78, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &9011698160012267176
 GameObject:
   m_ObjectHideFlags: 0

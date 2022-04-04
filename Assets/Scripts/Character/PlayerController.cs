@@ -10,10 +10,16 @@ public class PlayerController : MonoBehaviour
     public float jumpSpeed;
     public Transform groundCheck;
     public float groundDistanceCheck;
+    public float wallDistanceCheck;
     public LayerMask platformLayer;
     public float slopeCheckDistance;
     public PhysicsMaterial2D noFriction;
     public PhysicsMaterial2D fullFriction;
+    public Transform frontCheck;
+    public float wallSlidingSpeed;
+    public float xWallForce;
+    public float yWallForce;
+    
     public float jumpTime;
     public float coyoteTime;
 
@@ -25,6 +31,11 @@ public class PlayerController : MonoBehaviour
     private bool _sprintJump;
     private bool _isOnSlope;
     private bool _sprintFall;
+    private bool _isTouchingFront;
+    private bool _isWallSliding;
+    private bool _isWallJumping;
+    private float _previousWallJumpDirection = 0.0f;
+    
     private Animator Animator;
 
     private CapsuleCollider2D _capsuleCollider;
@@ -43,8 +54,7 @@ public class PlayerController : MonoBehaviour
     private float _modifiedJumpSpeed;
     private float _coyoteTimeCounter;
 
-    void Start() 
-    {
+    void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
@@ -60,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate() {
         CheckGround();
         CheckSlope();
+        CheckFront();
         ApplyMovement();
     }
 
@@ -69,6 +80,13 @@ public class PlayerController : MonoBehaviour
             _isJumping = false;
         }
         _input = Input.GetAxisRaw("Horizontal");
+        if (Input.GetButtonDown("Jump")) {
+            if (_isGrounded) Jump();
+            if (_isWallSliding) {
+                _isWallSliding = false;
+                WallJump();
+            }
+        }
 
         Animator.SetBool("running", _input != 0.0f);
 
@@ -83,13 +101,29 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void WallJump() {
+        if (_isWallSliding && Mathf.Sign(-_input) != Mathf.Sign(_previousWallJumpDirection) || Mathf.Approximately(_previousWallJumpDirection,0.0f)) {
+            _previousWallJumpDirection = _input;
+            _isWallSliding = false;
+            _isWallJumping = true;
+            _newForce.Set(-xWallForce * transform.localScale.x, yWallForce);
+            _rigidbody2D.AddForce(_newForce, ForceMode2D.Impulse);
+            transform.localScale = transform.localScale.Equals(new Vector2(1.0f, 1.0f))
+                    ? new Vector2(-1.0f, 1.0f)
+                    : new Vector2(1.0f, 1.0f);
+        }
+    }
+
     private void CheckGround() {
         _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundDistanceCheck);
         if (_rigidbody2D.velocity.y <= 0.0f) {
             _isJumping = false;
         }
         if (_isGrounded && !_isJumping) {
+            _previousWallJumpDirection = 0.0f;
             _canJump = true;
+            _isWallJumping = false;
+            _isWallSliding = false;
             _sprintJump = false;
             _coyoteTimeCounter = coyoteTime;
         }
@@ -97,6 +131,11 @@ public class PlayerController : MonoBehaviour
         {
             _coyoteTimeCounter -= Time.fixedDeltaTime;
         }
+    }
+
+    private void CheckFront() {
+        _isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, wallDistanceCheck, platformLayer);
+        _isWallSliding = _isTouchingFront && !_isGrounded;
     }
 
     private void Jump() { 
@@ -164,7 +203,7 @@ public class PlayerController : MonoBehaviour
             }
             _slopeDownAngleOld = _slopeDownAngle;
         }
-        if (_isOnSlope && _input == 0.0f) {
+        if (_isOnSlope && _input == 0.0f && _slopeDownAngle != 0.0f) {
             _rigidbody2D.gravityScale = 0.0f;
         } else {
             _rigidbody2D.gravityScale = 5.0f;
@@ -178,13 +217,18 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector2(1.0f, 1.0f);
         }
         CheckSprintModifier();
-        if (_isGrounded && !_isOnSlope && !_isJumping) {
+
+        if (_isWallSliding) {
+            _isWallJumping = false;
+            _newVelocity.Set(_rigidbody2D.velocity.x, Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            _rigidbody2D.velocity = _newVelocity;
+        } else if (_isGrounded && !_isOnSlope && !_isJumping) {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         } else if (_isGrounded && _isOnSlope && !_isJumping) {
             _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input, movementSpeed * _slopeNormalPerp.y * -_input);
             _rigidbody2D.velocity = _newVelocity;
-        } else if (!_isGrounded) {
+        } else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0)) {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         }
