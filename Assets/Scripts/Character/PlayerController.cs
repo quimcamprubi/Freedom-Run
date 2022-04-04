@@ -90,11 +90,19 @@ public class PlayerController : MonoBehaviour
 
         Animator.SetBool("running", _input != 0.0f);
 
-        if (Input.GetButton("Jump")) Jump();
+        if (Input.GetButton("Jump")) {Jump();}
+        else
+        {
+            if (_isGrounded && !_isJumping)
+            {
+                _canJump = true;
+            }
+        }
+        
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        if(_canJump == false) { Animator.SetBool("isGrounded", false); }
-        if (_canJump == true) { Animator.SetBool("isGrounded", true); }
+        if (_isGrounded && !_isJumping) { Animator.SetBool("isGrounded", true); }
+        else { Animator.SetBool("isGrounded", false); }
 
         if (_isJumping == false) { Animator.SetBool("isJumping", false); }
         if (_isJumping == true) { Animator.SetBool("isJumping", true); }
@@ -121,7 +129,6 @@ public class PlayerController : MonoBehaviour
         }
         if (_isGrounded && !_isJumping) {
             _previousWallJumpDirection = 0.0f;
-            _canJump = true;
             _isWallJumping = false;
             _isWallSliding = false;
             _sprintJump = false;
