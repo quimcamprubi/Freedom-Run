@@ -110,13 +110,14 @@ public class PlayerController : MonoBehaviour
     }
 
     private void WallJump() {
-        if (_isWallSliding && Mathf.Sign(-_input) != Mathf.Sign(_previousWallJumpDirection) || Mathf.Approximately(_previousWallJumpDirection,0.0f)) {
-            _previousWallJumpDirection = _input;
+        bool canWallJump = Mathf.Sign(_rigidbody2D.transform.localScale.x) != Mathf.Sign(_previousWallJumpDirection);
+        if (canWallJump || Mathf.Approximately(_previousWallJumpDirection,0.0f)) {
+            _previousWallJumpDirection = _rigidbody2D.transform.localScale.x;
             _isWallSliding = false;
             _isWallJumping = true;
             _newForce.Set(-xWallForce * transform.localScale.x, yWallForce);
             _rigidbody2D.AddForce(_newForce, ForceMode2D.Impulse);
-            transform.localScale = transform.localScale.Equals(new Vector2(1.0f, 1.0f))
+            _rigidbody2D.transform.localScale = _rigidbody2D.transform.localScale.Equals(new Vector2(1.0f, 1.0f))
                     ? new Vector2(-1.0f, 1.0f)
                     : new Vector2(1.0f, 1.0f);
         }
@@ -220,6 +221,7 @@ public class PlayerController : MonoBehaviour
     private void ApplyMovement() {
         if (_input < 0.0f) {
             transform.localScale = new Vector2(-1.0f, 1.0f);
+            
         } else if (_input > 0.0f) {
             transform.localScale = new Vector2(1.0f, 1.0f);
         }
