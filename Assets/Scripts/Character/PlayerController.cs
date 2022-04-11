@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     // Public attributes
     public float movementSpeed;
+    public float ajupidSpeed;
+    public bool ajupirse;
     public float jumpSpeed;
     public Transform groundCheck;
     public float groundDistanceCheck;
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public float wallSlidingSpeed;
     public float xWallForce;
     public float yWallForce;
+
     
     public float jumpTime;
     public float coyoteTime;
@@ -100,6 +103,9 @@ public class PlayerController : MonoBehaviour
         }
         
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
+
+        if (Input.GetKey("down")) { ajupirse = true; Animator.SetBool("ajupirse", true);}
+        else { ajupirse = false; Animator.SetBool("ajupirse", false); }
 
         if (_isGrounded && !_isJumping) { Animator.SetBool("isGrounded", true); }
         else { Animator.SetBool("isGrounded", false); }
@@ -225,17 +231,30 @@ public class PlayerController : MonoBehaviour
         }
         CheckSprintModifier();
 
-        if (_isWallSliding) {
+        if (_isWallSliding)
+        {
             _isWallJumping = false;
             _newVelocity.Set(_rigidbody2D.velocity.x, Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
             _rigidbody2D.velocity = _newVelocity;
-        } else if (_isGrounded && !_isOnSlope && !_isJumping) {
+        }
+        else if (ajupirse == true)
+        {
+            _newVelocity.Set(ajupidSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
+            _rigidbody2D.velocity = _newVelocity;
+
+        }
+        else if (_isGrounded && !_isOnSlope && !_isJumping)
+        {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
-        } else if (_isGrounded && _isOnSlope && !_isJumping) {
+        }
+        else if (_isGrounded && _isOnSlope && !_isJumping)
+        {
             _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input, movementSpeed * _slopeNormalPerp.y * -_input);
             _rigidbody2D.velocity = _newVelocity;
-        } else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0)) {
+        }
+        else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0))
+        {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         }
