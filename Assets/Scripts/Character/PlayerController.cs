@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public float wallSlidingSpeed;
     public float xWallForce;
     public float yWallForce;
+    public float hookSpeed;
     
     public float jumpTime;
     public float coyoteTime;
@@ -35,6 +37,8 @@ public class PlayerController : MonoBehaviour
     private bool _isWallSliding;
     private bool _isWallJumping;
     private float _previousWallJumpDirection = 0.0f;
+    private bool _isHookAvailable;
+    private bool _isHooking;
     
     private Animator Animator;
 
@@ -53,7 +57,8 @@ public class PlayerController : MonoBehaviour
     private float _jumpTimeCounter;
     private float _modifiedJumpSpeed;
     private float _coyoteTimeCounter;
-
+    private bool _HookAnimationStarted = false;
+    private bool _HookAnimationEnded = false;
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -72,6 +77,7 @@ public class PlayerController : MonoBehaviour
         CheckSlope();
         CheckFront();
         ApplyMovement();
+        CheckHook();
     }
 
     private void CheckInput() {
@@ -107,8 +113,40 @@ public class PlayerController : MonoBehaviour
         if (_isJumping == false) { Animator.SetBool("isJumping", false); }
         if (_isJumping == true) { Animator.SetBool("isJumping", true); }
 
+        _isHooking = Input.GetKey(KeyCode.W);
+        
+        if (_isHooking && _isHookAvailable)
+        {
+            if (!_HookAnimationStarted)
+            {
+                Animator.Play("Hook");
+                Animator.SetBool("isHooking", true);
+                _HookAnimationStarted = true;
+                _HookAnimationEnded = false;
+                
+            }
+
+            if (_HookAnimationEnded)
+            {
+                _newVelocity.Set(_rigidbody2D.velocity.x, hookSpeed);
+                _rigidbody2D.velocity = _newVelocity;
+                
+            }
+
+        }
+        if (!_isHooking && _HookAnimationEnded)
+        {
+            Animator.SetBool("isHooking", false);
+            _HookAnimationStarted = false;
+        }
+        
+
     }
 
+    public void HookingEnded()
+    {
+        _HookAnimationEnded = true;
+    }
     private void WallJump() {
         bool canWallJump = Mathf.Sign(_rigidbody2D.transform.localScale.x) != Mathf.Sign(_previousWallJumpDirection);
         if (canWallJump || Mathf.Approximately(_previousWallJumpDirection,0.0f)) {
@@ -122,6 +160,27 @@ public class PlayerController : MonoBehaviour
                     : new Vector2(1.0f, 1.0f);
         }
     }
+
+    private void CheckHook()
+    {
+        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999);
+        //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
+        //Debug.Log(hit.collider.name);
+
+        if (hit.collider.CompareTag("Hook")){
+            
+            
+            _isHookAvailable = true;
+            
+        }
+        else
+        {
+            _isHookAvailable = false;
+        }
+        Debug.Log(_isHookAvailable);
+
+    } 
 
     private void CheckGround() {
         _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundDistanceCheck);
@@ -241,5 +300,6 @@ public class PlayerController : MonoBehaviour
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         }
+        
     }
 }
