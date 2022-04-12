@@ -6,6 +6,7 @@ public class GrapplingGun : MonoBehaviour
 {
     [Header("Scripts Ref:")]
     public GrapplingRope grappleRope;
+    public PlayerController playerController;
 
     [Header("Layers Settings:")]
     [SerializeField] private bool grappleToAll = false;
@@ -61,6 +62,7 @@ public class GrapplingGun : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            playerController._isGrappling = true;
             SetGrapplePoint();
         }
         else if (Input.GetKey(KeyCode.Mouse0))
@@ -89,6 +91,7 @@ public class GrapplingGun : MonoBehaviour
         {
             grappleRope.enabled = false;
             m_springJoint2D.enabled = false;
+            playerController._isGrappling = false;
             m_rigidbody.gravityScale = 1;
         }
         else

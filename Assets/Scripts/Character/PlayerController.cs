@@ -35,11 +35,12 @@ public class PlayerController : MonoBehaviour
     private bool _isWallSliding;
     private bool _isWallJumping;
     private float _previousWallJumpDirection = 0.0f;
+    public bool _isGrappling = false;
     
     private Animator Animator;
 
     private CapsuleCollider2D _capsuleCollider;
-    private Rigidbody2D _rigidbody2D;
+    public Rigidbody2D _rigidbody2D;
     private Vector2 _colliderSize;
     private Vector2 _slopeNormalPerp;
     private Vector2 _newVelocity;
@@ -64,14 +65,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update() {
         CheckInput();
-        
     }
 
     private void FixedUpdate() {
-        CheckGround();
-        CheckSlope();
-        CheckFront();
-        ApplyMovement();
+        if (!_isGrappling) {
+            CheckGround();
+            CheckSlope();
+            CheckFront();
+            ApplyMovement();
+        }
     }
 
     private void CheckInput() {
@@ -98,7 +100,7 @@ public class PlayerController : MonoBehaviour
                 _canJump = true;
             }
         }
-        
+    
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
 
         if (_isGrounded && !_isJumping) { Animator.SetBool("isGrounded", true); }
@@ -106,7 +108,6 @@ public class PlayerController : MonoBehaviour
 
         if (_isJumping == false) { Animator.SetBool("isJumping", false); }
         if (_isJumping == true) { Animator.SetBool("isJumping", true); }
-
     }
 
     private void WallJump() {
