@@ -25,14 +25,14 @@ public class PlayerController : MonoBehaviour
 
     // Private attributes
     private bool _isSprinting = false;
-    private bool _isGrounded;
+    public bool _isGrounded;
     private bool _isJumping;
-    private bool _canJump;
+    public bool _canJump;
     private bool _sprintJump;
     private bool _isOnSlope;
     private bool _sprintFall;
     private bool _isTouchingFront;
-    private bool _isWallSliding;
+    public bool _isWallSliding;
     private bool _isWallJumping;
     private float _previousWallJumpDirection = 0.0f;
     public bool _isGrappling = false;
@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     private float _slopeDownAngleOld;
     private float _jumpTimeCounter;
     private float _modifiedJumpSpeed;
-    private float _coyoteTimeCounter;
+    public float _coyoteTimeCounter;
 
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
         _isWallSliding = _isTouchingFront && !_isGrounded;
     }
 
-    private void Jump() { 
+    public void Jump() { 
         if (_coyoteTimeCounter>0f && _canJump)
         {
             _canJump = false;
