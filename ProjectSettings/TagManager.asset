@@ -38,9 +38,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: UI
-    uniqueID: 3902939681
-    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Tilemaps
+    uniqueID: 4197264395
+    locked: 0
+  - name: Level Elements
+    uniqueID: 2039869165
+    locked: 0
+  - name: Objects
+    uniqueID: 1965802957
+    locked: 0
+  - name: Character
+    uniqueID: 2695966559
+    locked: 0
+  - name: Character items
+    uniqueID: 2353232061
+    locked: 0
+  - name: UI
+    uniqueID: 3902939681
     locked: 0
