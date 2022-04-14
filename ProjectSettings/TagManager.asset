@@ -38,9 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 3902939681
+    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Rope
-    uniqueID: 3720039895
     locked: 0
