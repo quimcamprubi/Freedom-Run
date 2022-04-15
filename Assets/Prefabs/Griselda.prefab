@@ -104,8 +104,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1059340229
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -5071563641634004584, guid: f08bea4dcff2ece48bc4b9a259bd8d23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   ajupidSpeed: 4
+  ajupirse: 0
   jumpSpeed: 13
   groundCheck: {fileID: 5569981364994877386}
   groundDistanceCheck: 1.75
@@ -169,6 +170,7 @@ MonoBehaviour:
   yWallForce: 10
   jumpTime: 0.22
   coyoteTime: 0.1
+  itemsList: []
 --- !u!70 &6257391893482043938
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
