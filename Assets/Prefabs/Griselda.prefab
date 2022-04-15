@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 10
+  ajupidSpeed: 4
   jumpSpeed: 13
   groundCheck: {fileID: 5569981364994877386}
   groundDistanceCheck: 1.75
