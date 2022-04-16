@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 4652662492999582039}
   - component: {fileID: 6257391893482043938}
   - component: {fileID: 6610065902366301411}
+  - component: {fileID: 7627119847992195309}
   m_Layer: 8
   m_Name: Griselda
   m_TagString: Untagged
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   ajupidSpeed: 4
+  ajupirse: 0
   jumpSpeed: 13
   groundCheck: {fileID: 5569981364994877386}
   groundDistanceCheck: 1.75
@@ -204,6 +206,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7627119847992195309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395019274955847830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 900b656fe7992b74fa4453f3bdfa1bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontCheck: {fileID: 1930424323}
+  rayDistance: 1
 --- !u!1 &9011698160012267176
 GameObject:
   m_ObjectHideFlags: 0
