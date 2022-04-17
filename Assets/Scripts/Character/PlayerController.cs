@@ -28,21 +28,22 @@ public class PlayerController : MonoBehaviour
 
     // Private attributes
     private bool _isSprinting = false;
-    private bool _isGrounded;
+    public bool _isGrounded;
     private bool _isJumping;
-    private bool _canJump;
+    public bool _canJump;
     private bool _sprintJump;
     private bool _isOnSlope;
     private bool _sprintFall;
     private bool _isTouchingFront;
-    private bool _isWallSliding;
+    public bool _isWallSliding;
     private bool _isWallJumping;
     private float _previousWallJumpDirection = 0.0f;
+    public bool _isGrappling = false;
     
     private Animator Animator;
 
     private CapsuleCollider2D _capsuleCollider;
-    private Rigidbody2D _rigidbody2D;
+    public Rigidbody2D _rigidbody2D;
     private Vector2 _colliderSize;
     private Vector2 _slopeNormalPerp;
     private Vector2 _newVelocity;
@@ -55,7 +56,7 @@ public class PlayerController : MonoBehaviour
     private float _slopeDownAngleOld;
     private float _jumpTimeCounter;
     private float _modifiedJumpSpeed;
-    private float _coyoteTimeCounter;
+    public float _coyoteTimeCounter;
 
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -67,14 +68,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update() {
         CheckInput();
-        
     }
 
     private void FixedUpdate() {
-        CheckGround();
-        CheckSlope();
-        CheckFront();
-        ApplyMovement();
+        if (!_isGrappling) {
+            CheckGround();
+            CheckSlope();
+            CheckFront();
+            ApplyMovement();
+        }
     }
 
     private void CheckInput() {
@@ -101,7 +103,7 @@ public class PlayerController : MonoBehaviour
                 _canJump = true;
             }
         }
-        
+    
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
 
         if (Input.GetKey("down")) { ajupirse = true; Animator.SetBool("ajupirse", true);}
@@ -112,7 +114,6 @@ public class PlayerController : MonoBehaviour
 
         if (_isJumping == false) { Animator.SetBool("isJumping", false); }
         if (_isJumping == true) { Animator.SetBool("isJumping", true); }
-
     }
 
     private void WallJump() {
@@ -152,7 +153,7 @@ public class PlayerController : MonoBehaviour
         _isWallSliding = _isTouchingFront && !_isGrounded;
     }
 
-    private void Jump() { 
+    public void Jump() { 
         if (_coyoteTimeCounter>0f && _canJump)
         {
             _canJump = false;
