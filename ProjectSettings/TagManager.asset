@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - Platforms
-  - 
+  - Hook
   - Player
   - Background Detail
   - Background
@@ -40,19 +40,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Tilemaps
-    uniqueID: 1049179043
-    locked: 0
-  - name: Decoration
-    uniqueID: 2020445987
-    locked: 0
-  - name: Character
-    uniqueID: 3235627067
-    locked: 0
-  - name: Character Items
-    uniqueID: 3953824013
-    locked: 0
-  - name: Objects
-    uniqueID: 1360602217
     locked: 0
