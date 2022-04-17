@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.NetworkInformation;
+using CollectibleItems;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -25,6 +28,10 @@ public class PlayerController : MonoBehaviour
     
     public float jumpTime;
     public float coyoteTime;
+    
+    [HideInInspector]
+    public List<KeyItem> keysList;
+    public List<RegularItem> itemsList;
 
     // Private attributes
     private bool _isSprinting = false;
@@ -58,6 +65,15 @@ public class PlayerController : MonoBehaviour
     private float _modifiedJumpSpeed;
     public float _coyoteTimeCounter;
 
+    // Collectible items
+    private CollectibleItem availableCollectibleItem = null;
+    private bool canAddCollectible = false;
+    private GameObject objectToDestroy = null;
+    
+    // Doors
+    private DoorController availableDoor = null;
+    private bool canOpenDoor = false;
+
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -80,6 +96,23 @@ public class PlayerController : MonoBehaviour
     }
 
     private void CheckInput() {
+        if (Input.GetKey(KeyCode.E)) {
+            if (canAddCollectible) {
+                AddCollectible();
+                objectToDestroy.SetActive(false);
+            } else if (canOpenDoor) {
+                if (availableDoor.isLocked) { // If door is locked, check if player has the necessary key
+                    if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId)) {
+                        availableDoor.OpenDoor();
+                    } else {
+                        Debug.Log("Locked"); // TODO: In the future, change this for UI message. 
+                    }
+                } else { // If door is unlocked, open it
+                    availableDoor.OpenDoor();
+                }
+            }
+        }
+        
         if (Input.GetButtonUp("Jump"))
         {
             _isJumping = false;
@@ -112,8 +145,20 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded && !_isJumping) { Animator.SetBool("isGrounded", true); }
         else { Animator.SetBool("isGrounded", false); }
 
-        if (_isJumping == false) { Animator.SetBool("isJumping", false); }
-        if (_isJumping == true) { Animator.SetBool("isJumping", true); }
+        if (!_isJumping) { Animator.SetBool("isJumping", false); }
+        else { Animator.SetBool("isJumping", true); }
+
+    }
+
+    private void AddCollectible() {
+        switch (availableCollectibleItem) {
+            case KeyItem key:
+                keysList.Add(key);
+                break;
+            case RegularItem item:
+                itemsList.Add(item);
+                break;
+        }
     }
 
     private void WallJump() {
@@ -240,7 +285,7 @@ public class PlayerController : MonoBehaviour
             _newVelocity.Set(_rigidbody2D.velocity.x, Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
             _rigidbody2D.velocity = _newVelocity;
         }
-        else if (ajupirse == true)
+        else if (ajupirse)
         {
             _newVelocity.Set(ajupidSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
@@ -262,4 +307,27 @@ public class PlayerController : MonoBehaviour
             _rigidbody2D.velocity = _newVelocity;
         }
     }
+
+    public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject) {
+        availableCollectibleItem = item;
+        objectToDestroy = keyObject;
+        canAddCollectible = true;
+    }
+
+    public void NoAvailableCollectibleItem() {
+        availableCollectibleItem = null;
+        objectToDestroy = null;
+        canAddCollectible = false;
+    }
+
+    public void AvailableDoor(DoorController doorController) {
+        availableDoor = doorController;
+        canOpenDoor = true;
+    }
+
+    public void NoAvailableDoor() {
+        availableDoor = null;
+        canOpenDoor = false;
+    }
+    
 }

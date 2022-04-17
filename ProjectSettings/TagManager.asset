@@ -41,21 +41,24 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Tilemaps
-    uniqueID: 4197264395
+  - name: Background
+    uniqueID: 2519461919
     locked: 0
-  - name: Level Elements
-    uniqueID: 2039869165
+  - name: Background Detail
+    uniqueID: 413674445
     locked: 0
-  - name: Objects
-    uniqueID: 1965802957
+  - name: Platforms
+    uniqueID: 3542848697
+    locked: 0
+  - name: Decoration
+    uniqueID: 204817127
     locked: 0
   - name: Character
-    uniqueID: 2695966559
+    uniqueID: 799853503
     locked: 0
   - name: Character items
-    uniqueID: 2353232061
+    uniqueID: 2787248219
     locked: 0
-  - name: UI
-    uniqueID: 3902939681
+  - name: Objects and collectibles
+    uniqueID: 3448635803
     locked: 0

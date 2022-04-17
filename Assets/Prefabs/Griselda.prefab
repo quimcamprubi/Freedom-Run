@@ -130,9 +130,9 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1941735235
-  m_SortingLayer: 5
-  m_SortingOrder: 10
+  m_SortingLayerID: -1507719077
+  m_SortingLayer: 6
+  m_SortingOrder: 11
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -388,9 +388,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1599000737
-  m_SortingLayer: 4
-  m_SortingOrder: -1
+  m_SortingLayerID: 799853503
+  m_SortingLayer: 5
+  m_SortingOrder: 0
   m_Sprite: {fileID: -5071563641634004584, guid: f08bea4dcff2ece48bc4b9a259bd8d23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -437,6 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   ajupidSpeed: 4
+  ajupirse: 0
   jumpSpeed: 13
   groundCheck: {fileID: 5569981364994877386}
   groundDistanceCheck: 1.75
@@ -453,6 +454,8 @@ MonoBehaviour:
   yWallForce: 10
   jumpTime: 0.22
   coyoteTime: 0.1
+  keysList: []
+  itemsList: []
   _isGrounded: 0
   _canJump: 0
   _isWallSliding: 0
@@ -615,9 +618,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1941735235
-  m_SortingLayer: 5
-  m_SortingOrder: 0
+  m_SortingLayerID: -1507719077
+  m_SortingLayer: 6
+  m_SortingOrder: 10
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 0}
   m_FlipX: 0
@@ -655,9 +658,6 @@ MonoBehaviour:
   rotationSpeed: 17.6
   hasMaxDistance: 1
   maxDistance: 15
-  launchToPoint: 0
-  launchType: 0
-  launchSpeed: 3
   autoConfigureDistance: 1
   targetDistance: 3
   targetFrequncy: 1
