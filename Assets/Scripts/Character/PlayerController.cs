@@ -131,9 +131,11 @@ public class PlayerController : MonoBehaviour
             if (_HookAnimationEnded)
             {
                 m_lineRenderer.enabled = true;
-                m_lineRenderer.SetPosition(0, _rigidbody2D.position);
+                Vector3 bodypoint = new Vector3(_rigidbody2D.position.x, _rigidbody2D.position.y, -1);
+                m_lineRenderer.SetPosition(0, bodypoint);
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999); //we are colliding with hook if inside if
-                m_lineRenderer.SetPosition(1, hit.point);
+                Vector3 hitpoint = new Vector3(hit.point.x,hit.point.y,-1);
+                m_lineRenderer.SetPosition(1, hitpoint);
 
                 _newVelocity.Set(_rigidbody2D.velocity.x, hookSpeed);
                 _rigidbody2D.velocity = _newVelocity;
