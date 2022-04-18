@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
     private float _coyoteTimeCounter;
     private bool _HookAnimationStarted = false;
     private bool _HookAnimationEnded = false;
+    public LineRenderer m_lineRenderer;
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -121,6 +122,7 @@ public class PlayerController : MonoBehaviour
             {
                 Animator.Play("Hook");
                 Animator.SetBool("isHooking", true);
+                Animator.SetBool("isHooking", false);
                 _HookAnimationStarted = true;
                 _HookAnimationEnded = false;
                 
@@ -128,6 +130,11 @@ public class PlayerController : MonoBehaviour
 
             if (_HookAnimationEnded)
             {
+                m_lineRenderer.enabled = true;
+                m_lineRenderer.SetPosition(0, _rigidbody2D.position);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999); //we are colliding with hook if inside if
+                m_lineRenderer.SetPosition(1, hit.point);
+
                 _newVelocity.Set(_rigidbody2D.velocity.x, hookSpeed);
                 _rigidbody2D.velocity = _newVelocity;
                 
@@ -137,7 +144,9 @@ public class PlayerController : MonoBehaviour
         if (!_isHooking && _HookAnimationEnded)
         {
             Animator.SetBool("isHooking", false);
+            Debug.Log("isHooking false");
             _HookAnimationStarted = false;
+            m_lineRenderer.enabled = false;
         }
         
 
@@ -146,6 +155,7 @@ public class PlayerController : MonoBehaviour
     public void HookingEnded()
     {
         _HookAnimationEnded = true;
+        Animator.SetBool("isHooking", false);
     }
     private void WallJump() {
         bool canWallJump = Mathf.Sign(_rigidbody2D.transform.localScale.x) != Mathf.Sign(_previousWallJumpDirection);
@@ -178,7 +188,7 @@ public class PlayerController : MonoBehaviour
         {
             _isHookAvailable = false;
         }
-        Debug.Log(_isHookAvailable);
+        //Debug.Log(_isHookAvailable);
 
     } 
 
