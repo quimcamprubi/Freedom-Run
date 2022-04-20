@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
-  maxHealth: 10
+  maxHealth: 2
   hurtSound: {fileID: 8300000, guid: befe3c73438ef27e5a6c772ad101d810, type: 3}
   deathSound: {fileID: 8300000, guid: 72002396048d1bca78ca30455137bfea, type: 3}
   states:
