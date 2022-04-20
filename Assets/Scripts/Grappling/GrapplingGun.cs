@@ -49,6 +49,7 @@ public class GrapplingGun : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            playerController._isGrappling = true;
             SetGrapplePoint();
         }
         else if (Input.GetKey(KeyCode.Mouse0))
@@ -113,7 +114,6 @@ public class GrapplingGun : MonoBehaviour
             {
                 if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistance || !hasMaxDistance)
                 {
-                    playerController._isGrappling = true;
                     grapplePoint = _hit.point;
                     grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
                     grappleRope.enabled = true;
