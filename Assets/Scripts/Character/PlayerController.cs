@@ -180,16 +180,15 @@ public class PlayerController : MonoBehaviour
         //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
         //Debug.Log(hit.collider.name);
 
-        if (hit.collider.CompareTag("Hook")){
+        if (hit.collider.CompareTag("Hook") && _isGrounded){
             
             
             _isHookAvailable = true;
             
         }
-        else
-        {
-            _isHookAvailable = false;
-        }
+        //else {
+            //_isHookAvailable = false;
+        //}
         //Debug.Log(_isHookAvailable);
 
     } 
@@ -292,9 +291,10 @@ public class PlayerController : MonoBehaviour
     private void ApplyMovement() {
         if (_input < 0.0f) {
             transform.localScale = new Vector2(-1.0f, 1.0f);
-            
+            _isHookAvailable = false;
         } else if (_input > 0.0f) {
             transform.localScale = new Vector2(1.0f, 1.0f);
+            _isHookAvailable = false;
         }
         CheckSprintModifier();
 
