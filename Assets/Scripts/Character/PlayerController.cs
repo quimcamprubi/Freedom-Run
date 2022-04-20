@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.U2D.Path;
+using System.Linq;
+using CollectibleItems;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,6 +9,8 @@ public class PlayerController : MonoBehaviour
 {
     // Public attributes
     public float movementSpeed;
+    public float ajupidSpeed;
+    public bool ajupirse;
     public float jumpSpeed;
     public Transform groundCheck;
     public float groundDistanceCheck;
@@ -20,25 +23,30 @@ public class PlayerController : MonoBehaviour
     public float wallSlidingSpeed;
     public float xWallForce;
     public float yWallForce;
-    public float hookSpeed;
+    public float hookSpeed = 10f;
     
     public float jumpTime;
     public float coyoteTime;
+    
+    [HideInInspector]
+    public List<KeyItem> keysList;
+    public List<RegularItem> itemsList;
 
     // Private attributes
     private bool _isSprinting = false;
-    private bool _isGrounded;
+    public bool _isGrounded;
     private bool _isJumping;
-    private bool _canJump;
+    public bool _canJump;
     private bool _sprintJump;
     private bool _isOnSlope;
     private bool _sprintFall;
     private bool _isTouchingFront;
-    private bool _isWallSliding;
+    public bool _isWallSliding;
     private bool _isWallJumping;
     private float _previousWallJumpDirection = 0.0f;
     private bool _isHookAvailable;
     private bool _isHooking;
+    public bool _isGrappling = false;
     
     private Animator Animator;
 
@@ -56,10 +64,20 @@ public class PlayerController : MonoBehaviour
     private float _slopeDownAngleOld;
     private float _jumpTimeCounter;
     private float _modifiedJumpSpeed;
-    private float _coyoteTimeCounter;
     private bool _HookAnimationStarted = false;
     private bool _HookAnimationEnded = false;
     public LineRenderer m_lineRenderer;
+    public float _coyoteTimeCounter;
+
+    // Collectible items
+    private CollectibleItem availableCollectibleItem = null;
+    private bool canAddCollectible = false;
+    private GameObject objectToDestroy = null;
+    
+    // Doors
+    private DoorController availableDoor = null;
+    private bool canOpenDoor = false;
+
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -70,18 +88,36 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update() {
         CheckInput();
-        
     }
 
     private void FixedUpdate() {
-        CheckGround();
-        CheckSlope();
-        CheckFront();
-        ApplyMovement();
-        CheckHook();
+        if (!_isGrappling) {
+            CheckGround();
+            CheckSlope();
+            CheckFront();
+            ApplyMovement();
+            CheckHook();
+        }
     }
 
     private void CheckInput() {
+        if (Input.GetKey(KeyCode.E)) {
+            if (canAddCollectible) {
+                AddCollectible();
+                objectToDestroy.SetActive(false);
+            } else if (canOpenDoor) {
+                if (availableDoor.isLocked) { // If door is locked, check if player has the necessary key
+                    if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId)) {
+                        availableDoor.OpenDoor();
+                    } else {
+                        Debug.Log("Locked"); // TODO: In the future, change this for UI message. 
+                    }
+                } else { // If door is unlocked, open it
+                    availableDoor.OpenDoor();
+                }
+            }
+        }
+        
         if (Input.GetButtonUp("Jump"))
         {
             _isJumping = false;
@@ -105,14 +141,17 @@ public class PlayerController : MonoBehaviour
                 _canJump = true;
             }
         }
-        
+    
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
+
+        if (Input.GetKey("down")) { ajupirse = true; Animator.SetBool("ajupirse", true);}
+        else { ajupirse = false; Animator.SetBool("ajupirse", false); }
 
         if (_isGrounded && !_isJumping) { Animator.SetBool("isGrounded", true); }
         else { Animator.SetBool("isGrounded", false); }
 
-        if (_isJumping == false) { Animator.SetBool("isJumping", false); }
-        if (_isJumping == true) { Animator.SetBool("isJumping", true); }
+        if (!_isJumping) { Animator.SetBool("isJumping", false); }
+        else { Animator.SetBool("isJumping", true); }
 
         _isHooking = Input.GetKey(KeyCode.W);
         
@@ -125,7 +164,6 @@ public class PlayerController : MonoBehaviour
                 //Animator.SetBool("isHooking", false);
                 _HookAnimationStarted = true;
                 _HookAnimationEnded = false;
-                
             }
 
             if (_HookAnimationEnded)
@@ -136,12 +174,10 @@ public class PlayerController : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999); //we are colliding with hook if inside if
                 Vector3 hitpoint = new Vector3(hit.point.x,hit.point.y,-1);
                 m_lineRenderer.SetPosition(1, hitpoint);
-
+                
                 _newVelocity.Set(_rigidbody2D.velocity.x, hookSpeed);
                 _rigidbody2D.velocity = _newVelocity;
-                
             }
-
         }
         if (!_isHooking && _HookAnimationEnded)
         {
@@ -150,8 +186,17 @@ public class PlayerController : MonoBehaviour
             _HookAnimationStarted = false;
             m_lineRenderer.enabled = false;
         }
-        
-
+    }
+    
+    private void AddCollectible() {
+        switch (availableCollectibleItem) {
+            case KeyItem key:
+                keysList.Add(key);
+                break;
+            case RegularItem item:
+                itemsList.Add(item);
+                break;
+        }
     }
 
     public void HookingEnded()
@@ -175,16 +220,12 @@ public class PlayerController : MonoBehaviour
 
     private void CheckHook()
     {
-        
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999);
         //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
         //Debug.Log(hit.collider.name);
 
         if (hit.collider.CompareTag("Hook") && _isGrounded){
-            
-            
             _isHookAvailable = true;
-            
         }
         //else {
             //_isHookAvailable = false;
@@ -216,7 +257,7 @@ public class PlayerController : MonoBehaviour
         _isWallSliding = _isTouchingFront && !_isGrounded;
     }
 
-    private void Jump() { 
+    public void Jump() { 
         if (_coyoteTimeCounter>0f && _canJump)
         {
             _canJump = false;
@@ -298,20 +339,56 @@ public class PlayerController : MonoBehaviour
         }
         CheckSprintModifier();
 
-        if (_isWallSliding) {
+        if (_isWallSliding)
+        {
             _isWallJumping = false;
             _newVelocity.Set(_rigidbody2D.velocity.x, Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
             _rigidbody2D.velocity = _newVelocity;
-        } else if (_isGrounded && !_isOnSlope && !_isJumping) {
+        }
+        else if (ajupirse)
+        {
+            _newVelocity.Set(ajupidSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
+            _rigidbody2D.velocity = _newVelocity;
+
+        }
+        else if (_isGrounded && !_isOnSlope && !_isJumping)
+        {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
-        } else if (_isGrounded && _isOnSlope && !_isJumping) {
+        }
+        else if (_isGrounded && _isOnSlope && !_isJumping)
+        {
             _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input, movementSpeed * _slopeNormalPerp.y * -_input);
             _rigidbody2D.velocity = _newVelocity;
-        } else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0)) {
+        }
+        else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0))
+        {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         }
         
     }
+
+    public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject) {
+        availableCollectibleItem = item;
+        objectToDestroy = keyObject;
+        canAddCollectible = true;
+    }
+
+    public void NoAvailableCollectibleItem() {
+        availableCollectibleItem = null;
+        objectToDestroy = null;
+        canAddCollectible = false;
+    }
+
+    public void AvailableDoor(DoorController doorController) {
+        availableDoor = doorController;
+        canOpenDoor = true;
+    }
+
+    public void NoAvailableDoor() {
+        availableDoor = null;
+        canOpenDoor = false;
+    }
+    
 }
