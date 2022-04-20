@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
             {
                 Animator.Play("Hook");
                 Animator.SetBool("isHooking", true);
-                Animator.SetBool("isHooking", false);
+                //Animator.SetBool("isHooking", false);
                 _HookAnimationStarted = true;
                 _HookAnimationEnded = false;
                 
@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
         if (!_isHooking && _HookAnimationEnded)
         {
             Animator.SetBool("isHooking", false);
-            Debug.Log("isHooking false");
+            //Debug.Log("isHooking false");
             _HookAnimationStarted = false;
             m_lineRenderer.enabled = false;
         }
