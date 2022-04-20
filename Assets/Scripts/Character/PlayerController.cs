@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using CollectibleItems;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -24,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public float wallSlidingSpeed;
     public float xWallForce;
     public float yWallForce;
-
+    public float hookSpeed = 10f;
     
     public float jumpTime;
     public float coyoteTime;
@@ -45,12 +44,14 @@ public class PlayerController : MonoBehaviour
     public bool _isWallSliding;
     private bool _isWallJumping;
     private float _previousWallJumpDirection = 0.0f;
+    private bool _isHookAvailable;
+    private bool _isHooking;
     public bool _isGrappling = false;
     
     private Animator Animator;
 
     private CapsuleCollider2D _capsuleCollider;
-    public Rigidbody2D _rigidbody2D;
+    private Rigidbody2D _rigidbody2D;
     private Vector2 _colliderSize;
     private Vector2 _slopeNormalPerp;
     private Vector2 _newVelocity;
@@ -63,6 +64,9 @@ public class PlayerController : MonoBehaviour
     private float _slopeDownAngleOld;
     private float _jumpTimeCounter;
     private float _modifiedJumpSpeed;
+    private bool _HookAnimationStarted = false;
+    private bool _HookAnimationEnded = false;
+    public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
 
     // Collectible items
@@ -92,6 +96,7 @@ public class PlayerController : MonoBehaviour
             CheckSlope();
             CheckFront();
             ApplyMovement();
+            CheckHook();
         }
     }
 
@@ -148,8 +153,41 @@ public class PlayerController : MonoBehaviour
         if (!_isJumping) { Animator.SetBool("isJumping", false); }
         else { Animator.SetBool("isJumping", true); }
 
-    }
+        _isHooking = Input.GetKey(KeyCode.W);
+        
+        if (_isHooking && _isHookAvailable)
+        {
+            if (!_HookAnimationStarted)
+            {
+                Animator.Play("Hook");
+                Animator.SetBool("isHooking", true);
+                //Animator.SetBool("isHooking", false);
+                _HookAnimationStarted = true;
+                _HookAnimationEnded = false;
+            }
 
+            if (_HookAnimationEnded)
+            {
+                m_lineRenderer.enabled = true;
+                Vector3 bodypoint = new Vector3(_rigidbody2D.position.x, _rigidbody2D.position.y, -1);
+                m_lineRenderer.SetPosition(0, bodypoint);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999); //we are colliding with hook if inside if
+                Vector3 hitpoint = new Vector3(hit.point.x,hit.point.y,-1);
+                m_lineRenderer.SetPosition(1, hitpoint);
+                
+                _newVelocity.Set(_rigidbody2D.velocity.x, hookSpeed);
+                _rigidbody2D.velocity = _newVelocity;
+            }
+        }
+        if (!_isHooking && _HookAnimationEnded)
+        {
+            Animator.SetBool("isHooking", false);
+            //Debug.Log("isHooking false");
+            _HookAnimationStarted = false;
+            m_lineRenderer.enabled = false;
+        }
+    }
+    
     private void AddCollectible() {
         switch (availableCollectibleItem) {
             case KeyItem key:
@@ -161,6 +199,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void HookingEnded()
+    {
+        _HookAnimationEnded = true;
+        Animator.SetBool("isHooking", false);
+    }
     private void WallJump() {
         bool canWallJump = Mathf.Sign(_rigidbody2D.transform.localScale.x) != Mathf.Sign(_previousWallJumpDirection);
         if (canWallJump || Mathf.Approximately(_previousWallJumpDirection,0.0f)) {
@@ -174,6 +217,22 @@ public class PlayerController : MonoBehaviour
                     : new Vector2(1.0f, 1.0f);
         }
     }
+
+    private void CheckHook()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999);
+        //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
+        //Debug.Log(hit.collider.name);
+
+        if (hit.collider.CompareTag("Hook") && _isGrounded){
+            _isHookAvailable = true;
+        }
+        //else {
+            //_isHookAvailable = false;
+        //}
+        //Debug.Log(_isHookAvailable);
+
+    } 
 
     private void CheckGround() {
         _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundDistanceCheck);
@@ -273,9 +332,10 @@ public class PlayerController : MonoBehaviour
     private void ApplyMovement() {
         if (_input < 0.0f) {
             transform.localScale = new Vector2(-1.0f, 1.0f);
-            
+            _isHookAvailable = false;
         } else if (_input > 0.0f) {
             transform.localScale = new Vector2(1.0f, 1.0f);
+            _isHookAvailable = false;
         }
         CheckSprintModifier();
 
@@ -306,6 +366,7 @@ public class PlayerController : MonoBehaviour
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         }
+        
     }
 
     public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject) {

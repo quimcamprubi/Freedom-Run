@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class HealthMeter : MonoBehaviour
 {
-    const int HEALTH_STATES = 4;
+    const int HEALTH_STATES = 1;
 
     public int Health {
         get {

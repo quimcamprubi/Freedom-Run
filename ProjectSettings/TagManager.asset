@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Hook
   layers:
   - Default
   - TransparentFX
@@ -61,4 +62,7 @@ TagManager:
     locked: 0
   - name: Objects and collectibles
     uniqueID: 3448635803
+    locked: 0
+  - name: UI
+    uniqueID: 1573055067
     locked: 0
