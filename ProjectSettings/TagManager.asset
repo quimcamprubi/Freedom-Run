@@ -62,3 +62,6 @@ TagManager:
   - name: Objects and collectibles
     uniqueID: 3448635803
     locked: 0
+  - name: UI
+    uniqueID: 1573055067
+    locked: 0
