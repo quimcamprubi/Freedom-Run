@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frontCheck: {fileID: 1930424323}
-  rayDistance: 1
+  rayDistance: 1000
 --- !u!1 &9011698160012267176
 GameObject:
   m_ObjectHideFlags: 0

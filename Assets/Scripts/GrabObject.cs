@@ -20,26 +20,22 @@ public class GrabObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit2D hitInfo = Physics2D.Raycast(frontCheck.position, transform.localScale, rayDistance);
-        if (hitInfo.collider != null && hitInfo.collider.gameObject.layer==layerIndex)
-        {
-            if (Input.GetKey(KeyCode.G))
-            {
-                if (grabbedObject == null)
-                {
+        if (Input.GetKeyDown(KeyCode.G)){
+            if (grabbedObject == null){
+                RaycastHit2D hitInfo = Physics2D.Raycast(frontCheck.position, transform.localScale, rayDistance);
+                if (hitInfo.collider != null && hitInfo.collider.gameObject.layer == layerIndex){
                     grabbedObject = hitInfo.collider.gameObject;
+                    grabbedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
                     grabbedObject.GetComponent<Rigidbody2D>().isKinematic = true;
                     grabbedObject.transform.SetParent(transform);
                 }
-                else
-                {
+            }
+            else{
                     grabbedObject.GetComponent<Rigidbody2D>().isKinematic = false;
                     grabbedObject.transform.SetParent(null);
+                    grabbedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
                     grabbedObject = null;
-                }
             }
         }
-
-        Debug.DrawRay(frontCheck.position, transform.right * rayDistance);
     }
 }
