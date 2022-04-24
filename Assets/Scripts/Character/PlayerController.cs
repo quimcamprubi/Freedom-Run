@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public float wallSlidingSpeed;
     public float xWallForce;
     public float yWallForce;
-
+    public bool grabbingObject;
     
     public float jumpTime;
     public float coyoteTime;
@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
         Animator = GetComponent<Animator>();
+        grabbingObject = false;
     }
 
     // Update is called once per frame
@@ -96,9 +97,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButton("Jump")) {Jump();}
         else
         {
-            if (_isGrounded && !_isJumping)
+            if (grabbingObject)
             {
-                _canJump = true;
+                _canJump = false;
+            }
+            else
+            {
+                if (_isGrounded && !_isJumping)
+                {
+                    _canJump = true;
+                }
             }
         }
         

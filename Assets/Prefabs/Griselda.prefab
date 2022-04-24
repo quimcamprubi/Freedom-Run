@@ -169,6 +169,7 @@ MonoBehaviour:
   wallSlidingSpeed: 5
   xWallForce: 7
   yWallForce: 10
+  grabbingObject: 0
   jumpTime: 0.22
   coyoteTime: 0.1
 --- !u!70 &6257391893482043938
@@ -219,7 +220,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frontCheck: {fileID: 1930424323}
-  rayDistance: 1000
+  grabPoint: {fileID: 0}
+  player: {fileID: 4652662492999582039}
+  rayDistance: 0.5
 --- !u!1 &9011698160012267176
 GameObject:
   m_ObjectHideFlags: 0
