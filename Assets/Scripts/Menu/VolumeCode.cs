@@ -12,7 +12,7 @@ public class VolumeCode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        slider.value = PlayerPrefs.GetFloat("volumeAudio", 0.5f);
+        slider.value = PlayerPrefs.GetFloat("volumeAudio", 1.0f);
         AudioListener.volume = slider.value;
         CheckIfMuted();
     }
