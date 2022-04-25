@@ -15,4 +15,10 @@ public class DamageSpikes : MonoBehaviour
     {
         
     }
+
+    void OnTriggerStay2D(Collider2D other) {
+        var healthMeterObj = GameObject.Find("HealthMeter");
+        var healthMeter = healthMeterObj.GetComponent<HealthMeter>();
+        healthMeter.Hurt();
+    }
 }
