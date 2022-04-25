@@ -101,12 +101,8 @@ public class PlayerController : MonoBehaviour
             {
                 _canJump = false;
             }
-            else
-            {
-                if (_isGrounded && !_isJumping)
-                {
-                    _canJump = true;
-                }
+            else if (_isGrounded && !_isJumping){
+                _canJump = true;
             }
         }
         
