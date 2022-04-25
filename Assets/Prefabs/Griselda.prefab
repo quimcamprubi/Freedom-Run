@@ -456,6 +456,7 @@ GameObject:
   - component: {fileID: 6257391893482043938}
   - component: {fileID: 6610065902366301411}
   - component: {fileID: 7240908992274604837}
+  - component: {fileID: 8145573019919089805}
   m_Layer: 8
   m_Name: Griselda
   m_TagString: Untagged
@@ -583,6 +584,7 @@ MonoBehaviour:
   xWallForce: 7
   yWallForce: 10
   hookSpeed: 10
+  grabbingObject: 0
   jumpTime: 0.22
   coyoteTime: 0.1
   keysList: []
@@ -648,6 +650,24 @@ SpringJoint2D:
   m_Distance: 1.3
   m_DampingRatio: 1
   m_Frequency: 0
+--- !u!114 &8145573019919089805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395019274955847830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 900b656fe7992b74fa4453f3bdfa1bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontCheck: {fileID: 1930424323}
+  player: {fileID: 4652662492999582039}
+  rayDistance: 1
+  platformLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &7971749961894579093
 GameObject:
   m_ObjectHideFlags: 0
