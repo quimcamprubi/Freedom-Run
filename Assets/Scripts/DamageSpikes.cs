@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DamageSpikes : MonoBehaviour
 {
+    public bool has_critical_damage;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,12 @@ public class DamageSpikes : MonoBehaviour
         if (other.gameObject.CompareTag("Player")) {
             var healthMeterObj = GameObject.Find("HealthMeter");
             var healthMeter = healthMeterObj.GetComponent<HealthMeter>();
-            healthMeter.Hurt();   
+            if (has_critical_damage) {
+                healthMeter.Hurt(2);
+            } else {
+                healthMeter.Hurt();
+            }
+
         }
     }
 }

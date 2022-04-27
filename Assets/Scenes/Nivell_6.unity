@@ -235,7 +235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 39568434}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.2, y: 3.47, z: -10}
+  m_LocalPosition: {x: -17.28, y: 3.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 342651576}
@@ -249,6 +249,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (18)
@@ -25070,7 +25074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3395019274955847826, guid: 2efd75e34627f44498600b4f8adcc009, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.2
+      value: -17.28
       objectReference: {fileID: 0}
     - target: {fileID: 3395019274955847826, guid: 2efd75e34627f44498600b4f8adcc009, type: 3}
       propertyPath: m_LocalPosition.y
@@ -25268,7 +25272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ee2cd825432a7cbbbb9542f34b7822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 0}
+  playerObject: {fileID: 2035739963}
   maxHealth: 2
   hurtSound: {fileID: 8300000, guid: befe3c73438ef27e5a6c772ad101d810, type: 3}
   deathSound: {fileID: 8300000, guid: 72002396048d1bca78ca30455137bfea, type: 3}
@@ -25357,12 +25361,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499285205}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.2, y: 3.47, z: -10}
+  m_LocalPosition: {x: -17.28, y: 3.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 680218853}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &499836626 stripped
 Transform:
@@ -25443,6 +25447,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (21)
@@ -25931,6 +25939,12 @@ CompositeCollider2D:
       - X: -100000000
         Y: 60000000
       - X: -100000000
+        Y: 40000100
+      - X: -140000041
+        Y: 40000100
+      - X: -140000100
+        Y: 40000041
+      - X: -140000100
         Y: 20000000
       - X: -240000000
         Y: 20000000
@@ -26016,7 +26030,9 @@ CompositeCollider2D:
       - {x: -6, y: 2.0000293}
       - {x: -6.000029, y: 6}
       - {x: -10, y: 5.999971}
-      - {x: -10.00003, y: 2}
+      - {x: -10.00003, y: 4.00001}
+      - {x: -14.00001, y: 3.9999747}
+      - {x: -14.00004, y: 2}
       - {x: -24, y: 1.9999708}
       - {x: -23.999992, y: 0.87499243}
       - {x: -23.124989, y: 0}
@@ -40547,8 +40563,8 @@ Tilemap:
   - first: {x: -14, y: 1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 169
-      m_TileSpriteIndex: 3
+      m_TileIndex: 166
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -40557,8 +40573,8 @@ Tilemap:
   - first: {x: -13, y: 1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 168
-      m_TileSpriteIndex: 2
+      m_TileIndex: 167
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -40567,8 +40583,8 @@ Tilemap:
   - first: {x: -12, y: 1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 169
-      m_TileSpriteIndex: 3
+      m_TileIndex: 166
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -40577,8 +40593,8 @@ Tilemap:
   - first: {x: -11, y: 1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 168
-      m_TileSpriteIndex: 2
+      m_TileIndex: 167
+      m_TileSpriteIndex: 0
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -41954,6 +41970,46 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: -14, y: 2, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 167
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: -13, y: 2, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 166
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: -12, y: 2, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 167
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: -11, y: 2, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 166
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: -10, y: 2, z: 0}
     second:
       serializedVersion: 2
@@ -42259,6 +42315,46 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 133
       m_TileSpriteIndex: 35
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: -14, y: 3, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 168
+      m_TileSpriteIndex: 2
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: -13, y: 3, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 169
+      m_TileSpriteIndex: 3
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: -12, y: 3, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 168
+      m_TileSpriteIndex: 2
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: -11, y: 3, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 169
+      m_TileSpriteIndex: 3
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -92258,18 +92354,18 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 74eb9557bd60c454dae0d8a912633977, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 263
+  - m_RefCount: 267
     m_Data: {fileID: 11400000, guid: 6846a71449ea3b94da33faf469086f13, type: 2}
-  - m_RefCount: 709
+  - m_RefCount: 713
     m_Data: {fileID: 11400000, guid: 5e79fae2a1dc90744bce428cb6f7c56e, type: 2}
   - m_RefCount: 89
     m_Data: {fileID: 11400000, guid: 96b8d25efcddb014c88441d410b8aca2, type: 2}
   - m_RefCount: 89
     m_Data: {fileID: 11400000, guid: ff25ece955da99142b150220cd328820, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 709
+  - m_RefCount: 713
     m_Data: {fileID: 21300000, guid: c5a7cae0cfd2732449506162e01534d2, type: 3}
-  - m_RefCount: 263
+  - m_RefCount: 267
     m_Data: {fileID: 21300000, guid: 527ff8cc8467bee4abba2060a1fee648, type: 3}
   - m_RefCount: 89
     m_Data: {fileID: 21300000, guid: 200cb0e2247555548bef21d78e346efd, type: 3}
@@ -92548,7 +92644,7 @@ Tilemap:
   - m_RefCount: 40
     m_Data: {fileID: -2717993293863695617, guid: 6d28f55f1b0572546b2632db94416d69, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 6580
+  - m_RefCount: 6588
     m_Data:
       e00: 1
       e01: 0
@@ -92585,7 +92681,7 @@ Tilemap:
       e32: 1.33e-43
       e33: 1.33e-43
   m_TileColorArray:
-  - m_RefCount: 6580
+  - m_RefCount: 6588
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -92695,6 +92791,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (14)
@@ -92983,6 +93083,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (13)
@@ -127565,63 +127669,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1001 &1078539237
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -8.798073
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 7.508541
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669928703104709309, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199326855624389746, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
-      propertyPath: m_Name
-      value: MovableBox
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d1dd76c15de2d974e8e5b9fe87d82d92, type: 3}
 --- !u!1001 &1081513627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127629,6 +127676,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (16)
@@ -140450,6 +140501,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (15)
@@ -140569,6 +140624,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (19)
@@ -142064,7 +142123,7 @@ Transform:
   - {fileID: 1660987825}
   - {fileID: 1980652288}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1407652516 stripped
 Transform:
@@ -142078,6 +142137,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (11)
@@ -142140,6 +142203,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (17)
@@ -142248,6 +142315,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (20)
@@ -142368,7 +142439,7 @@ Transform:
   m_LocalScale: {x: 3.8470237, y: 0.49829003, z: 3.8470237}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1953154674 stripped
 Transform:
@@ -142511,6 +142582,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (22)
@@ -142561,6 +142636,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+--- !u!1 &2035739963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3395019274955847830, guid: 2efd75e34627f44498600b4f8adcc009, type: 3}
+  m_PrefabInstance: {fileID: 266549482}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2068410173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142568,6 +142648,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1394723283}
     m_Modifications:
+    - target: {fileID: 2171659994246511045, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
+      propertyPath: has_critical_damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025687854627177395, guid: ffd555f15663bf542be55eedfc0a455f, type: 3}
       propertyPath: m_Name
       value: DamageSpikes (12)
