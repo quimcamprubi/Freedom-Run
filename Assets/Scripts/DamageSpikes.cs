@@ -17,8 +17,12 @@ public class DamageSpikes : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D other) {
-        var healthMeterObj = GameObject.Find("HealthMeter");
-        var healthMeter = healthMeterObj.GetComponent<HealthMeter>();
-        healthMeter.Hurt();
+        // Necessari per a que quan una caixa (o qualsevol altre objecte que no sigui la griselda) no li tregui vida
+        // Nomes funciona assignant-li el tag player a la griselda
+        if (other.gameObject.CompareTag("Player")) {
+            var healthMeterObj = GameObject.Find("HealthMeter");
+            var healthMeter = healthMeterObj.GetComponent<HealthMeter>();
+            healthMeter.Hurt();   
+        }
     }
 }
