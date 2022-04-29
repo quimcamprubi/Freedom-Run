@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4094636573157082265}
   - component: {fileID: 7206137934617909535}
-  - component: {fileID: -7765079246073448385}
   - component: {fileID: 5448074569764110329}
   - component: {fileID: 5868102507878864732}
-  m_Layer: 0
+  - component: {fileID: 6267449535954750735}
+  - component: {fileID: 8678656931161161208}
+  m_Layer: 7
   m_Name: Gwendoline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,22 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &-7765079246073448385
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3540349204301946175}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.35639465}
-  m_Size: {x: 1.875, y: 1.9122107}
-  m_Direction: 0
 --- !u!114 &5448074569764110329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +98,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e333debeee3f66241baa9480e3ba7095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rollingSpeed: 0
+  changeTime: 3
+  giveUpDistance: 12
+  damage: 1
+  playerTransform: {fileID: 0}
+  agroRange: 8
+  moveSpeed: 8
+  accelerationRate: 5
 --- !u!50 &5868102507878864732
 Rigidbody2D:
   serializedVersion: 4
@@ -129,8 +122,43 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 125e7e80b2ac2c94cb18383906fbf2af, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &6267449535954750735
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3540349204301946175}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d531e77f3604ae84c9f54ca990184478, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &8678656931161161208
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3540349204301946175}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.3}
+  serializedVersion: 2
+  m_Radius: 0.9594599
