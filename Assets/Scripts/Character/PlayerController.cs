@@ -149,9 +149,12 @@ public class PlayerController : MonoBehaviour
     
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        if (Input.GetKey("down")) { ajupirse = true; Animator.SetBool("ajupirse", true);}
+        if (Input.GetKey("down")) { 
+            Animator.SetBool("ajupirse_correr", _input != 0.0f);
+            ajupirse = true; Animator.SetBool("ajupirse", true);
+        }
         else { ajupirse = false; Animator.SetBool("ajupirse", false); }
-
+        
         if (_isGrounded && !_isJumping) { Animator.SetBool("isGrounded", true); }
         else { Animator.SetBool("isGrounded", false); }
 
