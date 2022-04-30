@@ -10,7 +10,6 @@ using Vector3 = UnityEngine.Vector3;
 public class Gwendoline : MonoBehaviour {
     public float rollingSpeed;
     public float changeTime = 3.0f;
-    public float giveUpDistance = 15;
     public int damage = 1;
 
     private Rigidbody2D rigidbody2D;
@@ -23,7 +22,8 @@ public class Gwendoline : MonoBehaviour {
     private int prevDirection = 0;
     private int accelCounter = 0;
     private bool finishingRotation = false;
-    
+
+    [SerializeField] private float giveUpDistance;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private float agroRange;
     [SerializeField] private float moveSpeed;
@@ -55,7 +55,6 @@ public class Gwendoline : MonoBehaviour {
                 animator.SetFloat("Look X", direction);
             }
         }
-        print(transform.eulerAngles);
     }
 
     private void StartRolling() {
@@ -105,7 +104,6 @@ public class Gwendoline : MonoBehaviour {
                 Vector3 to = new Vector3(0f, 0f, 0f);
                 if (Vector3.Distance(transform.eulerAngles, to) > 0.02f) {
                     transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, to, Time.deltaTime*3);
-                    print(transform.eulerAngles);
                 } else {
                     transform.eulerAngles = to;
                     finishingRotation = false;

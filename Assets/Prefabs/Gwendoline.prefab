@@ -100,10 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rollingSpeed: 0
   changeTime: 3
-  giveUpDistance: 12
+  giveUpDistance: 25
   damage: 1
   playerTransform: {fileID: 0}
-  agroRange: 8
+  agroRange: 10
   moveSpeed: 8
   accelerationRate: 5
 --- !u!50 &5868102507878864732
