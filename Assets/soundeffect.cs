@@ -16,6 +16,7 @@ public class soundeffect : MonoBehaviour
     {
         
     }
+
     void ganxosound()
     {
         ganxo.Play();

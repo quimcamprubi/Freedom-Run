@@ -69,7 +69,8 @@ public class PlayerController : MonoBehaviour
     private bool _HookAnimationEnded = false;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
-
+    public AudioSource salto;
+    public AudioSource caminar;
     // Collectible items
     private CollectibleItem availableCollectibleItem = null;
     private bool canAddCollectible = false;
@@ -131,6 +132,7 @@ public class PlayerController : MonoBehaviour
                 _isWallSliding = false;
                 WallJump();
             }
+            saltosound();
         }
 
         Animator.SetBool("running", _input != 0.0f);
@@ -359,17 +361,17 @@ public class PlayerController : MonoBehaviour
         else if (_isGrounded && !_isOnSlope && !_isJumping)
         {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
-            _rigidbody2D.velocity = _newVelocity;
+            _rigidbody2D.velocity = _newVelocity; 
         }
         else if (_isGrounded && _isOnSlope && !_isJumping)
         {
             _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input, movementSpeed * _slopeNormalPerp.y * -_input);
-            _rigidbody2D.velocity = _newVelocity;
+            _rigidbody2D.velocity = _newVelocity; 
         }
         else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0))
         {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
-            _rigidbody2D.velocity = _newVelocity;
+            _rigidbody2D.velocity = _newVelocity; 
         }
         
     }
@@ -395,5 +397,8 @@ public class PlayerController : MonoBehaviour
         availableDoor = null;
         canOpenDoor = false;
     }
-    
+    void saltosound()
+    {
+        salto.Play();
+    }
 }
