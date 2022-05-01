@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
             m_lineRenderer.enabled = false;
         }
 
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (Paused == false)
             {
@@ -209,10 +209,7 @@ public class PlayerController : MonoBehaviour
                 
                 
             }
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            if (Paused == true)
+            else
             {
                 
                 Canvas.gameObject.SetActive (false);
