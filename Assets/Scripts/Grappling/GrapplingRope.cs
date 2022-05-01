@@ -21,7 +21,7 @@ public class GrapplingRope : MonoBehaviour
 
     float moveTime = 0;
 
-    public bool isGrappling = false;
+    public bool isGrappling = true;
 
     bool strightLine = true;
 
