@@ -286,11 +286,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   direction: {x: 1, y: 0}
+  _newVelocity: {x: 0, y: 0}
   defaultPosition: {x: 0, y: 0, z: 0}
   guardSpeed: 8.5
+  _currentSpeed: 0
   groundCheckDistance: 2
   jumpForceY: 500
   distanceBoundary: 0
+  flipDelay: 0.2
+  slopeCheckDistance: 0.8
   isDetectedPlayer: 0
   isTouchingPlayer: 0
   isTouchingFront: 0
@@ -298,10 +302,14 @@ MonoBehaviour:
   isOverBoundary: 0
   isChasing: 0
   playerOnRange: 0
+  _mustFlip: 0
+  isOnSlope: 0
   groundDetectorFront: {fileID: 6171727133044670331}
   playerDetector: {fileID: 6227077031444114396}
   followRange: {fileID: 8259243015880783038}
   attackerCollider2D: {fileID: 8942197962528300884}
+  capsuleCollider2D: {fileID: 4450431209332575520}
+  targetPlayer: {fileID: 0}
 --- !u!50 &1301570139330789371
 Rigidbody2D:
   serializedVersion: 4

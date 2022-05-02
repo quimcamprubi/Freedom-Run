@@ -19,12 +19,13 @@ public class AIPatrol : MonoBehaviour
     public Vector3 defaultPosition;
 
     public float guardSpeed = 2.0f;
-    private float _currentSpeed;
+    public float currentSpeed = 0.0f;
     public float groundCheckDistance = 2.0f;
     private float _idleFlipTimer;
     public float jumpForceY = 100.0f;
     public int distanceBoundary;
-
+    public float flipDelay = 0.2f;
+    
     public bool isDetectedPlayer;
     public bool isTouchingPlayer;
     public bool isTouchingFront;
@@ -34,19 +35,21 @@ public class AIPatrol : MonoBehaviour
     public bool playerOnRange;
     private bool _canJump;
     private bool _isJumping;
+    public bool mustFlip;
     
     public Transform groundDetectorFront;
 
     public BoxCollider2D playerDetector;
     public BoxCollider2D followRange;
     public BoxCollider2D attackerCollider2D;
-
+    public GameObject targetPlayer;
+    
     void Start() {
         var healthMeterObj = GameObject.Find("HealthMeter");
         healthMeter = healthMeterObj.GetComponent<HealthMeter>();
         defaultPosition = transform.position;
         direction = Vector2.right;
-        _currentSpeed = 0;
+        currentSpeed = 0;
         animator = GetComponent<Animator>();
         _idleFlipTimer = 0.0f;
         animator.SetBool("running", false);
@@ -66,13 +69,15 @@ public class AIPatrol : MonoBehaviour
             // Chases the player as long as he does not leave the Chasing Range, doesn't matter the FOV of the enemy
             playerOnRange = followRange.IsTouchingLayers(LayerMask.GetMask("Player"));
             if (playerOnRange) {
-                // TODO: Follow the player
-                Move();
+                if (targetPlayer.CompareTag("Player")) {
+                    Move();
+                }
+
                 CheckAttack();
             } else {
                 animator.SetBool("running", false);
                 isChasing = false;
-                _currentSpeed = 0.0f;
+                currentSpeed = 0.0f;
             }
         } else if (isDetectedPlayer) { 
             // Detects the player in the FOV, prepares to change the player in the Chasing Range 
@@ -99,16 +104,22 @@ public class AIPatrol : MonoBehaviour
     }
 
     private void StartChasing() {
-        _currentSpeed = (direction == Vector2.right) ? Math.Abs(guardSpeed) : -Math.Abs(guardSpeed);
+        currentSpeed = (direction == Vector2.right) ? Math.Abs(guardSpeed) : -Math.Abs(guardSpeed);
         isChasing = true;
         _canJump = true;
         _isJumping = false;
-        animator.SetBool("running", true); 
-        
+        animator.SetBool("running", true);
     }
 
     private void Move() {
-        transform.Translate(direction * _currentSpeed * Time.deltaTime);
+        // TODO: Follow the player
+        if (!mustFlip && (targetPlayer.transform.position.x > transform.position.x && direction == Vector2.left || 
+            targetPlayer.transform.position.x < transform.position.x && direction == Vector2.right)) {
+            mustFlip = true;
+            Invoke(nameof(Flip), flipDelay);
+        }
+        
+        transform.Translate(direction * currentSpeed * Time.deltaTime);
         
         CheckGround(); 
         CheckFront();
@@ -125,7 +136,7 @@ public class AIPatrol : MonoBehaviour
             Flip();
         }
     }
-    
+
     private void CheckAttack() {
         isTouchingPlayer = attackerCollider2D.IsTouchingLayers(playerLayer);
         if (isTouchingPlayer) {
@@ -147,13 +158,16 @@ public class AIPatrol : MonoBehaviour
     }
     
     private void Flip() {
-        _currentSpeed *= -1;
+        currentSpeed *= -1;
         if (direction == Vector2.right) {
             transform.eulerAngles = new Vector3(0, 180, 0);
             direction = Vector2.left;
         } else {
             transform.eulerAngles = new Vector3(0, 0, 0);
             direction = Vector2.right;
-        }    
+        }
+        if (mustFlip) {
+            mustFlip = false;
+        }
     }
 }
