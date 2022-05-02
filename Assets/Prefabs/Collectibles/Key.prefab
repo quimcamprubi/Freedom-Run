@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3493831611054779155}
   - component: {fileID: 4547618813367172820}
   - component: {fileID: 8252924636857665775}
+  - component: {fileID: 4097614468364081660}
+  - component: {fileID: 6133663098333774510}
   m_Layer: 0
   m_Name: Key
   m_TagString: Untagged
@@ -71,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -846331493
-  m_SortingLayer: 7
+  m_SortingLayerID: 204817127
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: c6c953b72710755408575ca0d1c124a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -140,3 +142,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 7.9899244, y: 5.12}
   m_EdgeRadius: 0
+--- !u!58 &4097614468364081660
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2223704914085161456}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 10
+--- !u!114 &6133663098333774510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2223704914085161456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26c96b2f91d590c43b2895f732e1d76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    sentenceList: []
+  dialoguePanel: {fileID: 0}
+  displayText: {fileID: 0}
+  typingSpeed: 0

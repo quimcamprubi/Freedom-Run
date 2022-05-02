@@ -3,9 +3,9 @@ using UnityEngine;
 public class DamageCollider : MonoBehaviour
 {
     public int damage = 1;
-
     private HealthMeter healthMeter;
-
+    public bool has_critical_damage;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +14,12 @@ public class DamageCollider : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D other) {
-        if (other.gameObject == healthMeter.playerObject)
-            healthMeter.Hurt(damage);
+        if (other.gameObject == healthMeter.playerObject) {
+            if (has_critical_damage) {
+                healthMeter.Hurt(2);
+            } else {
+                healthMeter.Hurt();
+            }
+        }
     }
 }

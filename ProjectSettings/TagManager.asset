@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hook
+  - FallingFloor
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
@@ -13,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Platforms
-  - Hook
+  - Enemy
   - Player
   - Object
   - Background Detail
