@@ -102,8 +102,8 @@ public class GrapplingGun : MonoBehaviour
         }
     }
 
-    void SetGrapplePoint()
-    {
+    void SetGrapplePoint() {
+        playerController.HookSound();
         Vector2 distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
         if (Physics2D.Raycast(firePoint.position, distanceVector.normalized))
         {

@@ -591,6 +591,8 @@ MonoBehaviour:
   grabbingObject: 0
   jumpTime: 0.22
   coyoteTime: 0.1
+  salto: {fileID: -7866144068433370089}
+  hookSound: {fileID: 5241953648175944104}
   keysList: []
   itemsList: []
   _isGrounded: 0
@@ -599,8 +601,8 @@ MonoBehaviour:
   _isGrappling: 0
   m_lineRenderer: {fileID: 4234397658852610216}
   _coyoteTimeCounter: 0
-  salto: {fileID: -7866144068433370089}
-  caminar: {fileID: 0}
+  Canvas: {fileID: 0}
+  GrapplingGunGameObject: {fileID: 0}
 --- !u!70 &6257391893482043938
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

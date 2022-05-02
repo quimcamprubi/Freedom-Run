@@ -25,9 +25,10 @@ public class PlayerController : MonoBehaviour
     public float yWallForce;
     public float hookSpeed = 10f;
     public bool grabbingObject;
-    
     public float jumpTime;
     public float coyoteTime;
+    public AudioSource salto;
+    public AudioSource hookSound;
     
     [HideInInspector]
     public List<KeyItem> keysList;
@@ -134,6 +135,7 @@ public class PlayerController : MonoBehaviour
                 _isWallSliding = false;
                 WallJump();
             }
+            JumpSound();
         }
 
         Animator.SetBool("running", _input != 0.0f);
@@ -257,7 +259,7 @@ public class PlayerController : MonoBehaviour
         //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
         //Debug.Log(hit.collider.name);
 
-        if (hit.collider.CompareTag("Hook") && _isGrounded){
+        if (hit.collider != null && hit.collider.CompareTag("Hook") && _isGrounded){
             _isHookAvailable = true;
         }
         //else {
@@ -422,6 +424,15 @@ public class PlayerController : MonoBehaviour
     public void NoAvailableDoor() {
         availableDoor = null;
         canOpenDoor = false;
+    }
+    
+    void JumpSound()
+    {
+        salto.Play();
+    }
+
+    public void HookSound() {
+        hookSound.Play();
     }
     
 }
