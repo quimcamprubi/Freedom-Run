@@ -231,9 +231,10 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999);
         //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
         //Debug.Log(hit.collider.name);
-
-        if (hit.collider.CompareTag("Hook") && _isGrounded){
-            _isHookAvailable = true;
+        if (hit.collider != null) {
+            if (hit.collider.CompareTag("Hook") && _isGrounded) {
+                _isHookAvailable = true;
+            }
         }
         //else {
             //_isHookAvailable = false;
