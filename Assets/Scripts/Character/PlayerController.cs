@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _slopeNormalPerp;
     private Vector2 _newVelocity;
     private Vector2 _newForce;
+    private bool Paused = false;
     
     private float _input;
     private float _sprintModifier = 1.0f;
@@ -69,7 +70,9 @@ public class PlayerController : MonoBehaviour
     private bool _HookAnimationEnded = false;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
-
+    public GameObject Canvas;
+    public GameObject GrapplingGunGameObject;
+    
     // Collectible items
     private CollectibleItem availableCollectibleItem = null;
     private bool canAddCollectible = false;
@@ -193,6 +196,28 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("isHooking false");
             _HookAnimationStarted = false;
             m_lineRenderer.enabled = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Paused == false)
+            {
+                Time.timeScale = 0f;
+                Paused = true;
+                GrapplingGunGameObject.gameObject.SetActive(false);
+                Canvas.gameObject.SetActive(true);
+                
+                
+            }
+            else
+            {
+                
+                Canvas.gameObject.SetActive (false);
+                GrapplingGunGameObject.gameObject.SetActive(true);
+                Paused = false;
+                Time.timeScale = 1f;
+            }
+            
         }
     }
     
