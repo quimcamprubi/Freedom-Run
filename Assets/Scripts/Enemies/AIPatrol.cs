@@ -16,6 +16,8 @@ public class AIPatrol : MonoBehaviour
     public LayerMask playerLayer;
     
     public Vector2 direction;
+    private Vector2 enemyPosition;
+    private Vector2 playerPosition;
     public Vector3 defaultPosition;
 
     public float guardSpeed = 2.0f;
@@ -23,23 +25,31 @@ public class AIPatrol : MonoBehaviour
     public float groundCheckDistance = 2.0f;
     private float _idleFlipTimer;
     public float jumpForceY = 100.0f;
-    public int distanceBoundary;
     public float flipDelay = 0.2f;
+    private float _dazedTime;
+    public float startDazedTime = 0.6f;
+    public float playerDetectionRange = 10f;
+    
+    public int health = 3;
+    public int distanceBoundary;
     
     public bool isDetectedPlayer;
     public bool isTouchingPlayer;
     public bool isTouchingFront;
     public bool isGrounded;
     public bool isOverBoundary;
+    public bool isPlayerOverBoundary;
     public bool isChasing;
     public bool playerOnRange;
     private bool _canJump;
-    private bool _isJumping;
+    public bool isReturning;
+    public bool _isJumping;
     public bool mustFlip;
+    private bool _is_alive = true;
     
     public Transform groundDetectorFront;
+    public Transform groundDetector;
 
-    public BoxCollider2D playerDetector;
     public BoxCollider2D followRange;
     public BoxCollider2D attackerCollider2D;
     public GameObject targetPlayer;
@@ -55,39 +65,97 @@ public class AIPatrol : MonoBehaviour
         animator.SetBool("running", false);
         _canJump = true;
     }
-
+    
     private void FixedUpdate() {
+        CheckFrontGround();
+        CheckJumping();
+        CheckFront();
+        CheckBoundary();
         DetectPlayer();
+        CheckHealth();
 
+        if (isReturning) {
+            if (Math.Abs(defaultPosition.x - transform.position.x) <= 2 ){
+                isReturning = false;
+            } else if (defaultPosition.x > transform.position.x && direction == Vector2.left 
+                       || defaultPosition.x < transform.position.x && direction == Vector2.right) {
+                Flip();
+            } else {
+                transform.Translate(direction * 3 * Time.deltaTime);
+            }
+        } else {
+            if (_dazedTime <= 0) {
+                currentSpeed = currentSpeed = (direction == Vector2.right) ? Math.Abs(guardSpeed) : -Math.Abs(guardSpeed);
+            } else {
+                currentSpeed = 0;
+                _dazedTime -= Time.deltaTime;
+            }
+        }
+    }
+
+    private void CheckHealth() {
+        if (health <= 0) {
+            transform.RotateAround(groundDetectorFront.localPosition, new Vector3(0, 1, 0), Time.deltaTime * 10);
+            if (_is_alive) {            
+                _is_alive = false;
+                Invoke(nameof(Die), 0.5f);
+            }
+        }
+    }
+
+    private void Die() {
+        Destroy(gameObject);
     }
 
     /* Check if the player is in the Field Of View of the Enemy */
     private void DetectPlayer() {
-        isDetectedPlayer = playerDetector.IsTouchingLayers(LayerMask.GetMask("Player"));
-   
-        if (isChasing) {
-            // Chases the player as long as he does not leave the Chasing Range, doesn't matter the FOV of the enemy
-            playerOnRange = followRange.IsTouchingLayers(LayerMask.GetMask("Player"));
-            if (playerOnRange) {
-                if (targetPlayer.CompareTag("Player")) {
-                    Move();
-                }
+        isDetectedPlayer = Physics2D.Raycast(transform.position, direction, playerDetectionRange, 
+            LayerMask.GetMask("Player")) && !Physics2D.Raycast(transform.position, direction, 
+            playerDetectionRange, LayerMask.GetMask("Platforms")) 
+                           || Physics2D.Raycast(transform.position, -direction, 2, 
+                               LayerMask.GetMask("Player")) 
+                           && !Physics2D.Raycast(transform.position, -direction, 2, 
+                               LayerMask.GetMask("Platforms"));
+        Debug.DrawRay(transform.position, direction * playerDetectionRange, Color.red); 
+        Debug.DrawRay(transform.position, -direction * 2, Color.red); 
 
+        if (isChasing) {        // isChasing is false by default, only set if player is detected.
+            
+            playerOnRange = followRange.IsTouchingLayers(LayerMask.GetMask("Player"));
+            
+            /* Check if player is in the chasing range (doesn't matter the playerDetector range, cause we already detected him)
+               As long as the player does not leave the chasing range, or does not surpass a enemy boundary, or does not
+               hide between platforms then we will need to chase the player.*/
+            if (playerOnRange && targetPlayer.CompareTag("Player") && !isPlayerOverBoundary && !isTouchingFront) {
+                /* We check it's the player, so that he doesn't start following us when other enemies are around. */ 
+                Move();     
                 CheckAttack();
             } else {
+                isReturning = true;
                 animator.SetBool("running", false);
                 isChasing = false;
                 currentSpeed = 0.0f;
             }
-        } else if (isDetectedPlayer) { 
-            // Detects the player in the FOV, prepares to change the player in the Chasing Range 
+        } else if (isDetectedPlayer && !isPlayerOverBoundary) { 
+            /* If the player is detected, The enemy is no longer patrolling, we have to reset the flipTimer, so that when
+               he starts patrolling again he still has to wait 2 seconds for flipping */
             _idleFlipTimer = 0.0f;
-            SurpiseJump();
-            Invoke(nameof(StartChasing), 0.5f);
-        } else if (!_isJumping) {
+            
+            /* If the player is detected and the enemy is not facing the player, we flip the enemy to face the player */
+            if (targetPlayer.transform.position.x > transform.position.x && direction == Vector2.left 
+                || targetPlayer.transform.position.x < transform.position.x && direction == Vector2.right) {
+                Flip();
+            }
+            /* Then the enemy performs a surprise jump, an anticipation to let some time to the player to start running. */
+            Jump(Vector2.up * jumpForceY);
+            
+            /* The Invoke is needed to let some time between the enemy's surprise-jump and the chase. */
+            Invoke(nameof(StartChasing), 0.5f); 
+            
+        } else if (!_isJumping && !isReturning) {
             // Keeps looking for the player while idle, flips FOV every 2 seconds
             if (_idleFlipTimer >= 2.0f) {
-                Flip();
+                 Flip();
                 _idleFlipTimer = 0.0f;
             } else {
                 _idleFlipTimer += Time.deltaTime;
@@ -95,48 +163,69 @@ public class AIPatrol : MonoBehaviour
         }
     }
 
-    private void SurpiseJump() {
+    /// <summary>
+    /// Performs a jump, intensity specified by jumpVector
+    /// </summary>
+    private void Jump(Vector2 jumpVector) {
         if (_canJump) {
             _canJump = false;
-            _isJumping = true;
-            rb.AddForce(Vector2.up * jumpForceY);
+            rb.AddForce(jumpVector);
         }
     }
 
+    /// <summary>
+    /// Prepares to chase the player within the chasing range.
+    /// </summary>
     private void StartChasing() {
         currentSpeed = (direction == Vector2.right) ? Math.Abs(guardSpeed) : -Math.Abs(guardSpeed);
         isChasing = true;
         _canJump = true;
-        _isJumping = false;
+        isReturning = false;
         animator.SetBool("running", true);
     }
-
+        
+    /// <summary>
+    /// Move towards the player 
+    /// </summary>
     private void Move() {
-        // TODO: Follow the player
-        if (!mustFlip && (targetPlayer.transform.position.x > transform.position.x && direction == Vector2.left || 
-            targetPlayer.transform.position.x < transform.position.x && direction == Vector2.right)) {
-            mustFlip = true;
-            Invoke(nameof(Flip), flipDelay);
+        /* We need to face the player to follow him, if we are not facing him then we need to flip the enemy.
+           we also need to do so with a delay, to let the player time to run into the other direction.
+           This is only performed if we aren't already flipping (mustFlip = false) */
+        if (!mustFlip && (targetPlayer.transform.position.x > transform.position.x && direction == Vector2.left ||
+                          targetPlayer.transform.position.x < transform.position.x && direction == Vector2.right)) {
+            /* Flip is not performed until a time delay passes, so to avoid entering this conditional more than once 
+               and flipping more than once, we set mustFlip to true, which will be set to false by Flip() once 
+               the flip is done, letting us enter this conditional again if necessary*/
+            mustFlip = true; 
+            Invoke(nameof(Flip), flipDelay); 
         }
         
         transform.Translate(direction * currentSpeed * Time.deltaTime);
         
-        CheckGround(); 
-        CheckFront();
-        CheckBoundary();
-
-        /*  - If groundCheck is not touching the ground we need to flip the enemy, so he does not fall from the
-            platforms.
+        /*  - If groundCheck is not touching the ground on the front (not the same as jumping!)
+            we need to flip the enemy, so he doesn't fall into the void.
             - If the enemy is touching a frontal platform, we need to flip him, so he does not run into the platform
             forever.
             - If the enemy is surpassing his boundaries (defined by a circumference of center=defaultPosition 
             and radius=distanceBoundary) we need to flip him so he does not escape the boundaries.
         */
-        if (!isGrounded || isTouchingFront || isOverBoundary) {
+        if (!isGrounded && !_isJumping || isTouchingFront || isOverBoundary) {
+            mustFlip = true;
             Flip();
         }
     }
-
+    
+    /// <summary>
+    /// Checks whether the player is jumping.
+    /// </summary>
+    private void CheckJumping() {
+        _isJumping = !Physics2D.Raycast(groundDetector.position,
+                Vector2.down, groundCheckDistance);
+    }
+    
+    /// <summary>
+    /// Check if attack on the player can be performed, if so, hurt the player.
+    /// </summary>
     private void CheckAttack() {
         isTouchingPlayer = attackerCollider2D.IsTouchingLayers(playerLayer);
         if (isTouchingPlayer) {
@@ -144,7 +233,7 @@ public class AIPatrol : MonoBehaviour
         }
     }
     
-    private void CheckGround() {
+    private void CheckFrontGround() {
         isGrounded = Physics2D.Raycast(groundDetectorFront.position,
             Vector2.down, groundCheckDistance);
     }
@@ -154,7 +243,12 @@ public class AIPatrol : MonoBehaviour
     }
     
     private void CheckBoundary() {
-        isOverBoundary = distanceBoundary > 0 && transform.position.x > defaultPosition.x + distanceBoundary;
+        enemyPosition = transform.position;
+        playerPosition = targetPlayer.transform.position;
+        isOverBoundary = distanceBoundary > 0 && (enemyPosition.x > defaultPosition.x + distanceBoundary 
+                                                  || enemyPosition.x < defaultPosition.x - distanceBoundary);
+        isPlayerOverBoundary = distanceBoundary > 0 && (playerPosition.x > defaultPosition.x + distanceBoundary 
+                                                        || playerPosition.x < defaultPosition.x - distanceBoundary);
     }
     
     private void Flip() {
@@ -169,5 +263,14 @@ public class AIPatrol : MonoBehaviour
         if (mustFlip) {
             mustFlip = false;
         }
+    }
+
+    public void takeDamage(int damage) {
+        _dazedTime = startDazedTime;
+        health -= damage;
+        rb.velocity = Vector3.zero;
+        Jump(new Vector2(300 * targetPlayer.transform.localScale.x, 500));
+        _idleFlipTimer = 0.0f;
+        StartChasing();
     }
 }

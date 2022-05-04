@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private bool _isHookAvailable;
     private bool _isHooking;
     public bool _isGrappling = false;
+    public bool isArmed;
     
     private Animator Animator;
 
@@ -195,7 +196,7 @@ public class PlayerController : MonoBehaviour
             m_lineRenderer.enabled = false;
         }
     }
-    
+ 
     private void AddCollectible() {
         switch (availableCollectibleItem) {
             case KeyItem key:
