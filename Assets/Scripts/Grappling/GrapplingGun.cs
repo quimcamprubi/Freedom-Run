@@ -38,6 +38,8 @@ public class GrapplingGun : MonoBehaviour
     [HideInInspector] public Vector2 grapplePoint;
     [HideInInspector] public Vector2 grappleDistanceVector;
 
+    private bool isHooked = false;
+    
     private void Start()
     {
         grappleRope.enabled = false;
@@ -52,10 +54,11 @@ public class GrapplingGun : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Mouse0))
         {
-            if (Input.GetButtonDown("Jump")) {
+            if (Input.GetButtonDown("Jump") && isHooked) {
                 playerController._isGrappling = false;
                 playerController._isWallSliding = false;
                 playerController._canJump = true;
+                isHooked = false;
                 playerController._coyoteTimeCounter = 2.0f;
                 onMouse0Release();
                 if (playerController._isGrounded) playerController.Jump();
@@ -71,6 +74,7 @@ public class GrapplingGun : MonoBehaviour
             }
         }
         else if (Input.GetKeyUp(KeyCode.Mouse0)) {
+            isHooked = false;
             onMouse0Release();
         }
         else
@@ -134,7 +138,7 @@ public class GrapplingGun : MonoBehaviour
             m_springJoint2D.autoConfigureDistance = true;
             m_springJoint2D.frequency = 0;
         }
-
+        isHooked = true;
         m_springJoint2D.connectedAnchor = grapplePoint;
         m_springJoint2D.enabled = true;
     }

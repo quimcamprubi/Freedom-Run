@@ -29,7 +29,10 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime;
     public AudioSource salto;
     public AudioSource hookSound;
-    
+    public AudioSource puerta_cerrada;
+    public AudioSource abrir_puerta;
+    public AudioClip abrir_puerta_clip;
+
     [HideInInspector]
     public List<KeyItem> keysList;
     public List<RegularItem> itemsList;
@@ -114,12 +117,15 @@ public class PlayerController : MonoBehaviour
             } else if (canOpenDoor) {
                 if (availableDoor.isLocked) { // If door is locked, check if player has the necessary key
                     if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId)) {
-                        availableDoor.OpenDoor();
+                        StartCoroutine(abrir_puerta_function());
+                        
                     } else {
                         Debug.Log("Locked"); // TODO: In the future, change this for UI message. 
+                        puerta_cerrada.Play();
                     }
                 } else { // If door is unlocked, open it
-                    availableDoor.OpenDoor();
+                    StartCoroutine(abrir_puerta_function());
+                    
                 }
             }
         }
@@ -434,5 +440,13 @@ public class PlayerController : MonoBehaviour
     public void HookSound() {
         hookSound.Play();
     }
-    
+
+    IEnumerator abrir_puerta_function()
+    {
+        abrir_puerta.Play();
+        yield return new WaitForSeconds(abrir_puerta_clip.length);
+        availableDoor.OpenDoor();
+    }
+
+
 }
