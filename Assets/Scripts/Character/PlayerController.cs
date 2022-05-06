@@ -25,9 +25,10 @@ public class PlayerController : MonoBehaviour
     public float yWallForce;
     public float hookSpeed = 10f;
     public bool grabbingObject;
-    
     public float jumpTime;
     public float coyoteTime;
+    public AudioSource salto;
+    public AudioSource hookSound;
     
     [HideInInspector]
     public List<KeyItem> keysList;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _slopeNormalPerp;
     private Vector2 _newVelocity;
     private Vector2 _newForce;
+    private bool Paused = false;
     
     private float _input;
     private float _sprintModifier = 1.0f;
@@ -70,7 +72,9 @@ public class PlayerController : MonoBehaviour
     private bool _HookAnimationEnded = false;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
-
+    public GameObject Canvas;
+    public GameObject GrapplingGunGameObject;
+    
     // Collectible items
     private CollectibleItem availableCollectibleItem = null;
     private bool canAddCollectible = false;
@@ -132,6 +136,7 @@ public class PlayerController : MonoBehaviour
                 _isWallSliding = false;
                 WallJump();
             }
+            JumpSound();
         }
 
         Animator.SetBool("running", _input != 0.0f);
@@ -150,7 +155,7 @@ public class PlayerController : MonoBehaviour
     
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        if (Input.GetKey("down")) { 
+        if (Input.GetKey("down")||Input.GetKey(KeyCode.S)) { 
             Animator.SetBool("ajupirse_correr", _input != 0.0f);
             ajupirse = true; Animator.SetBool("ajupirse", true);
         }
@@ -195,6 +200,28 @@ public class PlayerController : MonoBehaviour
             _HookAnimationStarted = false;
             m_lineRenderer.enabled = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Paused == false)
+            {
+                Time.timeScale = 0f;
+                Paused = true;
+                GrapplingGunGameObject.gameObject.SetActive(false);
+                Canvas.gameObject.SetActive(true);
+                
+                
+            }
+            else
+            {
+                
+                Canvas.gameObject.SetActive (false);
+                GrapplingGunGameObject.gameObject.SetActive(true);
+                Paused = false;
+                Time.timeScale = 1f;
+            }
+            
+        }
     }
  
     private void AddCollectible() {
@@ -233,10 +260,9 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999);
         //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
         //Debug.Log(hit.collider.name);
-        if (hit.collider != null) {
-            if (hit.collider.CompareTag("Hook") && _isGrounded) {
-                _isHookAvailable = true;
-            }
+
+        if (hit.collider != null && hit.collider.CompareTag("Hook") && _isGrounded){
+            _isHookAvailable = true;
         }
         //else {
             //_isHookAvailable = false;
@@ -400,6 +426,15 @@ public class PlayerController : MonoBehaviour
     public void NoAvailableDoor() {
         availableDoor = null;
         canOpenDoor = false;
+    }
+    
+    void JumpSound()
+    {
+        salto.Play();
+    }
+
+    public void HookSound() {
+        hookSound.Play();
     }
     
 }
