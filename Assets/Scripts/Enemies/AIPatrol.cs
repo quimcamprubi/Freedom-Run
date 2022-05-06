@@ -77,13 +77,15 @@ public class AIPatrol : MonoBehaviour
         if (isReturning) {
             if (Math.Abs(defaultPosition.x - transform.position.x) <= 2 ){
                 isReturning = false;
+                currentSpeed = 0.0f;
             } 
             if (defaultPosition.x > transform.position.x && direction == Vector2.left 
                        || defaultPosition.x < transform.position.x && direction == Vector2.right) {
+                CancelInvoke(nameof(Flip));
                 mustFlip = true;
                 Flip();
             } else {
-                transform.Translate(direction * 3 * Time.deltaTime);
+                transform.Translate(direction * 3 * Math.Sign(currentSpeed) * Time.deltaTime);
             }
         } else {
             if (_dazedTime <= 0) {
@@ -136,7 +138,6 @@ public class AIPatrol : MonoBehaviour
                 isReturning = true;
                 animator.SetBool("running", false);
                 isChasing = false;
-                currentSpeed = 0.0f;
             }
         } else if (isDetectedPlayer && !isPlayerOverBoundary) { 
             /* If the player is detected, The enemy is no longer patrolling, we have to reset the flipTimer, so that when
