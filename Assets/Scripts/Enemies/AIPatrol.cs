@@ -19,7 +19,9 @@ public class AIPatrol : MonoBehaviour
     private Vector2 enemyPosition;
     private Vector2 playerPosition;
     public Vector3 defaultPosition;
-
+    private Vector2 _colliderSize;
+    private Vector2 _slopeNormalPerp;
+    
     public float guardSpeed = 2.0f;
     public float currentSpeed = 0.0f;
     public float groundCheckDistance = 2.0f;
@@ -29,6 +31,9 @@ public class AIPatrol : MonoBehaviour
     private float _dazedTime;
     public float startDazedTime = 0.6f;
     public float playerDetectionRange = 10f;
+    private float _slopeDownAngle;
+    private float _slopeSideAngle;
+    private float _slopeDownAngleOld;
     
     public int health = 3;
     public int distanceBoundary;
@@ -43,6 +48,7 @@ public class AIPatrol : MonoBehaviour
     public bool playerOnRange;
     private bool _canJump;
     public bool isReturning;
+    public bool _isOnSlope;
     public bool _isJumping;
     public bool mustFlip;
     private bool _is_alive = true;
@@ -53,7 +59,8 @@ public class AIPatrol : MonoBehaviour
     public BoxCollider2D followRange;
     public BoxCollider2D attackerCollider2D;
     public GameObject targetPlayer;
-    
+    private CapsuleCollider2D _capsuleCollider;
+
     void Start() {
         var healthMeterObj = GameObject.Find("HealthMeter");
         healthMeter = healthMeterObj.GetComponent<HealthMeter>();
@@ -64,10 +71,13 @@ public class AIPatrol : MonoBehaviour
         _idleFlipTimer = 0.0f;
         animator.SetBool("running", false);
         _canJump = true;
+        _capsuleCollider = GetComponent<CapsuleCollider2D>();
+        _colliderSize = _capsuleCollider.size;
     }
     
     private void FixedUpdate() {
         CheckFrontGround();
+        CheckSlope();
         CheckJumping();
         CheckFront();
         CheckBoundary();
@@ -202,8 +212,11 @@ public class AIPatrol : MonoBehaviour
             mustFlip = true; 
             Invoke(nameof(Flip), flipDelay); 
         }
-        
-        transform.Translate(direction * currentSpeed * Time.deltaTime);
+        if (_isOnSlope) {
+            transform.Translate(-direction * currentSpeed * _slopeNormalPerp * Time.deltaTime);
+        } else {
+            transform.Translate(direction * currentSpeed * Time.deltaTime);
+        }
         
         /*  - If groundCheck is not touching the ground on the front (not the same as jumping!)
             we need to flip the enemy, so he doesn't fall into the void.
@@ -212,7 +225,7 @@ public class AIPatrol : MonoBehaviour
             - If the enemy is surpassing his boundaries (defined by a circumference of center=defaultPosition 
             and radius=distanceBoundary) we need to flip him so he does not escape the boundaries.
         */
-        if (!isGrounded && !_isJumping || isTouchingFront || isOverBoundary) {
+        if (!_isOnSlope && (!isGrounded && !_isJumping || isTouchingFront || isOverBoundary)) {
             CancelInvoke(nameof(Flip)); 
             mustFlip = true;
             Flip();
@@ -279,5 +292,43 @@ public class AIPatrol : MonoBehaviour
         Jump(new Vector2(300 * targetPlayer.transform.localScale.x, 500));
         _idleFlipTimer = 0.0f;
         StartChasing();
+    }
+    
+    private void CheckSlope() {
+        Vector2 checkPosition = transform.position - (Vector3)(new Vector2(0.0f, _colliderSize.y / 2));
+        HorizontalCheckSlope(checkPosition);
+        VerticalCheckSlope(checkPosition);
+    }
+
+    private void HorizontalCheckSlope(Vector2 checkPosition) {
+        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPosition, transform.right, 0.8f, platformLayer);
+        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPosition, -transform.right, 0.8f, platformLayer);
+        if (slopeHitFront) {
+            _isOnSlope = true;
+            _slopeSideAngle = Vector2.Angle(slopeHitFront.normal, Vector2.up);
+        } else if (slopeHitBack) {
+            _isOnSlope = true;
+            _slopeSideAngle = Vector2.Angle(slopeHitBack.normal, Vector2.up);
+        } else {
+            _slopeSideAngle = 0.0f;
+            _isOnSlope = false;
+        }
+    }
+
+    private void VerticalCheckSlope(Vector2 checkPosition) {
+        RaycastHit2D hit = Physics2D.Raycast(checkPosition, Vector2.down, 0.8f, platformLayer);
+        if (hit) {
+            _slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
+            _slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
+            if(!Mathf.Approximately(_slopeDownAngle, _slopeDownAngleOld)) {
+                _isOnSlope = true;
+            }
+            _slopeDownAngleOld = _slopeDownAngle;
+        }
+        if (_isOnSlope && _slopeDownAngle != 0.0f) {
+            rb.gravityScale = 0.0f;
+        } else {
+            rb.gravityScale = 5.0f;
+        }
     }
 }

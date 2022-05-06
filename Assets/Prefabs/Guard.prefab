@@ -44,7 +44,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.6}
+  m_Offset: {x: 0, y: 3.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -55,7 +55,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 28, y: 15.64}
+  m_Size: {x: 28, y: 14.25}
   m_EdgeRadius: 0
 --- !u!1 &4929684249702455982
 GameObject:
@@ -246,6 +246,7 @@ MonoBehaviour:
   isChasing: 0
   playerOnRange: 0
   isReturning: 0
+  _isOnSlope: 0
   _isJumping: 0
   mustFlip: 0
   groundDetectorFront: {fileID: 6171727133044670331}
