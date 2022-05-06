@@ -77,8 +77,10 @@ public class AIPatrol : MonoBehaviour
         if (isReturning) {
             if (Math.Abs(defaultPosition.x - transform.position.x) <= 2 ){
                 isReturning = false;
-            } else if (defaultPosition.x > transform.position.x && direction == Vector2.left 
+            } 
+            if (defaultPosition.x > transform.position.x && direction == Vector2.left 
                        || defaultPosition.x < transform.position.x && direction == Vector2.right) {
+                mustFlip = true;
                 Flip();
             } else {
                 transform.Translate(direction * 3 * Time.deltaTime);
@@ -210,6 +212,7 @@ public class AIPatrol : MonoBehaviour
             and radius=distanceBoundary) we need to flip him so he does not escape the boundaries.
         */
         if (!isGrounded && !_isJumping || isTouchingFront || isOverBoundary) {
+            CancelInvoke(nameof(Flip)); 
             mustFlip = true;
             Flip();
         }
@@ -220,7 +223,9 @@ public class AIPatrol : MonoBehaviour
     /// </summary>
     private void CheckJumping() {
         _isJumping = !Physics2D.Raycast(groundDetector.position,
-                Vector2.down, groundCheckDistance);
+                Vector2.down, 0.5f, LayerMask.GetMask("Platforms"));
+        Debug.DrawRay(groundDetector.position, Vector2.down * 0.5f, Color.blue); 
+
     }
     
     /// <summary>
@@ -235,7 +240,8 @@ public class AIPatrol : MonoBehaviour
     
     private void CheckFrontGround() {
         isGrounded = Physics2D.Raycast(groundDetectorFront.position,
-            Vector2.down, groundCheckDistance);
+            Vector2.down, groundCheckDistance, LayerMask.GetMask("Platforms"));
+        Debug.DrawRay(groundDetectorFront.position, Vector2.down * groundCheckDistance, Color.green);
     }
     
     private void CheckFront() {
