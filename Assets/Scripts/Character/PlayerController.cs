@@ -220,6 +220,7 @@ public class PlayerController : MonoBehaviour
             _isWallSliding = false;
             _isWallJumping = true;
             _newForce.Set(-xWallForce * transform.localScale.x, yWallForce);
+            _rigidbody2D.velocity = Vector3.zero;
             _rigidbody2D.AddForce(_newForce, ForceMode2D.Impulse);
             _rigidbody2D.transform.localScale = _rigidbody2D.transform.localScale.Equals(new Vector2(1.0f, 1.0f))
                     ? new Vector2(-1.0f, 1.0f)
