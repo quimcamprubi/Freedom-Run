@@ -203,24 +203,17 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Paused == false)
-            {
+            if (Paused == false) {
                 Time.timeScale = 0f;
                 Paused = true;
                 GrapplingGunGameObject.gameObject.SetActive(false);
                 Canvas.gameObject.SetActive(true);
-                
-                
-            }
-            else
-            {
-                
+            } else {
                 Canvas.gameObject.SetActive (false);
                 GrapplingGunGameObject.gameObject.SetActive(true);
                 Paused = false;
                 Time.timeScale = 1f;
             }
-            
         }
     }
  
@@ -261,7 +254,7 @@ public class PlayerController : MonoBehaviour
         //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
         //Debug.Log(hit.collider.name);
 
-        if (hit.collider != null && hit.collider.CompareTag("Hook") && _isGrounded){
+        if (hit.collider != null && hit.collider.CompareTag("Hook") /*&& _isGrounded*/){
             _isHookAvailable = true;
         }
         //else {
@@ -395,7 +388,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (_isGrounded && _isOnSlope && !_isJumping)
         {
-            _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input, movementSpeed * _slopeNormalPerp.y * -_input);
+            _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f, movementSpeed * _slopeNormalPerp.y * -_input * 1.5f);
             _rigidbody2D.velocity = _newVelocity;
         }
         else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0))

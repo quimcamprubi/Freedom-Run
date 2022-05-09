@@ -528,8 +528,7 @@ SpriteRenderer:
   m_SortingLayerID: 799853503
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5071563641634004584, guid: f08bea4dcff2ece48bc4b9a259bd8d23,
-    type: 3}
+  m_Sprite: {fileID: -5071563641634004584, guid: f08bea4dcff2ece48bc4b9a259bd8d23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1131,8 +1130,7 @@ SpriteRenderer:
   m_SortingLayerID: -1507719077
   m_SortingLayer: 6
   m_SortingOrder: 10
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7,
-    type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -1168,7 +1166,7 @@ MonoBehaviour:
   rotateOverTime: 1
   rotationSpeed: 17.6
   hasMaxDistance: 1
-  maxDistance: 15
+  maxDistance: 17
   autoConfigureDistance: 1
   targetDistance: 3
   targetFrequncy: 1

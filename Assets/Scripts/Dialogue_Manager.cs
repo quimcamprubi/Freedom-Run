@@ -13,6 +13,7 @@ public class Dialogue_Manager : MonoBehaviour
 
     public GameObject dialoguePanel;
     public TextMeshProUGUI displayText;
+    public bool pauseAndUnpause = false;
 
     string activeSentence;
     public float typingSpeed;
@@ -22,6 +23,13 @@ public class Dialogue_Manager : MonoBehaviour
         sentences = new Queue<string>();
     }
 
+    void Update() {
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            DisplayNextSentence();
+        }
+    }
+    
     void StartDialogue()
     {
         sentences.Clear();
@@ -38,7 +46,14 @@ public class Dialogue_Manager : MonoBehaviour
     {
         if(sentences.Count <= 0)
         {
-            displayText.text = activeSentence;
+            dialoguePanel.SetActive(false);
+            if (pauseAndUnpause) {
+                GameObject gwendolineObject = GameObject.Find("Gwendoline Boss");
+                GameObject griseldaObject = GameObject.Find("Griselda");
+                gwendolineObject.GetComponent<Gwendoline>().enabled = true;
+                griseldaObject.GetComponent<PlayerController>().enabled = true;
+            }
+            StopAllCoroutines();
             return;
         }
 
@@ -66,18 +81,13 @@ public class Dialogue_Manager : MonoBehaviour
         if(colliderEn.CompareTag("Player"))
         {
             dialoguePanel.SetActive(true);
-            StartDialogue();
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D colliderS)
-    {
-        if(colliderS.CompareTag("Player"))
-        {
-            if(Input.GetKeyDown(KeyCode.Return) && displayText.text == activeSentence)
-            {
-                DisplayNextSentence();
+            if (pauseAndUnpause) {
+                GameObject gwendolineObject = GameObject.Find("Gwendoline Boss");
+                GameObject griseldaObject = GameObject.Find("Griselda");
+                gwendolineObject.GetComponent<Gwendoline>().enabled = false;
+                griseldaObject.GetComponent<PlayerController>().enabled = false;
             }
+            StartDialogue();
         }
     }
 
@@ -86,6 +96,12 @@ public class Dialogue_Manager : MonoBehaviour
         if(colliderEx.CompareTag("Player"))
         {
             dialoguePanel.SetActive(false);
+            if (pauseAndUnpause) {
+                GameObject gwendolineObject = GameObject.Find("Gwendoline Boss");
+                GameObject griseldaObject = GameObject.Find("Griselda");
+                gwendolineObject.GetComponent<Gwendoline>().enabled = true;
+                griseldaObject.GetComponent<PlayerController>().enabled = true;
+            }
             StopAllCoroutines();
         }
     }

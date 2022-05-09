@@ -11,7 +11,8 @@ public class Gwendoline : MonoBehaviour {
     public float rollingSpeed;
     public float changeTime = 3.0f;
     public int damage = 1;
-
+    public bool isBoss = false;
+    
     private Rigidbody2D rigidbody2D;
     private float timer;
     private int direction = 1;
@@ -22,6 +23,9 @@ public class Gwendoline : MonoBehaviour {
     private int prevDirection = 0;
     private int accelCounter = 0;
     private bool finishingRotation = false;
+    private bool firstDrop = true;
+    private bool isCoroutineExecuting = false;
+    private float distanceToPlayer;
 
     [SerializeField] private float giveUpDistance;
     [SerializeField] private Transform playerTransform;
@@ -29,7 +33,6 @@ public class Gwendoline : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private int accelerationRate = 8;
 
-    // Start is called before the first frame update
     void Start() 
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -42,7 +45,7 @@ public class Gwendoline : MonoBehaviour {
 
     void Update() {
         // Check distance to player
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
         //print("Distance to player: +" + distanceToPlayer);
         if (distanceToPlayer < agroRange) {
             animator.SetBool("Is Rolling", true);
@@ -70,7 +73,39 @@ public class Gwendoline : MonoBehaviour {
 
     void FixedUpdate() {
         if (isRolling) {
-            if (transform.position.x < playerTransform.position.x) { // Move right
+            print(Mathf.Abs(transform.position.y - playerTransform.position.y));
+            if (isBoss && transform.position.y > playerTransform.position.y && Mathf.Abs(transform.position.y - playerTransform.position.y) > 9) { // Go right for the drop in level 5.
+                if (firstDrop) {
+                    if (prevDirection != 1) {
+                        rigidbody2D.AddForce(new Vector2(moveSpeed * accelerationRate,0), ForceMode2D.Force);
+                        accelCounter++;
+                        if (accelCounter > 30) {
+                            prevDirection = 1;
+                            accelCounter = 0;
+                        }
+                    } else {
+                        rigidbody2D.AddForce(new Vector2(moveSpeed,0), ForceMode2D.Force);
+                        prevDirection = 1;
+                    }
+                    transform.Rotate(new Vector3(0, 0, -360 * Time.deltaTime));
+                    StartCoroutine(ChangeDropDirection());
+                } else {
+                    if (prevDirection != -1) {
+                        rigidbody2D.AddForce(new Vector2(-moveSpeed * accelerationRate,0), ForceMode2D.Force);
+                        accelCounter++;
+                        if (accelCounter > 30) {
+                            prevDirection = -1;
+                            accelCounter = 0;
+                        }
+                    } else {
+                        rigidbody2D.AddForce(new Vector2(-moveSpeed,0), ForceMode2D.Force);
+                        prevDirection = -1;
+                    }
+                    transform.Rotate(new Vector3(0, 0, 360 * Time.deltaTime));
+                    StartCoroutine(ChangeDropDirection());
+                }
+            }
+            else if (transform.position.x < playerTransform.position.x) { // Move right
                 if (prevDirection != 1) {
                     rigidbody2D.AddForce(new Vector2(moveSpeed * accelerationRate,0), ForceMode2D.Force);
                     accelCounter++;
@@ -115,6 +150,16 @@ public class Gwendoline : MonoBehaviour {
                 animator.SetBool("Is Rolling", false);
             }
         }
+    }
+
+    IEnumerator ChangeDropDirection() {
+        if (isCoroutineExecuting)
+            yield break;
+        isCoroutineExecuting = true;
+        yield return new WaitForSeconds(2.5f);
+        firstDrop = false;
+        print("Direction changed.");
+        isCoroutineExecuting = false;
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
