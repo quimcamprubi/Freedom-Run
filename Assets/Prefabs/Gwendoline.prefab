@@ -100,8 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rollingSpeed: 0
   changeTime: 3
-  giveUpDistance: 25
   damage: 1
+  isBoss: 0
+  giveUpDistance: 25
   playerTransform: {fileID: 0}
   agroRange: 10
   moveSpeed: 8
@@ -125,7 +126,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 125e7e80b2ac2c94cb18383906fbf2af, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!95 &6267449535954750735
 Animator:
