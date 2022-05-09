@@ -97,10 +97,10 @@ public class Dialogue_Manager : MonoBehaviour
         {
             dialoguePanel.SetActive(false);
             if (pauseAndUnpause) {
-                GameObject gwendolineObject = GameObject.Find("Gwendoline Boss");
                 GameObject griseldaObject = GameObject.Find("Griselda");
-                gwendolineObject.GetComponent<Gwendoline>().enabled = true;
+                GameObject gwendolineObject = GameObject.Find("Gwendoline Boss");
                 griseldaObject.GetComponent<PlayerController>().enabled = true;
+                gwendolineObject.GetComponent<Gwendoline>().enabled = true;
             }
             StopAllCoroutines();
         }
