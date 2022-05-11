@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
     public float _coyoteTimeCounter;
     public GameObject Canvas;
     public GameObject GrapplingGunGameObject;
+    public HealthMeter HealthScript;
     
     // Collectible items
     private CollectibleItem availableCollectibleItem = null;
@@ -90,6 +92,7 @@ public class PlayerController : MonoBehaviour
         _colliderSize = _capsuleCollider.size;
         Animator = GetComponent<Animator>();
         grabbingObject = false;
+        HealthScript = GameObject.Find("HealthMeter").GetComponent<HealthMeter>();
     }
 
     // Update is called once per frame
@@ -225,6 +228,14 @@ public class PlayerController : MonoBehaviour
             case RegularItem item:
                 itemsList.Add(item);
                 break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "MainCamera")
+        {
+            HealthScript.Hurt(2);
         }
     }
 
