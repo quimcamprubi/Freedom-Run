@@ -123,13 +123,17 @@ public class AIPatrol : MonoBehaviour
 
     /* Check if the player is in the Field Of View of the Enemy */
     private void DetectPlayer() {
-        isDetectedPlayer = Physics2D.Raycast(transform.position, direction, playerDetectionRange, 
-            LayerMask.GetMask("Player")) && !Physics2D.Raycast(transform.position, direction, 
-            playerDetectionRange, LayerMask.GetMask("Platforms")) 
-                           || Physics2D.Raycast(transform.position, -direction, 2, 
-                               LayerMask.GetMask("Player")) 
-                           && !Physics2D.Raycast(transform.position, -direction, 2, 
-                               LayerMask.GetMask("Platforms"));
+        RaycastHit2D playerHitFront = Physics2D.Raycast(transform.position, direction, playerDetectionRange,
+            LayerMask.GetMask("Player"));
+        RaycastHit2D platformHitFront = Physics2D.Raycast(transform.position, direction, playerDetectionRange,
+            LayerMask.GetMask("Platforms"));
+        RaycastHit2D playerHitBack = Physics2D.Raycast(transform.position, -direction, 2,
+            LayerMask.GetMask("Player"));
+        if (playerHitFront.collider != null && platformHitFront.collider != null || playerHitBack.collider != null) {
+            isDetectedPlayer = Math.Abs(playerHitFront.point.x - enemyPosition.x ) < Math.Abs(platformHitFront.point.x - enemyPosition.x) || (playerHitBack.collider);
+        } else {
+            isDetectedPlayer = playerHitFront.collider != null;
+        }
         Debug.DrawRay(transform.position, direction * playerDetectionRange, Color.red); 
         Debug.DrawRay(transform.position, -direction * 2, Color.red); 
 
