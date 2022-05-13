@@ -113,12 +113,9 @@ public class AIPatrol : MonoBehaviour
     }
 
     private void CheckHealth() {
-        if (health <= 0) {
-            transform.RotateAround(groundDetectorFront.localPosition, new Vector3(0, 1, 0), Time.deltaTime * 10);
-            if (_is_alive) {            
-                _is_alive = false;
-                Invoke(nameof(Die), 0.5f);
-            }
+        if (health <= 0 && _is_alive) {
+            _is_alive = false;
+            Invoke(nameof(Die), 0.5f);
         }
     }
 
