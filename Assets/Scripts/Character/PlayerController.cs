@@ -218,6 +218,7 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = 1f;
             }
         }
+        Animator.SetBool("isGrappling", _isGrappling);
     }
  
     private void AddCollectible() {
