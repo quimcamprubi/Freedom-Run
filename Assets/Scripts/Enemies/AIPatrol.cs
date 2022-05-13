@@ -298,7 +298,7 @@ public class AIPatrol : MonoBehaviour
         _dazedTime = startDazedTime;
         health -= damage;
         rb.velocity = Vector3.zero;
-        Jump(new Vector2(300 * targetPlayer.transform.localScale.x, 500));
+        Jump(new Vector2(jumpForceY/2 * targetPlayer.transform.localScale.x, jumpForceY));
         _idleFlipTimer = 0.0f;
         StartChasing();
     }
