@@ -73,6 +73,11 @@ public class AIPatrol : MonoBehaviour
         _canJump = true;
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!spriteRenderer.flipX) {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            Flip();
+        }
     }
     
     private void FixedUpdate() {
