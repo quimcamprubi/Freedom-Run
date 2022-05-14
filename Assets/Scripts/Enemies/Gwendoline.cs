@@ -12,6 +12,7 @@ public class Gwendoline : MonoBehaviour {
     public float changeTime = 3.0f;
     public int damage = 1;
     public bool isBoss = false;
+    public ParticleSystem smokeEffect;
     
     private Rigidbody2D rigidbody2D;
     private float timer;
@@ -26,6 +27,7 @@ public class Gwendoline : MonoBehaviour {
     private bool firstDrop = true;
     private bool isCoroutineExecuting = false;
     private float distanceToPlayer;
+    private bool smoked = false;
 
     [SerializeField] private float giveUpDistance;
     [SerializeField] private Transform playerTransform;
@@ -48,6 +50,10 @@ public class Gwendoline : MonoBehaviour {
         distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
         //print("Distance to player: +" + distanceToPlayer);
         if (distanceToPlayer < agroRange) {
+            if (!smoked) {
+                smoked = true;
+                smokeEffect.Play();
+            }
             animator.SetBool("Is Rolling", true);
         } else if (distanceToPlayer > giveUpDistance || !isRolling) {
             if (isRolling) StopRolling();

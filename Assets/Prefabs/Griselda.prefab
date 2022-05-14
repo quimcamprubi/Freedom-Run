@@ -622,6 +622,7 @@ MonoBehaviour:
   _coyoteTimeCounter: 0
   Canvas: {fileID: 0}
   GrapplingGunGameObject: {fileID: 0}
+  HealthScript: {fileID: 0}
 --- !u!70 &6257391893482043938
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
