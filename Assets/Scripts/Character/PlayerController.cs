@@ -225,6 +225,9 @@ public class PlayerController : MonoBehaviour
             case KeyItem key:
                 keysList.Add(key);
                 break;
+            case WeaponItem weapon:
+                isArmed = true;
+                break;
             case RegularItem item:
                 itemsList.Add(item);
                 break;
