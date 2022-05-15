@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ee2cd825432a7cbbbb9542f34b7822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blood: {fileID: 8688810921216676998, guid: 1843f93d6ef51bb4ea0dea05533c6c9e, type: 3}
   playerObject: {fileID: 0}
   maxHealth: 2
   hurtSound: {fileID: 8300000, guid: befe3c73438ef27e5a6c772ad101d810, type: 3}

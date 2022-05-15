@@ -417,6 +417,14 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8892868760174030069, guid: ba76fbf857b66ba4d9f49cbb8a58617f, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8892868760174030069, guid: ba76fbf857b66ba4d9f49cbb8a58617f, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba76fbf857b66ba4d9f49cbb8a58617f, type: 3}
 --- !u!1001 &123466349

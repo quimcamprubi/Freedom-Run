@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,10 @@ public class PlayerController : MonoBehaviour
     private bool _isHooking;
     public bool _isGrappling = false;
     public bool isArmed;
-
+    public bool IsArmed() {
+        return isArmed;
+    }
+    
     private Animator Animator;
 
     private CapsuleCollider2D _capsuleCollider;
@@ -73,7 +77,8 @@ public class PlayerController : MonoBehaviour
     public float _coyoteTimeCounter;
     public GameObject Canvas;
     public GameObject GrapplingGunGameObject;
-
+    public HealthMeter HealthScript;
+    
     // Collectible items
     private CollectibleItem availableCollectibleItem = null;
     private bool canAddCollectible = false;
@@ -94,6 +99,7 @@ public class PlayerController : MonoBehaviour
         _colliderSize = _capsuleCollider.size;
         Animator = GetComponent<Animator>();
         grabbingObject = false;
+        HealthScript = GameObject.Find("HealthMeter").GetComponent<HealthMeter>();
     }
 
     // Update is called once per frame
@@ -160,7 +166,9 @@ public class PlayerController : MonoBehaviour
             JumpSound();
         }
 
+        Animator.SetBool("isArmed", isArmed);
         Animator.SetBool("running", _input != 0.0f);
+        
 
         if (Input.GetButton("Jump"))
         {
@@ -262,6 +270,14 @@ public class PlayerController : MonoBehaviour
             case RegularItem item:
                 itemsList.Add(item);
                 break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "MainCamera")
+        {
+            HealthScript.Hurt(2);
         }
     }
 
