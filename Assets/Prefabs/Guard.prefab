@@ -231,7 +231,7 @@ MonoBehaviour:
   guardSpeed: 8.5
   currentSpeed: 0
   groundCheckDistance: 2
-  jumpForceY: 500
+  jumpForceY: 320
   flipDelay: 0.2
   startDazedTime: 0.6
   playerDetectionRange: 10
@@ -266,7 +266,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 70
+  m_Mass: 0.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 9.8
@@ -288,8 +288,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.04929042, y: 0}
-  m_Size: {x: 1.1401281, y: 2.816}
+  m_Offset: {x: -0.05, y: 0}
+  m_Size: {x: 1.53, y: 2.85}
   m_Direction: 0
 --- !u!95 &5625401510806146572
 Animator:
@@ -323,7 +323,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.21741968, y: 0.07496768}
+  m_Offset: {x: -0.04, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -334,5 +334,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2600001, y: 2.0036778}
+  m_Size: {x: 1.26, y: 1.43}
   m_EdgeRadius: 0

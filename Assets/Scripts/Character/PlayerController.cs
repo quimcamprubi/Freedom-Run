@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,9 @@ public class PlayerController : MonoBehaviour
     private bool _isHooking;
     public bool _isGrappling = false;
     public bool isArmed;
+    public bool IsArmed() {
+        return isArmed;
+    }
     
     private Animator Animator;
 
@@ -75,6 +79,7 @@ public class PlayerController : MonoBehaviour
     public float _coyoteTimeCounter;
     public GameObject Canvas;
     public GameObject GrapplingGunGameObject;
+    public HealthMeter HealthScript;
     
     // Collectible items
     private CollectibleItem availableCollectibleItem = null;
@@ -93,6 +98,7 @@ public class PlayerController : MonoBehaviour
         _colliderSize = _capsuleCollider.size;
         Animator = GetComponent<Animator>();
         grabbingObject = false;
+        HealthScript = GameObject.Find("HealthMeter").GetComponent<HealthMeter>();
     }
 
     // Update is called once per frame
@@ -142,7 +148,9 @@ public class PlayerController : MonoBehaviour
             JumpSound();
         }
 
+        Animator.SetBool("isArmed", isArmed);
         Animator.SetBool("running", _input != 0.0f);
+        
 
         if (Input.GetButton("Jump")) {Jump();}
         else
@@ -206,24 +214,17 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Paused == false)
-            {
+            if (Paused == false) {
                 Time.timeScale = 0f;
                 Paused = true;
                 GrapplingGunGameObject.gameObject.SetActive(false);
                 Canvas.gameObject.SetActive(true);
-                
-                
-            }
-            else
-            {
-                
+            } else {
                 Canvas.gameObject.SetActive (false);
                 GrapplingGunGameObject.gameObject.SetActive(true);
                 Paused = false;
                 Time.timeScale = 1f;
             }
-            
         }
     }
  
@@ -235,6 +236,14 @@ public class PlayerController : MonoBehaviour
             case RegularItem item:
                 itemsList.Add(item);
                 break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "MainCamera")
+        {
+            HealthScript.Hurt(2);
         }
     }
 
@@ -264,7 +273,7 @@ public class PlayerController : MonoBehaviour
         //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
         //Debug.Log(hit.collider.name);
 
-        if (hit.collider != null && hit.collider.CompareTag("Hook") && _isGrounded){
+        if (hit.collider != null && hit.collider.CompareTag("Hook") /*&& _isGrounded*/){
             _isHookAvailable = true;
         }
         //else {
@@ -403,9 +412,9 @@ public class PlayerController : MonoBehaviour
         else if (_isGrounded && _isOnSlope && !_isJumping)
         {
             if (onMovingPlatform) {
-                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input + platformSpeed, movementSpeed * _slopeNormalPerp.y * -_input);
+                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f + platformSpeed, movementSpeed * _slopeNormalPerp.y * -_input);
             } else {
-                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input, movementSpeed * _slopeNormalPerp.y * -_input);
+                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f, movementSpeed * _slopeNormalPerp.y * -_input);
             }
             _rigidbody2D.velocity = _newVelocity;
         }
