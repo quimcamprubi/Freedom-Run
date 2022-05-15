@@ -12,33 +12,41 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange;
 
     public int damage = 1;
-    
-    void Update() {
-        if (timeBtwAttack <= 0) {
-            if (Input.GetKey(KeyCode.Return) && attackPos != null) {
+
+    private void Update()
+    {
+        if (timeBtwAttack <= 0)
+        {
+            if (Input.GetKey(KeyCode.Return) && attackPos != null)
+            {
                 Debug.Log("Attack Done!");
-                Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, LayerMask.GetMask("Enemy"));
-                if (enemiesToDamage != null) {
-                    for (int i = 0; i < enemiesToDamage.Length; i++) {
-                        if (enemiesToDamage[i].GetType() != typeof(BoxCollider2D))  {
+                var enemiesToDamage =
+                    Physics2D.OverlapCircleAll(attackPos.position, attackRange, LayerMask.GetMask("Enemy"));
+                if (enemiesToDamage != null)
+                {
+                    for (var i = 0; i < enemiesToDamage.Length; i++)
+                        if (enemiesToDamage[i].GetType() != typeof(BoxCollider2D))
+                        {
                             Debug.Log("Enemy Hurt!");
                             enemiesToDamage[i].GetComponent<AIPatrol>().takeDamage(damage);
                         }
-                    }
+
                     timeBtwAttack = startTimeBtwAttack;
                 }
             }
-        } else {
+        }
+        else
+        {
             timeBtwAttack -= Time.deltaTime;
             Debug.Log(timeBtwAttack);
         }
     }
 
-    private void OnDrawGizmosSelected() {
+    private void OnDrawGizmosSelected()
+    {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
 
     // Update is called once per frame
-  
 }

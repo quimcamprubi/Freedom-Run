@@ -9,10 +9,10 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Nivell_1");
     }
+
     public void ButtonQuit()
     {
         Debug.Log("GAME CLOSE (on unity debug doesn't work)");
         Application.Quit();
     }
-    
 }

@@ -462,6 +462,7 @@ GameObject:
   - component: {fileID: -7866144068433370089}
   - component: {fileID: 7563794095197495530}
   - component: {fileID: 8945419133747376260}
+  - component: {fileID: 1680503881751363401}
   m_Layer: 8
   m_Name: Griselda
   m_TagString: Untagged
@@ -485,6 +486,7 @@ Transform:
   - {fileID: 200778012912806693}
   - {fileID: 1104126102464610576}
   - {fileID: 5036305225050130567}
+  - {fileID: 7846892606644450228}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -996,6 +998,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ganxo: {fileID: 5241953648175944104}
+--- !u!114 &1680503881751363401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395019274955847830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6d672602a2c494cb80b67f7f61c2bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPos: {fileID: 7846892606644450228}
+  projectilePrefab: {fileID: 328568825735835114, guid: a4e32f2f7e3185d4db72d8d109b72ff8, type: 3}
+  power: 600
+  canThrow: 1
+  wallDistanceCheck: 0.9
+  platformLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!1 &6113213588233127243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7846892606644450228}
+  m_Layer: 8
+  m_Name: PorronPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7846892606644450228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6113213588233127243}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.249, y: 0.036, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3395019274955847826}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7185677175312214196
 GameObject:
   m_ObjectHideFlags: 0

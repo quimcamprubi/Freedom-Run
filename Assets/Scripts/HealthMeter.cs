@@ -5,23 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class HealthMeter : MonoBehaviour
 {
-    const int HEALTH_STATES = 1;
+    private const int HEALTH_STATES = 1;
 
-    public int Health {
-        get {
-            return _health;
-        }
-        set {
+    public int Health
+    {
+        get => _health;
+        set
+        {
             _health = Mathf.Clamp(value, 0, maxHealth);
             UpdateIndicators();
         }
     }
 
-    public bool Dead {
-        get {
-            return _health == 0;
-        }
-    }
+    public bool Dead => _health == 0;
 
     #region Inspector variables
 
@@ -56,7 +52,7 @@ public class HealthMeter : MonoBehaviour
     #endregion
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _health = maxHealth;
         _sprites = new GameObject[0];
@@ -64,46 +60,52 @@ public class HealthMeter : MonoBehaviour
         UpdateIndicators();
     }
 
-    void UpdateIndicators() {
-        int state = _health % HEALTH_STATES;
+    private void UpdateIndicators()
+    {
+        var state = _health % HEALTH_STATES;
         Debug.LogFormat("UpdateIndicators: Health = {0}, State = {1}", _health, state);
         // PERF: could probably reuse stuff here
-        foreach (Transform child in gameObject.transform) {
-            GameObject.Destroy(child.gameObject);
-        }
+        foreach (Transform child in gameObject.transform) Destroy(child.gameObject);
         if (Dead) return;
-        int spriteCount = (int)Mathf.Ceil((float)_health / HEALTH_STATES);
+        var spriteCount = (int) Mathf.Ceil((float) _health / HEALTH_STATES);
         _sprites = new GameObject[spriteCount];
         var nextPos = Vector3.zero;
-        for (int i = 0; i < spriteCount; ++i) {
-            var newObj = GameObject.Instantiate(indicatorPrefab, Vector3.zero, Quaternion.identity, gameObject.transform);
+        for (var i = 0; i < spriteCount; ++i)
+        {
+            var newObj = Instantiate(indicatorPrefab, Vector3.zero, Quaternion.identity, gameObject.transform);
             newObj.transform.localPosition = nextPos;
             _sprites[i] = newObj;
             nextPos += new Vector3(0.2f, 0, 0);
         }
+
         _lastSprite = _sprites[spriteCount - 1];
         var renderer = _lastSprite.GetComponent<SpriteRenderer>();
         renderer.sprite = states[state];
     }
 
-    public void Hurt() {
+    public void Hurt()
+    {
         Hurt(1);
     }
 
-    public void Hurt(int damage) {
+    public void Hurt(int damage)
+    {
         if (Dead) return;
         if (Time.time - lastHurt < invulnerableTime) return;
         Debug.Log("Ouch!");
         lastHurt = Time.time;
         Health -= damage;
-        if (Dead) {
+        if (Dead)
+        {
             StartCoroutine(Death());
             return;
         }
+
         _audioSource.PlayOneShot(hurtSound);
     }
 
-    IEnumerator Death() {
+    private IEnumerator Death()
+    {
         playerObject.SetActive(false);
         _audioSource.PlayOneShot(deathSound);
         yield return new WaitForSeconds(deathSound.length);

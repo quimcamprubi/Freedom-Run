@@ -9,50 +9,47 @@ public class Dialogue_Manager : MonoBehaviour
 {
     public Dialogue dialogue;
 
-    Queue<string> sentences;
+    private Queue<string> sentences;
 
     public GameObject dialoguePanel;
     public TextMeshProUGUI displayText;
     public bool pauseAndUnpause = false;
 
-    string activeSentence;
+    private string activeSentence;
     public float typingSpeed;
 
-    void Start()
+    private void Start()
     {
         sentences = new Queue<string>();
     }
 
-    void Update() {
-        if(Input.GetKeyDown(KeyCode.Return))
-        {
-            DisplayNextSentence();
-        }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return)) DisplayNextSentence();
     }
-    
-    void StartDialogue()
+
+    private void StartDialogue()
     {
         sentences.Clear();
 
-        foreach (string sentence in dialogue.sentenceList)
-        {
-            sentences.Enqueue(sentence);
-        }
+        foreach (var sentence in dialogue.sentenceList) sentences.Enqueue(sentence);
 
         DisplayNextSentence();
     }
 
-    void DisplayNextSentence()
+    private void DisplayNextSentence()
     {
-        if(sentences.Count <= 0)
+        if (sentences.Count <= 0)
         {
             dialoguePanel.SetActive(false);
-            if (pauseAndUnpause) {
-                GameObject gwendolineObject = GameObject.Find("Gwendoline Boss");
-                GameObject griseldaObject = GameObject.Find("Griselda");
+            if (pauseAndUnpause)
+            {
+                var gwendolineObject = GameObject.Find("Gwendoline Boss");
+                var griseldaObject = GameObject.Find("Griselda");
                 gwendolineObject.GetComponent<Gwendoline>().enabled = true;
                 griseldaObject.GetComponent<PlayerController>().enabled = true;
             }
+
             StopAllCoroutines();
             return;
         }
@@ -64,11 +61,11 @@ public class Dialogue_Manager : MonoBehaviour
         StartCoroutine(TypeTheSentence(activeSentence));
     }
 
-    IEnumerator TypeTheSentence(string sentence)
+    private IEnumerator TypeTheSentence(string sentence)
     {
         displayText.text = "";
 
-        foreach(char letter in sentence.ToCharArray())
+        foreach (var letter in sentence.ToCharArray())
         {
             displayText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
@@ -78,34 +75,35 @@ public class Dialogue_Manager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D colliderEn)
     {
-        if(colliderEn.CompareTag("Player"))
+        if (colliderEn.CompareTag("Player"))
         {
             dialoguePanel.SetActive(true);
-            if (pauseAndUnpause) {
-                GameObject gwendolineObject = GameObject.Find("Gwendoline Boss");
-                GameObject griseldaObject = GameObject.Find("Griselda");
+            if (pauseAndUnpause)
+            {
+                var gwendolineObject = GameObject.Find("Gwendoline Boss");
+                var griseldaObject = GameObject.Find("Griselda");
                 gwendolineObject.GetComponent<Gwendoline>().enabled = false;
                 griseldaObject.GetComponent<PlayerController>().enabled = false;
             }
+
             StartDialogue();
         }
     }
 
     private void OnTriggerExit2D(Collider2D colliderEx)
     {
-        if(colliderEx.CompareTag("Player"))
+        if (colliderEx.CompareTag("Player"))
         {
             dialoguePanel.SetActive(false);
-            if (pauseAndUnpause) {
-                GameObject griseldaObject = GameObject.Find("Griselda");
-                GameObject gwendolineObject = GameObject.Find("Gwendoline Boss");
+            if (pauseAndUnpause)
+            {
+                var griseldaObject = GameObject.Find("Griselda");
+                var gwendolineObject = GameObject.Find("Gwendoline Boss");
                 griseldaObject.GetComponent<PlayerController>().enabled = true;
                 gwendolineObject.GetComponent<Gwendoline>().enabled = true;
             }
+
             StopAllCoroutines();
         }
     }
-       
-
-
 }

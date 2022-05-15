@@ -29,9 +29,8 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime;
     public AudioSource salto;
     public AudioSource hookSound;
-    
-    [HideInInspector]
-    public List<KeyItem> keysList;
+
+    [HideInInspector] public List<KeyItem> keysList;
     public List<RegularItem> itemsList;
 
     // Private attributes
@@ -50,7 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool _isHooking;
     public bool _isGrappling = false;
     public bool isArmed;
-    
+
     private Animator Animator;
 
     private CapsuleCollider2D _capsuleCollider;
@@ -60,7 +59,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _newVelocity;
     private Vector2 _newForce;
     private bool Paused = false;
-    
+
     private float _input;
     private float _sprintModifier = 1.0f;
     private float _slopeDownAngle;
@@ -74,17 +73,22 @@ public class PlayerController : MonoBehaviour
     public float _coyoteTimeCounter;
     public GameObject Canvas;
     public GameObject GrapplingGunGameObject;
-    
+
     // Collectible items
     private CollectibleItem availableCollectibleItem = null;
     private bool canAddCollectible = false;
     private GameObject objectToDestroy = null;
-    
+
     // Doors
     private DoorController availableDoor = null;
     private bool canOpenDoor = false;
 
-    void Start() {
+    // Porron
+    private GameObject availablePorron = null;
+    private bool canPorron = true;
+
+    private void Start()
+    {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
@@ -93,12 +97,15 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() {
+    private void Update()
+    {
         CheckInput();
     }
 
-    private void FixedUpdate() {
-        if (!_isGrappling) {
+    private void FixedUpdate()
+    {
+        if (!_isGrappling)
+        {
             CheckGround();
             CheckSlope();
             CheckFront();
@@ -107,68 +114,91 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckInput() {
-        if (Input.GetKey(KeyCode.E)) {
-            if (canAddCollectible) {
+    private void CheckInput()
+    {
+        if (Input.GetKey(KeyCode.E))
+        {
+            if (canAddCollectible)
+            {
                 AddCollectible();
                 objectToDestroy.SetActive(false);
-            } else if (canOpenDoor) {
-                if (availableDoor.isLocked) { // If door is locked, check if player has the necessary key
-                    if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId)) {
+            }
+            else if (canPorron)
+            {
+                canPorron = false;
+                GetComponent<throwAttack>().GrabObject();
+            }
+            else if (canOpenDoor)
+            {
+                if (availableDoor.isLocked)
+                {
+                    // If door is locked, check if player has the necessary key
+                    if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId))
                         availableDoor.OpenDoor();
-                    } else {
+                    else
                         Debug.Log("Locked"); // TODO: In the future, change this for UI message. 
-                    }
-                } else { // If door is unlocked, open it
+                }
+                else
+                {
+                    // If door is unlocked, open it
                     availableDoor.OpenDoor();
                 }
             }
         }
-        
-        if (Input.GetButtonUp("Jump"))
-        {
-            _isJumping = false;
-        }
+
+        if (Input.GetButtonUp("Jump")) _isJumping = false;
         _input = Input.GetAxisRaw("Horizontal");
-        if (Input.GetButtonDown("Jump")) {
+        if (Input.GetButtonDown("Jump"))
+        {
             if (_isGrounded) Jump();
-            if (_isWallSliding) {
+            if (_isWallSliding)
+            {
                 _isWallSliding = false;
                 WallJump();
             }
+
             JumpSound();
         }
 
         Animator.SetBool("running", _input != 0.0f);
 
-        if (Input.GetButton("Jump")) {Jump();}
+        if (Input.GetButton("Jump"))
+        {
+            Jump();
+        }
         else
         {
             if (grabbingObject)
-            {
                 _canJump = false;
-            }
-            else if (_isGrounded && !_isJumping){
-                _canJump = true;
-            }
+            else if (_isGrounded && !_isJumping) _canJump = true;
         }
-    
+
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        if (Input.GetKey("down")||Input.GetKey(KeyCode.S)) { 
+        if (Input.GetKey("down") || Input.GetKey(KeyCode.S))
+        {
             Animator.SetBool("ajupirse_correr", _input != 0.0f);
-            ajupirse = true; Animator.SetBool("ajupirse", true);
+            ajupirse = true;
+            Animator.SetBool("ajupirse", true);
         }
-        else { ajupirse = false; Animator.SetBool("ajupirse", false); }
-        
-        if (_isGrounded && !_isJumping) { Animator.SetBool("isGrounded", true); }
-        else { Animator.SetBool("isGrounded", false); }
+        else
+        {
+            ajupirse = false;
+            Animator.SetBool("ajupirse", false);
+        }
 
-        if (!_isJumping) { Animator.SetBool("isJumping", false); }
-        else { Animator.SetBool("isJumping", true); }
+        if (_isGrounded && !_isJumping)
+            Animator.SetBool("isGrounded", true);
+        else
+            Animator.SetBool("isGrounded", false);
+
+        if (!_isJumping)
+            Animator.SetBool("isJumping", false);
+        else
+            Animator.SetBool("isJumping", true);
 
         _isHooking = Input.GetKey(KeyCode.W);
-        
+
         if (_isHooking && _isHookAvailable)
         {
             if (!_HookAnimationStarted)
@@ -183,16 +213,18 @@ public class PlayerController : MonoBehaviour
             if (_HookAnimationEnded)
             {
                 m_lineRenderer.enabled = true;
-                Vector3 bodypoint = new Vector3(_rigidbody2D.position.x, _rigidbody2D.position.y, -1);
+                var bodypoint = new Vector3(_rigidbody2D.position.x, _rigidbody2D.position.y, -1);
                 m_lineRenderer.SetPosition(0, bodypoint);
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999); //we are colliding with hook if inside if
-                Vector3 hitpoint = new Vector3(hit.point.x,hit.point.y,-1);
+                var hit = Physics2D.Raycast(transform.position, Vector2.up,
+                    99999); //we are colliding with hook if inside if
+                var hitpoint = new Vector3(hit.point.x, hit.point.y, -1);
                 m_lineRenderer.SetPosition(1, hitpoint);
-                
+
                 _newVelocity.Set(_rigidbody2D.velocity.x, hookSpeed);
                 _rigidbody2D.velocity = _newVelocity;
             }
         }
+
         if (!_isHooking && _HookAnimationEnded)
         {
             Animator.SetBool("isHooking", false);
@@ -203,22 +235,27 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Paused == false) {
+            if (Paused == false)
+            {
                 Time.timeScale = 0f;
                 Paused = true;
                 GrapplingGunGameObject.gameObject.SetActive(false);
                 Canvas.gameObject.SetActive(true);
-            } else {
-                Canvas.gameObject.SetActive (false);
+            }
+            else
+            {
+                Canvas.gameObject.SetActive(false);
                 GrapplingGunGameObject.gameObject.SetActive(true);
                 Paused = false;
                 Time.timeScale = 1f;
             }
         }
     }
- 
-    private void AddCollectible() {
-        switch (availableCollectibleItem) {
+
+    private void AddCollectible()
+    {
+        switch (availableCollectibleItem)
+        {
             case KeyItem key:
                 keysList.Add(key);
                 break;
@@ -233,9 +270,12 @@ public class PlayerController : MonoBehaviour
         _HookAnimationEnded = true;
         Animator.SetBool("isHooking", false);
     }
-    private void WallJump() {
-        bool canWallJump = Mathf.Sign(_rigidbody2D.transform.localScale.x) != Mathf.Sign(_previousWallJumpDirection);
-        if (canWallJump || Mathf.Approximately(_previousWallJumpDirection,0.0f)) {
+
+    private void WallJump()
+    {
+        var canWallJump = Mathf.Sign(_rigidbody2D.transform.localScale.x) != Mathf.Sign(_previousWallJumpDirection);
+        if (canWallJump || Mathf.Approximately(_previousWallJumpDirection, 0.0f))
+        {
             _previousWallJumpDirection = _rigidbody2D.transform.localScale.x;
             _isWallSliding = false;
             _isWallJumping = true;
@@ -243,33 +283,30 @@ public class PlayerController : MonoBehaviour
             _rigidbody2D.velocity = Vector3.zero;
             _rigidbody2D.AddForce(_newForce, ForceMode2D.Impulse);
             _rigidbody2D.transform.localScale = _rigidbody2D.transform.localScale.Equals(new Vector2(1.0f, 1.0f))
-                    ? new Vector2(-1.0f, 1.0f)
-                    : new Vector2(1.0f, 1.0f);
+                ? new Vector2(-1.0f, 1.0f)
+                : new Vector2(1.0f, 1.0f);
         }
     }
 
     private void CheckHook()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 99999);
+        var hit = Physics2D.Raycast(transform.position, Vector2.up, 99999);
         //Debug.DrawRay(transform.position, Vector2.up, Color.red, 10.0f);
         //Debug.Log(hit.collider.name);
 
-        if (hit.collider != null && hit.collider.CompareTag("Hook") /*&& _isGrounded*/){
-            _isHookAvailable = true;
-        }
+        if (hit.collider != null && hit.collider.CompareTag("Hook") /*&& _isGrounded*/) _isHookAvailable = true;
         //else {
-            //_isHookAvailable = false;
+        //_isHookAvailable = false;
         //}
         //Debug.Log(_isHookAvailable);
+    }
 
-    } 
-
-    private void CheckGround() {
+    private void CheckGround()
+    {
         _isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundDistanceCheck);
-        if (_rigidbody2D.velocity.y <= 0.0f) {
-            _isJumping = false;
-        }
-        if (_isGrounded && !_isJumping) {
+        if (_rigidbody2D.velocity.y <= 0.0f) _isJumping = false;
+        if (_isGrounded && !_isJumping)
+        {
             _previousWallJumpDirection = 0.0f;
             _isWallJumping = false;
             _isWallSliding = false;
@@ -282,13 +319,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckFront() {
+    private void CheckFront()
+    {
         _isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, wallDistanceCheck, platformLayer);
         _isWallSliding = _isTouchingFront && !_isGrounded;
     }
 
-    public void Jump() { 
-        if (_coyoteTimeCounter>0f && _canJump)
+    public void Jump()
+    {
+        if (_coyoteTimeCounter > 0f && _canJump)
         {
             _canJump = false;
             _isJumping = true;
@@ -296,6 +335,7 @@ public class PlayerController : MonoBehaviour
             _jumpTimeCounter = jumpTime;
             _coyoteTimeCounter = 0f;
         }
+
         if (_isJumping)
         {
             if (_jumpTimeCounter > 0)
@@ -312,74 +352,90 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckSprintModifier() {
-        if (_isGrounded) {
+    private void CheckSprintModifier()
+    {
+        if (_isGrounded)
+        {
             _sprintModifier = _isSprinting ? 1.5f : 1.0f;
             _sprintFall = _isSprinting;
-        } else {
+        }
+        else
+        {
             _sprintModifier = _sprintJump || _sprintFall ? 1.5f : 1.0f;
         }
     }
-    
-    private void CheckSlope() {
-        Vector2 checkPosition = transform.position - (Vector3)(new Vector2(0.0f, _colliderSize.y / 2));
+
+    private void CheckSlope()
+    {
+        Vector2 checkPosition = transform.position - (Vector3) new Vector2(0.0f, _colliderSize.y / 2);
         HorizontalCheckSlope(checkPosition);
         VerticalCheckSlope(checkPosition);
     }
 
-    private void HorizontalCheckSlope(Vector2 checkPosition) {
-        RaycastHit2D slopeHitFront = Physics2D.Raycast(checkPosition, transform.right, slopeCheckDistance, platformLayer);
-        RaycastHit2D slopeHitBack = Physics2D.Raycast(checkPosition, -transform.right, slopeCheckDistance, platformLayer);
-        if (slopeHitFront) {
+    private void HorizontalCheckSlope(Vector2 checkPosition)
+    {
+        var slopeHitFront = Physics2D.Raycast(checkPosition, transform.right, slopeCheckDistance, platformLayer);
+        var slopeHitBack = Physics2D.Raycast(checkPosition, -transform.right, slopeCheckDistance, platformLayer);
+        if (slopeHitFront)
+        {
             _isOnSlope = true;
             _slopeSideAngle = Vector2.Angle(slopeHitFront.normal, Vector2.up);
-        } else if (slopeHitBack) {
+        }
+        else if (slopeHitBack)
+        {
             _isOnSlope = true;
             _slopeSideAngle = Vector2.Angle(slopeHitBack.normal, Vector2.up);
-        } else {
+        }
+        else
+        {
             _slopeSideAngle = 0.0f;
             _isOnSlope = false;
         }
     }
 
-    private void VerticalCheckSlope(Vector2 checkPosition) {
-        RaycastHit2D hit = Physics2D.Raycast(checkPosition, Vector2.down, slopeCheckDistance, platformLayer);
-        if (hit) {
+    private void VerticalCheckSlope(Vector2 checkPosition)
+    {
+        var hit = Physics2D.Raycast(checkPosition, Vector2.down, slopeCheckDistance, platformLayer);
+        if (hit)
+        {
             _slopeNormalPerp = Vector2.Perpendicular(hit.normal).normalized;
             _slopeDownAngle = Vector2.Angle(hit.normal, Vector2.up);
-            if(!Mathf.Approximately(_slopeDownAngle, _slopeDownAngleOld)) {
-                _isOnSlope = true;
-            }
+            if (!Mathf.Approximately(_slopeDownAngle, _slopeDownAngleOld)) _isOnSlope = true;
             _slopeDownAngleOld = _slopeDownAngle;
         }
-        if (_isOnSlope && _input == 0.0f && _slopeDownAngle != 0.0f) {
+
+        if (_isOnSlope && _input == 0.0f && _slopeDownAngle != 0.0f)
             _rigidbody2D.gravityScale = 0.0f;
-        } else {
+        else
             _rigidbody2D.gravityScale = 5.0f;
-        }
     }
-    
-    private void ApplyMovement() {
-        if (_input < 0.0f) {
+
+    private void ApplyMovement()
+    {
+        if (_input < 0.0f)
+        {
             transform.localScale = new Vector2(-1.0f, 1.0f);
             _isHookAvailable = false;
-        } else if (_input > 0.0f) {
+        }
+        else if (_input > 0.0f)
+        {
             transform.localScale = new Vector2(1.0f, 1.0f);
             _isHookAvailable = false;
         }
+
         CheckSprintModifier();
 
         if (_isWallSliding)
         {
             _isWallJumping = false;
-            _newVelocity.Set(_rigidbody2D.velocity.x, Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
+            _newVelocity.Set(_rigidbody2D.velocity.x,
+                Mathf.Clamp(_rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
             _rigidbody2D.velocity = _newVelocity;
         }
         else if (ajupirse)
         {
             _newVelocity.Set(ajupidSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
-
         }
         else if (_isGrounded && !_isOnSlope && !_isJumping)
         {
@@ -388,46 +444,60 @@ public class PlayerController : MonoBehaviour
         }
         else if (_isGrounded && _isOnSlope && !_isJumping)
         {
-            _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f, movementSpeed * _slopeNormalPerp.y * -_input * 1.5f);
+            _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f,
+                movementSpeed * _slopeNormalPerp.y * -_input * 1.5f);
             _rigidbody2D.velocity = _newVelocity;
         }
-        else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0))
+        else if (!_isGrounded && !_isWallJumping || !_isGrounded && _isWallJumping && _input != 0)
         {
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         }
-        
     }
 
-    public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject) {
+    public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject)
+    {
         availableCollectibleItem = item;
         objectToDestroy = keyObject;
         canAddCollectible = true;
     }
 
-    public void NoAvailableCollectibleItem() {
+    public void NoAvailableCollectibleItem()
+    {
         availableCollectibleItem = null;
         objectToDestroy = null;
         canAddCollectible = false;
     }
 
-    public void AvailableDoor(DoorController doorController) {
+    public void AvailableDoor(DoorController doorController)
+    {
         availableDoor = doorController;
         canOpenDoor = true;
     }
 
-    public void NoAvailableDoor() {
+    public void NoAvailableDoor()
+    {
         availableDoor = null;
         canOpenDoor = false;
     }
-    
-    void JumpSound()
+
+    public void AvailablePorron()
+    {
+        canPorron = true;
+    }
+
+    public void NoAvailablePorron()
+    {
+        canPorron = false;
+    }
+
+    private void JumpSound()
     {
         salto.Play();
     }
 
-    public void HookSound() {
+    public void HookSound()
+    {
         hookSound.Play();
     }
-    
 }
