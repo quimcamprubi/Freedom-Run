@@ -73,6 +73,11 @@ public class AIPatrol : MonoBehaviour
         _canJump = true;
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!spriteRenderer.flipX) {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            Flip();
+        }
     }
     
     private void FixedUpdate() {
@@ -108,12 +113,9 @@ public class AIPatrol : MonoBehaviour
     }
 
     private void CheckHealth() {
-        if (health <= 0) {
-            transform.RotateAround(groundDetectorFront.localPosition, new Vector3(0, 1, 0), Time.deltaTime * 10);
-            if (_is_alive) {            
-                _is_alive = false;
-                Invoke(nameof(Die), 0.5f);
-            }
+        if (health <= 0 && _is_alive) {
+            _is_alive = false;
+            Invoke(nameof(Die), 0.5f);
         }
     }
 
@@ -293,7 +295,7 @@ public class AIPatrol : MonoBehaviour
         _dazedTime = startDazedTime;
         health -= damage;
         rb.velocity = Vector3.zero;
-        Jump(new Vector2(300 * targetPlayer.transform.localScale.x, 500));
+        Jump(new Vector2(jumpForceY/2 * targetPlayer.transform.localScale.x, jumpForceY));
         _idleFlipTimer = 0.0f;
         StartChasing();
     }

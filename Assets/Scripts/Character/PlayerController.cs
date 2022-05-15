@@ -51,6 +51,9 @@ public class PlayerController : MonoBehaviour
     private bool _isHooking;
     public bool _isGrappling = false;
     public bool isArmed;
+    public bool IsArmed() {
+        return isArmed;
+    }
     
     private Animator Animator;
 
@@ -85,7 +88,8 @@ public class PlayerController : MonoBehaviour
     // Doors
     private DoorController availableDoor = null;
     private bool canOpenDoor = false;
-
+    
+    
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -142,7 +146,9 @@ public class PlayerController : MonoBehaviour
             JumpSound();
         }
 
+        Animator.SetBool("isArmed", isArmed);
         Animator.SetBool("running", _input != 0.0f);
+        
 
         if (Input.GetButton("Jump")) {Jump();}
         else
