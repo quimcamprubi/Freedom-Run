@@ -231,7 +231,7 @@ MonoBehaviour:
   guardSpeed: 8.5
   currentSpeed: 0
   groundCheckDistance: 2
-  jumpForceY: 500
+  jumpForceY: 320
   flipDelay: 0.2
   startDazedTime: 0.6
   playerDetectionRange: 10

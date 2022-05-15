@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
 {
     private float timeBtwAttack;
 
-    public float startTimeBtwAttack = 0.3f;
+    public float startTimeBtwAttack = 0.4f;
     public Transform attackPos;
     public float attackRange;
     public float animationDelayAttack = 0.16f;
@@ -18,19 +18,21 @@ public class PlayerAttack : MonoBehaviour
     
     private void Start() {
         _animator = player.GetComponent<Animator>();
+        timeBtwAttack = startTimeBtwAttack;
     }
 
     void Update() {GetComponent<Animator>();
         if (!player.GetComponent<PlayerController>().IsArmed()) {
             return;
         }
-        if (timeBtwAttack <= 0) {
+        if (timeBtwAttack <= 0.0f) {
             if (Input.GetKey(KeyCode.Return) && attackPos != null) {
                 Debug.Log("Attack Done!");
                 CancelInvoke(nameof(stopAttack));
                 _animator.SetBool("isAttacking", true);
                 Invoke(nameof(attackEnemies), animationDelayAttack);
                 Invoke(nameof(stopAttack), animationDuration);
+                timeBtwAttack = startTimeBtwAttack;
             }
         } else {
             timeBtwAttack -= Time.deltaTime;
@@ -44,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void attackEnemies() {
         Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, LayerMask.GetMask("Enemy"));
-        if (enemiesToDamage == null) {
+        if (enemiesToDamage.Length == 0) {
             return;
         }
         foreach (var t in enemiesToDamage) {
@@ -53,7 +55,6 @@ public class PlayerAttack : MonoBehaviour
                 t.GetComponent<AIPatrol>().takeDamage(damage);
             }
         }
-        timeBtwAttack = startTimeBtwAttack;
     }
 
     private void OnDrawGizmosSelected() {
