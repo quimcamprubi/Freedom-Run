@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class HealthMeter : MonoBehaviour
 {
     const int HEALTH_STATES = 1;
-
+    public GameObject blood;
     public int Health {
         get {
             return _health;
@@ -93,6 +93,7 @@ public class HealthMeter : MonoBehaviour
     public void Hurt(int damage) {
         if (Dead) return;
         if (Time.time - lastHurt < invulnerableTime) return;
+        Instantiate(blood, playerObject.transform.position, Quaternion.identity);
         Debug.Log("Ouch!");
         lastHurt = Time.time;
         Health -= damage;
