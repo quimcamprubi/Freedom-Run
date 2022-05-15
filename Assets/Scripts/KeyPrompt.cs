@@ -1,13 +1,14 @@
-using UnityEngine.UI;
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class KeyPrompt : MonoBehaviour
 {
-    private static string textureResourcePath = "Xelu_Free_Controller&Key_Prompts/Keyboard & Mouse/Dark/{0}_Key_Dark";
+    private static readonly string textureResourcePath =
+        "Xelu_Free_Controller&Key_Prompts/Keyboard & Mouse/Dark/{0}_Key_Dark";
 
-    private static Dictionary<string, string> keyTextureMap = new Dictionary<string, string>()
+    private static readonly Dictionary<string, string> keyTextureMap = new Dictionary<string, string>
     {
         {"Mouse0", "Mouse_Left"}, {"Mouse1", "Mouse_Right"}, {"Mouse2", "Mouse_Middle"}
     };
@@ -45,6 +46,6 @@ public class KeyPrompt : MonoBehaviour
 
     public void Destroy()
     {
-        GameObject.Destroy(gameObject);
+        Destroy(gameObject);
     }
 }

@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class throwAttack : MonoBehaviour
 {
-    private Vector2 direction;
     public Transform attackPos;
     public GameObject projectilePrefab;
-    private GameObject porron;
     public float power;
     public bool canThrow = true;
     public float wallDistanceCheck;
     public LayerMask platformLayer;
+    private Vector2 direction;
+    private GameObject porron;
 
     // Start is called before the first frame update
     private void Start()
@@ -22,17 +20,11 @@ public class throwAttack : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
-        {
             if (canThrow)
             {
                 bool wallOverlap = Physics2D.OverlapCircle(attackPos.position, wallDistanceCheck, platformLayer);
-                if (!wallOverlap)
-                {
-                    Throw();
-                }
-
+                if (!wallOverlap) Throw();
             }
-        }
     }
 
     private void Throw()

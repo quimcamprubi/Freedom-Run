@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CollectibleItems;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
@@ -33,64 +30,61 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public List<KeyItem> keysList;
     public List<RegularItem> itemsList;
-
-    // Private attributes
-    private bool _isSprinting = false;
     public bool _isGrounded;
-    private bool _isJumping;
     public bool _canJump;
-    private bool _sprintJump;
-    private bool _isOnSlope;
-    private bool _sprintFall;
-    private bool _isTouchingFront;
     public bool _isWallSliding;
-    private bool _isWallJumping;
-    private float _previousWallJumpDirection = 0.0f;
-    private bool _isHookAvailable;
-    private bool _isHooking;
-    public bool _isGrappling = false;
+    public bool _isGrappling;
     public bool isArmed;
-    public bool IsArmed() {
-        return isArmed;
-    }
-    
-    private Animator Animator;
-
-    private CapsuleCollider2D _capsuleCollider;
-    private Rigidbody2D _rigidbody2D;
-    private Vector2 _colliderSize;
-    private Vector2 _slopeNormalPerp;
-    private Vector2 _newVelocity;
-    private Vector2 _newForce;
-    private bool Paused = false;
-
-    private float _input;
-    private float _sprintModifier = 1.0f;
-    private float _slopeDownAngle;
-    private float _slopeSideAngle;
-    private float _slopeDownAngleOld;
-    private float _jumpTimeCounter;
-    private float _modifiedJumpSpeed;
-    private bool _HookAnimationStarted = false;
-    private bool _HookAnimationEnded = false;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
     public GameObject Canvas;
     public GameObject GrapplingGunGameObject;
     public HealthMeter HealthScript;
-    
+
+    private CapsuleCollider2D _capsuleCollider;
+    private Vector2 _colliderSize;
+    private bool _HookAnimationEnded;
+    private bool _HookAnimationStarted;
+
+    private float _input;
+    private bool _isHookAvailable;
+    private bool _isHooking;
+    private bool _isJumping;
+    private bool _isOnSlope;
+
+    // Private attributes
+    private bool _isSprinting;
+    private bool _isTouchingFront;
+    private bool _isWallJumping;
+    private float _jumpTimeCounter;
+    private float _modifiedJumpSpeed;
+    private Vector2 _newForce;
+    private Vector2 _newVelocity;
+    private float _previousWallJumpDirection;
+    private Rigidbody2D _rigidbody2D;
+    private float _slopeDownAngle;
+    private float _slopeDownAngleOld;
+    private Vector2 _slopeNormalPerp;
+    private float _slopeSideAngle;
+    private bool _sprintFall;
+    private bool _sprintJump;
+    private float _sprintModifier = 1.0f;
+
+    private Animator Animator;
+
     // Collectible items
-    private CollectibleItem availableCollectibleItem = null;
-    private bool canAddCollectible = false;
-    private GameObject objectToDestroy = null;
+    private CollectibleItem availableCollectibleItem;
 
     // Doors
-    private DoorController availableDoor = null;
-    private bool canOpenDoor = false;
+    private DoorController availableDoor;
 
     // Porron
     private GameObject availablePorron = null;
+    private bool canAddCollectible;
+    private bool canOpenDoor;
     private bool canPorron = true;
+    private GameObject objectToDestroy;
+    private bool Paused;
 
     private void Start()
     {
@@ -118,6 +112,16 @@ public class PlayerController : MonoBehaviour
             ApplyMovement();
             CheckHook();
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "MainCamera") HealthScript.Hurt(2);
+    }
+
+    public bool IsArmed()
+    {
+        return isArmed;
     }
 
     private void CheckInput()
@@ -168,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
         Animator.SetBool("isArmed", isArmed);
         Animator.SetBool("running", _input != 0.0f);
-        
+
 
         if (Input.GetButton("Jump"))
         {
@@ -270,14 +274,6 @@ public class PlayerController : MonoBehaviour
             case RegularItem item:
                 itemsList.Add(item);
                 break;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "MainCamera")
-        {
-            HealthScript.Hurt(2);
         }
     }
 

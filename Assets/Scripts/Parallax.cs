@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows.WebCam;
 
 public class Parallax : MonoBehaviour
 {
-    private float _length, _startPosition;
     public GameObject cam;
     public float parallaxEffect;
+    private float _length, _startPosition;
 
     private void Start()
     {

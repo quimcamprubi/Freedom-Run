@@ -12,16 +12,22 @@ public class GrapplingRope : MonoBehaviour
 
     [Header("Rope Animation Settings:")] public AnimationCurve ropeAnimationCurve;
     [Range(0.01f, 4)] [SerializeField] private float StartWaveSize = 2;
-    private float waveSize = 0;
 
     [Header("Rope Progression:")] public AnimationCurve ropeProgressionCurve;
     [SerializeField] [Range(1, 50)] private float ropeProgressionSpeed = 1;
 
-    private float moveTime = 0;
+    public bool isGrappling;
 
-    public bool isGrappling = false;
+    private float moveTime;
 
     private bool strightLine = true;
+    private float waveSize;
+
+    private void Update()
+    {
+        moveTime += Time.deltaTime;
+        DrawRope();
+    }
 
     private void OnEnable()
     {
@@ -45,12 +51,6 @@ public class GrapplingRope : MonoBehaviour
     private void LinePointsToFirePoint()
     {
         for (var i = 0; i < precision; i++) m_lineRenderer.SetPosition(i, grapplingGun.firePoint.position);
-    }
-
-    private void Update()
-    {
-        moveTime += Time.deltaTime;
-        DrawRope();
     }
 
     private void DrawRope()
@@ -90,7 +90,7 @@ public class GrapplingRope : MonoBehaviour
     {
         for (var i = 0; i < precision; i++)
         {
-            var delta = (float) i / ((float) precision - 1f);
+            var delta = i / (precision - 1f);
             var offset = Vector2.Perpendicular(grapplingGun.grappleDistanceVector).normalized *
                          ropeAnimationCurve.Evaluate(delta) * waveSize;
             var targetPosition = Vector2.Lerp(grapplingGun.firePoint.position, grapplingGun.grapplePoint, delta) +

@@ -6,7 +6,7 @@ public class GrapplingGun : MonoBehaviour
     public PlayerController playerController;
 
     [Header("Layers Settings:")] [SerializeField]
-    private bool grappleToAll = false;
+    private bool grappleToAll;
 
     [SerializeField] private int grappableLayerNumber = 9;
 
@@ -22,11 +22,11 @@ public class GrapplingGun : MonoBehaviour
     [Header("Rotation:")] [SerializeField] private bool rotateOverTime = true;
     [Range(0, 60)] [SerializeField] private float rotationSpeed = 4;
 
-    [Header("Distance:")] [SerializeField] private bool hasMaxDistance = false;
+    [Header("Distance:")] [SerializeField] private bool hasMaxDistance;
     [SerializeField] private float maxDistance = 20;
 
     [Header("No Launch To Point")] [SerializeField]
-    private bool autoConfigureDistance = false;
+    private bool autoConfigureDistance;
 
     [SerializeField] private float targetDistance = 3;
     [SerializeField] private float targetFrequncy = 1;
@@ -34,7 +34,7 @@ public class GrapplingGun : MonoBehaviour
     [HideInInspector] public Vector2 grapplePoint;
     [HideInInspector] public Vector2 grappleDistanceVector;
 
-    private bool isHooked = false;
+    private bool isHooked;
 
     private void Start()
     {
@@ -80,6 +80,15 @@ public class GrapplingGun : MonoBehaviour
         {
             Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
             RotateGun(mousePos, true);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (firePoint != null && hasMaxDistance)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(firePoint.position, maxDistance);
         }
     }
 
@@ -139,14 +148,5 @@ public class GrapplingGun : MonoBehaviour
         isHooked = true;
         m_springJoint2D.connectedAnchor = grapplePoint;
         m_springJoint2D.enabled = true;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (firePoint != null && hasMaxDistance)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(firePoint.position, maxDistance);
-        }
     }
 }

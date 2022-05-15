@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class FallingPlatforms : MonoBehaviour
 {
-    private Rigidbody2D _rb;
     public float fallingTime;
     public float destroyTime;
     public AudioClip fallingPlatformSound;
     private AudioSource _audioSource;
+    private Rigidbody2D _rb;
 
 
     // Start is called before the first frame update

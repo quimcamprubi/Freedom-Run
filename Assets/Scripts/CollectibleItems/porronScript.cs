@@ -1,15 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class porronScript : MonoBehaviour
 {
-    public bool canRotate = false;
+    public bool canRotate;
     public int damage = 2;
     public float RotSpeed;
 
-    private bool hit = false;
+    private bool hit;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -24,12 +22,13 @@ public class porronScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D col)
     {
         canRotate = false;
-        if(!hit){
+        if (!hit)
+        {
             var controllerEnemy = col.gameObject.GetComponent<AIPatrol>();
             if (controllerEnemy != null)
             {
                 hit = true;
-                this.GetComponent<Rigidbody2D>().velocity=Vector2.zero;
+                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 controllerEnemy.takeDamage(damage);
             }
         }
@@ -38,10 +37,7 @@ public class porronScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         var controller = other.GetComponent<PlayerController>();
-        if (controller != null)
-        {
-            controller.AvailablePorron();
-        }
+        if (controller != null) controller.AvailablePorron();
     }
 
     private void OnTriggerExit2D(Collider2D other)

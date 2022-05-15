@@ -3,8 +3,8 @@ using UnityEngine;
 public class DamageCollider : MonoBehaviour
 {
     public int damage = 1;
-    private HealthMeter healthMeter;
     public bool has_critical_damage;
+    private HealthMeter healthMeter;
 
     // Start is called before the first frame update
     private void Start()

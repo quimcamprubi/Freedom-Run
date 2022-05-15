@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GrabObject : MonoBehaviour
@@ -9,40 +6,13 @@ public class GrabObject : MonoBehaviour
     public PlayerController player;
     [SerializeField] private float rayDistance;
     public LayerMask platformLayer;
-    private int layerIndex;
     private GameObject grabbedObject;
+    private int layerIndex;
 
     // Start is called before the first frame update
     private void Start()
     {
         layerIndex = LayerMask.NameToLayer("Object");
-    }
-
-    private void FixedUpdate()
-    {
-        CheckSlope();
-    }
-
-    private void CheckSlope()
-    {
-        if (grabbedObject != null)
-        {
-            var pos = grabbedObject.transform.position;
-            var tra = transform.localScale.x;
-            var si = grabbedObject.GetComponent<BoxCollider2D>().size.x;
-            var checkPosition = new Vector2(pos.x, pos.y + tra * si / 2);
-            var slopeHitFront = Physics2D.Raycast(checkPosition, transform.localScale, 1f, platformLayer);
-            if (slopeHitFront)
-            {
-                grabbedObject.transform.SetParent(null);
-                grabbedObject.GetComponent<Rigidbody2D>().isKinematic = false;
-                player.grabbingObject = false;
-                grabbedObject.transform.position += new Vector3(-tra * 0.6f, 0f, 0f);
-                grabbedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX |
-                                                                        RigidbodyConstraints2D.FreezeRotation;
-                grabbedObject = null;
-            }
-        }
     }
 
 
@@ -73,6 +43,33 @@ public class GrabObject : MonoBehaviour
             grabbedObject.GetComponent<Rigidbody2D>().constraints =
                 RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             grabbedObject = null;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        CheckSlope();
+    }
+
+    private void CheckSlope()
+    {
+        if (grabbedObject != null)
+        {
+            var pos = grabbedObject.transform.position;
+            var tra = transform.localScale.x;
+            var si = grabbedObject.GetComponent<BoxCollider2D>().size.x;
+            var checkPosition = new Vector2(pos.x, pos.y + tra * si / 2);
+            var slopeHitFront = Physics2D.Raycast(checkPosition, transform.localScale, 1f, platformLayer);
+            if (slopeHitFront)
+            {
+                grabbedObject.transform.SetParent(null);
+                grabbedObject.GetComponent<Rigidbody2D>().isKinematic = false;
+                player.grabbingObject = false;
+                grabbedObject.transform.position += new Vector3(-tra * 0.6f, 0f, 0f);
+                grabbedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX |
+                                                                        RigidbodyConstraints2D.FreezeRotation;
+                grabbedObject = null;
+            }
         }
     }
 }
