@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime;
     public AudioSource salto;
     public AudioSource hookSound;
+    public AudioSource shipSound;
     
     [HideInInspector]
     public List<KeyItem> keysList;
@@ -88,8 +89,9 @@ public class PlayerController : MonoBehaviour
     // Doors
     private DoorController availableDoor = null;
     private bool canOpenDoor = false;
-    
-    
+    public bool onMovingPlatform = false;
+    public float platformSpeed;
+
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -400,12 +402,20 @@ public class PlayerController : MonoBehaviour
         }
         else if (_isGrounded && !_isOnSlope && !_isJumping)
         {
-            _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
+            if (onMovingPlatform) {
+                _newVelocity.Set(movementSpeed * _input * _sprintModifier + platformSpeed, _rigidbody2D.velocity.y);
+            } else {
+                _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
+            }
             _rigidbody2D.velocity = _newVelocity;
         }
         else if (_isGrounded && _isOnSlope && !_isJumping)
         {
-            _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f, movementSpeed * _slopeNormalPerp.y * -_input * 1.5f);
+            if (onMovingPlatform) {
+                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f + platformSpeed, movementSpeed * _slopeNormalPerp.y * -_input);
+            } else {
+                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f, movementSpeed * _slopeNormalPerp.y * -_input);
+            }
             _rigidbody2D.velocity = _newVelocity;
         }
         else if (!_isGrounded && !_isWallJumping || (!_isGrounded && _isWallJumping && _input != 0))
@@ -413,7 +423,6 @@ public class PlayerController : MonoBehaviour
             _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
             _rigidbody2D.velocity = _newVelocity;
         }
-        
     }
 
     public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject) {
@@ -445,6 +454,10 @@ public class PlayerController : MonoBehaviour
 
     public void HookSound() {
         hookSound.Play();
+    }
+
+    public void ShipSound() {
+        shipSound.Play();
     }
     
 }
