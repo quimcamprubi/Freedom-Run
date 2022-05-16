@@ -7,6 +7,7 @@ TagManager:
   - Hook
   - FallingFloor
   - MovingPlatform
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Background Detail
   - Background
   - Confiner
-  - 
+  - Background Light
   - 
   - 
   - 
