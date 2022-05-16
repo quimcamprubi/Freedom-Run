@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingCamera : MonoBehaviour
@@ -10,32 +8,21 @@ public class MovingCamera : MonoBehaviour
     public int suma;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         transform.position = Pose[0].position;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (transform.position == Pose[ID].position)
-        {
-            ID += suma;
-        }
+        if (transform.position == Pose[ID].position) ID += suma;
 
-        if (ID == Pose.Length - 1)
-        {
-            suma = 0;
-        }
+        if (ID == Pose.Length - 1) suma = 0;
 
-        if (ID == 0)
-        {
-            suma = 1;
-        }
+        if (ID == 0) suma = 1;
 
-        if (suma != 0){
+        if (suma != 0)
             transform.position = Vector3.MoveTowards(transform.position, Pose[ID].position, speed * Time.deltaTime);
-
-        }
     }
 }
