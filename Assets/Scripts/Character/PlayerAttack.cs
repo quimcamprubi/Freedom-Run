@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
     private void Update()
     {
         GetComponent<Animator>();
-        if (!player.GetComponent<PlayerController>().IsArmed()) return;
+        if (!player.GetComponent<throwAttack>().IsArmed()) return;
         if (timeBtwAttack <= 0.0f)
         {
             if (Input.GetKey(KeyCode.Return) && attackPos != null)

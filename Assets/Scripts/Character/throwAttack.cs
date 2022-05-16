@@ -8,12 +8,14 @@ public class throwAttack : MonoBehaviour
     public bool canThrow = true;
     public float wallDistanceCheck;
     public LayerMask platformLayer;
+    private Animator Animator;
     private Vector2 direction;
     private GameObject porron;
 
     // Start is called before the first frame update
     private void Start()
     {
+        Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -25,6 +27,13 @@ public class throwAttack : MonoBehaviour
                 bool wallOverlap = Physics2D.OverlapCircle(attackPos.position, wallDistanceCheck, platformLayer);
                 if (!wallOverlap) Throw();
             }
+
+        Animator.SetBool("isArmed", canThrow);
+    }
+
+    public bool IsArmed()
+    {
+        return canThrow;
     }
 
     private void Throw()

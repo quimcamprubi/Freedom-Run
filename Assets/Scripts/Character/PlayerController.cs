@@ -27,23 +27,22 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime;
     public AudioSource salto;
     public AudioSource hookSound;
-    public AudioSource shipSound;
-    
-    [HideInInspector]
-    public List<KeyItem> keysList;
 
     [HideInInspector] public List<KeyItem> keysList;
+    public AudioSource shipSound;
+
     public List<RegularItem> itemsList;
     public bool _isGrounded;
     public bool _canJump;
     public bool _isWallSliding;
     public bool _isGrappling;
-    public bool isArmed;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
     public GameObject Canvas;
     public GameObject GrapplingGunGameObject;
     public HealthMeter HealthScript;
+    public bool onMovingPlatform;
+    public float platformSpeed;
 
     private CapsuleCollider2D _capsuleCollider;
     private Vector2 _colliderSize;
@@ -78,21 +77,19 @@ public class PlayerController : MonoBehaviour
 
     // Collectible items
     private CollectibleItem availableCollectibleItem;
-    private bool canAddCollectible;
 
     // Doors
-    private DoorController availableDoor = null;
-    private bool canOpenDoor = false;
-    public bool onMovingPlatform = false;
-    public float platformSpeed;
+    private DoorController availableDoor;
+    private bool canAddCollectible;
+    private bool canOpenDoor;
 
-    //Porron
+    // Porron
     private bool canPorron = true;
     private GameObject objectToDestroy;
-    
     private bool Paused;
-    
-    void Start() {
+
+    private void Start()
+    {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
         _colliderSize = _capsuleCollider.size;
@@ -124,10 +121,6 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "MainCamera") HealthScript.Hurt(2);
     }
 
-    public bool IsArmed()
-    {
-        return isArmed;
-    }
 
     private void CheckInput()
     {
@@ -175,7 +168,6 @@ public class PlayerController : MonoBehaviour
             JumpSound();
         }
 
-        Animator.SetBool("isArmed", isArmed);
         Animator.SetBool("running", _input != 0.0f);
 
 
@@ -275,9 +267,6 @@ public class PlayerController : MonoBehaviour
         {
             case KeyItem key:
                 keysList.Add(key);
-                break;
-            case WeaponItem weapon:
-                isArmed = true;
                 break;
             case RegularItem item:
                 itemsList.Add(item);
@@ -459,20 +448,20 @@ public class PlayerController : MonoBehaviour
         }
         else if (_isGrounded && !_isOnSlope && !_isJumping)
         {
-            if (onMovingPlatform) {
+            if (onMovingPlatform)
                 _newVelocity.Set(movementSpeed * _input * _sprintModifier + platformSpeed, _rigidbody2D.velocity.y);
-            } else {
+            else
                 _newVelocity.Set(movementSpeed * _input * _sprintModifier, _rigidbody2D.velocity.y);
-            }
             _rigidbody2D.velocity = _newVelocity;
         }
         else if (_isGrounded && _isOnSlope && !_isJumping)
         {
-            if (onMovingPlatform) {
-                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f + platformSpeed, movementSpeed * _slopeNormalPerp.y * -_input * 1.5f);
-            } else {
-                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f, movementSpeed * _slopeNormalPerp.y * -_input * 1.5f);
-            }
+            if (onMovingPlatform)
+                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f + platformSpeed,
+                    movementSpeed * _slopeNormalPerp.y * -_input * 1.5f);
+            else
+                _newVelocity.Set(movementSpeed * _slopeNormalPerp.x * -_input * 1.5f,
+                    movementSpeed * _slopeNormalPerp.y * -_input * 1.5f);
             _rigidbody2D.velocity = _newVelocity;
         }
         else if (!_isGrounded && !_isWallJumping || !_isGrounded && _isWallJumping && _input != 0)
@@ -528,8 +517,8 @@ public class PlayerController : MonoBehaviour
         hookSound.Play();
     }
 
-    public void ShipSound() {
+    public void ShipSound()
+    {
         shipSound.Play();
     }
-    
 }
