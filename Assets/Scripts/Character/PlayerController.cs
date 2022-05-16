@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime;
     public AudioSource salto;
     public AudioSource hookSound;
+    public AudioSource puerta_cerrada;
 
     [HideInInspector] public List<KeyItem> keysList;
     public AudioSource shipSound;
@@ -143,12 +144,11 @@ public class PlayerController : MonoBehaviour
                     // If door is locked, check if player has the necessary key
                     if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId))
                         availableDoor.OpenDoor();
-                    else
+                    else{
                         Debug.Log("Locked"); // TODO: In the future, change this for UI message. 
-                }
-                else
-                {
-                    // If door is unlocked, open it
+                        puerta_cerrada.Play();
+                    }
+                } else { // If door is unlocked, open it
                     availableDoor.OpenDoor();
                 }
             }
