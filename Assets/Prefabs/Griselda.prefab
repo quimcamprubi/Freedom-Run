@@ -617,17 +617,19 @@ MonoBehaviour:
   salto: {fileID: -7866144068433370089}
   hookSound: {fileID: 5241953648175944104}
   keysList: []
+  shipSound: {fileID: 0}
   itemsList: []
   _isGrounded: 0
   _canJump: 0
   _isWallSliding: 0
   _isGrappling: 0
-  isArmed: 0
   m_lineRenderer: {fileID: 4234397658852610216}
   _coyoteTimeCounter: 0
   Canvas: {fileID: 0}
   GrapplingGunGameObject: {fileID: 0}
   HealthScript: {fileID: 0}
+  onMovingPlatform: 0
+  platformSpeed: 0
 --- !u!70 &6257391893482043938
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1015,7 +1017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPos: {fileID: 7846892606644450228}
-  projectilePrefab: {fileID: 328568825735835114, guid: a4e32f2f7e3185d4db72d8d109b72ff8, type: 3}
+  projectilePrefab: {fileID: 328568825735835114, guid: 4b7706bca6c7e9240ad63ea89a35b40d, type: 3}
   power: 600
   canThrow: 1
   wallDistanceCheck: 0.9

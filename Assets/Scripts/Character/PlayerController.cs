@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour
     public bool _canJump;
     public bool _isWallSliding;
     public bool _isGrappling;
-    public bool isArmed;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
     public GameObject Canvas;
@@ -86,7 +85,6 @@ public class PlayerController : MonoBehaviour
     public float platformSpeed;
 
     // Porron
-    private GameObject availablePorron = null;
     private bool canPorron = true;
     private bool Paused;
 
@@ -122,11 +120,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.tag == "MainCamera") HealthScript.Hurt(2);
     }
-
-    public bool IsArmed()
-    {
-        return isArmed;
-    }
+    
 
     private void CheckInput()
     {
@@ -174,7 +168,6 @@ public class PlayerController : MonoBehaviour
             JumpSound();
         }
 
-        Animator.SetBool("isArmed", isArmed);
         Animator.SetBool("running", _input != 0.0f);
 
 
@@ -274,9 +267,6 @@ public class PlayerController : MonoBehaviour
         {
             case KeyItem key:
                 keysList.Add(key);
-                break;
-            case WeaponItem weapon:
-                isArmed = true;
                 break;
             case RegularItem item:
                 itemsList.Add(item);
