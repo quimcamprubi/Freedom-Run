@@ -34,6 +34,7 @@ public class AIPatrol : MonoBehaviour
     public bool _isOnSlope;
     public bool _isJumping;
     public bool mustFlip;
+    public GameObject blood;
 
     public Transform groundDetectorFront;
     public Transform groundDetector;
@@ -332,6 +333,7 @@ public class AIPatrol : MonoBehaviour
         health -= damage;
         rb.velocity = Vector3.zero;
         Jump(new Vector2(jumpForceY / 2 * targetPlayer.transform.localScale.x, jumpForceY));
+        Instantiate(blood, transform.position, Quaternion.identity);
         _idleFlipTimer = 0.0f;
         StartChasing();
     }

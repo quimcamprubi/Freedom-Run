@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8983993086120944586}
   - component: {fileID: -2682429857461153069}
   - component: {fileID: 2474783140922500323}
-  - component: {fileID: 8466456266418326618}
   m_Layer: 0
   m_Name: GwendolineBox
   m_TagString: Untagged
@@ -71,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -846331493
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 4554768814897807766, guid: fc125cd2b902af1428138adb4c7f6ec4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -132,15 +131,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8466456266418326618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3704747490879853807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ed659b830b430458392516ebaeea31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
