@@ -465,6 +465,7 @@ GameObject:
   - component: {fileID: -788567209502174757}
   - component: {fileID: -8799792833920780621}
   - component: {fileID: 1680503881751363401}
+  - component: {fileID: 218347297490549960}
   m_Layer: 8
   m_Name: Griselda
   m_TagString: Untagged
@@ -532,8 +533,7 @@ SpriteRenderer:
   m_SortingLayerID: 799853503
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5071563641634004584, guid: f08bea4dcff2ece48bc4b9a259bd8d23,
-    type: 3}
+  m_Sprite: {fileID: -5071563641634004584, guid: f08bea4dcff2ece48bc4b9a259bd8d23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -620,10 +620,8 @@ MonoBehaviour:
   salto: {fileID: -7866144068433370089}
   hookSound: {fileID: 5241953648175944104}
   puerta_cerrada: {fileID: -788567209502174757}
-  abrir_puerta: {fileID: -8799792833920780621}
-  abrir_puerta_clip: {fileID: 8300000, guid: f22fe457cbe1c444f8a59d114b0447a3, type: 3}
   keysList: []
-  shipSound: {fileID: 0}
+  shipSound: {fileID: 218347297490549960}
   itemsList: []
   _isGrounded: 0
   _canJump: 0
@@ -1215,14 +1213,109 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPos: {fileID: 7846892606644450228}
-  projectilePrefab: {fileID: 328568825735835114, guid: 4b7706bca6c7e9240ad63ea89a35b40d,
-    type: 3}
+  projectilePrefab: {fileID: 328568825735835114, guid: 4b7706bca6c7e9240ad63ea89a35b40d, type: 3}
   power: 600
   canThrow: 1
   wallDistanceCheck: 0.9
   platformLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!82 &218347297490549960
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395019274955847830}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 3a8c375d307f05446a6fd7d95e1aa842, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6113213588233127243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,8 +1480,7 @@ SpriteRenderer:
   m_SortingLayerID: -1507719077
   m_SortingLayer: 6
   m_SortingOrder: 10
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7,
-    type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 0}
   m_FlipX: 0
   m_FlipY: 0
