@@ -5,7 +5,7 @@ public class MenuManager : MonoBehaviour
 {
     public void ButtonStart()
     {
-        SceneManager.LoadScene("Nivell_1");
+        SceneManager.LoadScene("Start_Scene");
     }
 
     public void ButtonQuit()
