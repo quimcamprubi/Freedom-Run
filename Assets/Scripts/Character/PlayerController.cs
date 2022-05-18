@@ -144,8 +144,8 @@ public class PlayerController : MonoBehaviour
                     // If door is locked, check if player has the necessary key
                     if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId))
                         availableDoor.OpenDoor();
-                    else{
-                        Debug.Log("Locked"); // TODO: In the future, change this for UI message. 
+                    else {
+                        availableDoor.LockedEvent();
                         puerta_cerrada.Play();
                     }
                 } else { // If door is unlocked, open it
