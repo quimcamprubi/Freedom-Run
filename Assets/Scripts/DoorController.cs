@@ -50,6 +50,7 @@ public class DoorController : MonoBehaviour
     }
 
     public void LoadDestination() {
+        PlayerPrefs.SetString("LevelProgress", sceneDestination);
         SceneManager.LoadScene(sceneDestination);
     }
 }

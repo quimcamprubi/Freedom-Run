@@ -5,7 +5,13 @@ public class MenuManager : MonoBehaviour
 {
     public void ButtonStart()
     {
-        SceneManager.LoadScene("Nivell_1");
+        string levelToLoad = PlayerPrefs.GetString("LevelProgress");
+        if (levelToLoad == "") {
+            SceneManager.LoadScene("Nivell_1");
+        }
+        else {
+            SceneManager.LoadScene(levelToLoad);
+        }
     }
 
     public void ButtonQuit()
