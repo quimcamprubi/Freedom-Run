@@ -7,7 +7,7 @@ public class MenuManager : MonoBehaviour
     {
         string levelToLoad = PlayerPrefs.GetString("LevelProgress");
         if (levelToLoad == "") {
-            SceneManager.LoadScene("Nivell_1");
+            SceneManager.LoadScene("Start_Scene");
         }
         else {
             SceneManager.LoadScene(levelToLoad);
