@@ -249,6 +249,7 @@ MonoBehaviour:
   _isOnSlope: 0
   _isJumping: 0
   mustFlip: 0
+  blood: {fileID: 8688810921216676998, guid: 1843f93d6ef51bb4ea0dea05533c6c9e, type: 3}
   groundDetectorFront: {fileID: 6171727133044670331}
   groundDetector: {fileID: 8395388051367277491}
   followRange: {fileID: 8259243015880783038}
