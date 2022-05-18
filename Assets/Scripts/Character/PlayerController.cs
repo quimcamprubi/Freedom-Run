@@ -268,6 +268,9 @@ public class PlayerController : MonoBehaviour
             case KeyItem key:
                 keysList.Add(key);
                 break;
+            case WeaponItem weapon:
+                canPorron = true;
+                break;
             case RegularItem item:
                 itemsList.Add(item);
                 break;
