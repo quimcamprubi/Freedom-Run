@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 629ea6150f5aed04789463362b679e45
+guid: 82eb37e5ea2907e4fb95bccc2c368c24
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6242528533265953460
-    second: lampara_0
+      213: 2045764449016789510
+    second: puertaa_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -49,7 +49,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 11
+  spritePixelsToUnits: 6.5
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,22 +106,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lampara_0
+      name: puertaa_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 13
-        width: 15
-        height: 21
+        x: 16
+        y: 34
+        width: 4
+        height: 26
       alignment: 9
-      pivot: {x: 0.49456888, y: 0.27}
+      pivot: {x: 0.98, y: 0.12}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b2be8d60aae1a650800000000000000
-      internalID: 6242528533265953460
+      spriteID: 60ab4cd6de3046c10800000000000000
+      internalID: 2045764449016789510
       vertices: []
       indices: 
       edges: []
