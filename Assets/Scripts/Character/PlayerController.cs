@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     public float _coyoteTimeCounter;
     public GameObject Canvas;
     public GameObject GrapplingGunGameObject;
+    public GameObject GrapplingGunScriptObject;
+
     public HealthMeter HealthScript;
     public bool onMovingPlatform;
     public float platformSpeed;
@@ -287,6 +289,9 @@ public class PlayerController : MonoBehaviour
                 break;
             case RegularItem item:
                 itemsList.Add(item);
+                break;
+            case GrapplingGunItem gun:
+                GrapplingGunScriptObject.GetComponent<GrapplingGun>().canGrapp = true;
                 break;
         }
     }
