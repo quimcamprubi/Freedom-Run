@@ -16,6 +16,8 @@ public class GrapplingGun : MonoBehaviour
     public Transform gunPivot;
     public Transform firePoint;
 
+    public float grappleThreshold = 0.6f;
+
     [Header("Physics Ref:")] public SpringJoint2D m_springJoint2D;
     public Rigidbody2D m_rigidbody;
 
@@ -36,28 +38,49 @@ public class GrapplingGun : MonoBehaviour
 
     private bool isHooked;
 
+    private Vector2 lastChange;
+
+    private GameManager gameManager;
+
     private void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         grappleRope.enabled = false;
         m_springJoint2D.enabled = false;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        Vector2 distanceVector;
+        bool grappleChange;
+        if (gameManager.UsingGamepad)
         {
-            SetGrapplePoint();
+            distanceVector = new Vector2(Input.GetAxisRaw("HorizontalSecondary"), -Input.GetAxisRaw("VerticalSecondary"));
+            grappleChange = (lastChange - distanceVector).magnitude > grappleThreshold;
         }
-        else if (Input.GetKey(KeyCode.Mouse0))
+        else
         {
-            if (Input.GetButtonDown("Jump") && isHooked)
+            distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
+            grappleChange = Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyUp(KeyCode.Mouse0);
+        }
+
+        if (grappleChange) {
+            if (!isHooked)
             {
-                playerController._isGrappling = false;
+                SetGrapplePoint(distanceVector);
+                return;
+            }
+
+            ReleaseGrapple();
+        }
+        else if (isHooked)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
                 playerController._isWallSliding = false;
                 playerController._canJump = true;
-                isHooked = false;
                 playerController._coyoteTimeCounter = 2.0f;
-                onMouse0Release();
+                ReleaseGrapple();
                 if (playerController._isGrounded) playerController.Jump();
             }
 
@@ -70,11 +93,6 @@ public class GrapplingGun : MonoBehaviour
                 Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
                 RotateGun(mousePos, true);
             }
-        }
-        else if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            isHooked = false;
-            onMouse0Release();
         }
         else
         {
@@ -92,8 +110,10 @@ public class GrapplingGun : MonoBehaviour
         }
     }
 
-    private void onMouse0Release()
+    private void ReleaseGrapple()
     {
+        lastChange = Vector2.zero;
+        isHooked = false;
         grappleRope.enabled = false;
         m_springJoint2D.enabled = false;
         playerController._isGrappling = false;
@@ -112,10 +132,11 @@ public class GrapplingGun : MonoBehaviour
             gunPivot.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    private void SetGrapplePoint()
+    private void SetGrapplePoint(Vector2 distanceVector)
     {
+        if (distanceVector.magnitude < grappleThreshold) return;
+        lastChange = distanceVector;
         playerController.HookSound();
-        Vector2 distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
         if (Physics2D.Raycast(firePoint.position, distanceVector.normalized))
         {
             var _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized);
