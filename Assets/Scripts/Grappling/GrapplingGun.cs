@@ -8,6 +8,7 @@ public class GrapplingGun : MonoBehaviour
     [Header("Layers Settings:")] [SerializeField]
     private bool grappleToAll;
 
+    public bool canGrapp;
     [SerializeField] private int grappableLayerNumber = 9;
 
     [Header("Main Camera:")] public Camera m_camera;
@@ -44,42 +45,44 @@ public class GrapplingGun : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            SetGrapplePoint();
-        }
-        else if (Input.GetKey(KeyCode.Mouse0))
-        {
-            if (Input.GetButtonDown("Jump") && isHooked)
+        if(canGrapp){
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                playerController._isGrappling = false;
-                playerController._isWallSliding = false;
-                playerController._canJump = true;
-                isHooked = false;
-                playerController._coyoteTimeCounter = 2.0f;
-                onMouse0Release();
-                if (playerController._isGrounded) playerController.Jump();
+                SetGrapplePoint();
             }
-
-            if (grappleRope.enabled)
+            else if (Input.GetKey(KeyCode.Mouse0))
             {
-                RotateGun(grapplePoint, false);
+                if (Input.GetButtonDown("Jump") && isHooked)
+                {
+                    playerController._isGrappling = false;
+                    playerController._isWallSliding = false;
+                    playerController._canJump = true;
+                    isHooked = false;
+                    playerController._coyoteTimeCounter = 2.0f;
+                    onMouse0Release();
+                    if (playerController._isGrounded) playerController.Jump();
+                }
+
+                if (grappleRope.enabled)
+                {
+                    RotateGun(grapplePoint, false);
+                }
+                else
+                {
+                    Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
+                    RotateGun(mousePos, true);
+                }
+            }
+            else if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                isHooked = false;
+                onMouse0Release();
             }
             else
             {
                 Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
                 RotateGun(mousePos, true);
             }
-        }
-        else if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            isHooked = false;
-            onMouse0Release();
-        }
-        else
-        {
-            Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
-            RotateGun(mousePos, true);
         }
     }
 

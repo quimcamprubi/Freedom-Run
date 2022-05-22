@@ -17,6 +17,7 @@ public class GrapplingRope : MonoBehaviour
     [SerializeField] [Range(1, 50)] private float ropeProgressionSpeed = 1;
 
     public bool isGrappling;
+    public bool canGrapp;
 
     private float moveTime;
 

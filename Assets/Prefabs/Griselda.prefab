@@ -441,6 +441,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   ropeProgressionSpeed: 5.4
   isGrappling: 0
+  canGrapp: 0
 --- !u!1 &3395019274955847830
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,6 +632,7 @@ MonoBehaviour:
   _coyoteTimeCounter: 0
   Canvas: {fileID: 0}
   GrapplingGunGameObject: {fileID: 0}
+  GrapplingGunScriptObject: {fileID: 8983954840869356664}
   HealthScript: {fileID: 0}
   onMovingPlatform: 0
   platformSpeed: 0
@@ -1506,6 +1508,7 @@ MonoBehaviour:
   grappleRope: {fileID: 2834672037044542971}
   playerController: {fileID: 4652662492999582039}
   grappleToAll: 0
+  canGrapp: 1
   grappableLayerNumber: 6
   m_camera: {fileID: 0}
   gunHolder: {fileID: 3395019274955847826}
