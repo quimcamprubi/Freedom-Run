@@ -57,7 +57,6 @@ public class PlayerController : MonoBehaviour
     private bool _isOnSlope;
 
     // Private attributes
-    private bool _isSprinting;
     private bool _isTouchingFront;
     private bool _isWallJumping;
     private float _jumpTimeCounter;
@@ -182,8 +181,7 @@ public class PlayerController : MonoBehaviour
             else if (_isGrounded && !_isJumping) _canJump = true;
         }
 
-        _isSprinting = Input.GetKey(KeyCode.LeftShift);
-
+        _sprintModifier = 1.0f + (Input.GetButton("Sprint") ? 0.5f : 0.5f * Input.GetAxis("Sprint"));
         if (Input.GetButton("Crouch"))
         {
             Animator.SetBool("ajupirse_correr", _input != 0.0f);
@@ -340,7 +338,7 @@ public class PlayerController : MonoBehaviour
         {
             _canJump = false;
             _isJumping = true;
-            _sprintJump = _isSprinting;
+            _sprintJump = _sprintModifier > 1.0f;
             _jumpTimeCounter = jumpTime;
             _coyoteTimeCounter = 0f;
         }
@@ -365,8 +363,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_isGrounded)
         {
-            _sprintModifier = _isSprinting ? 1.5f : 1.0f;
-            _sprintFall = _isSprinting;
+            _sprintFall = _sprintModifier > 1.0f;
         }
         else
         {
