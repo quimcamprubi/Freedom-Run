@@ -4,6 +4,12 @@ public class GameManager : MonoBehaviour
 {
     public GameObject playerObject;
 
+    public bool UsingGamepad { get; private set; }
+
+    void Update() {
+        UsingGamepad = Input.GetJoystickNames().Length > 0;
+    }
+
     public void CreatePrompt(Vector2 position, Transform parent, KeyCode keyCode, string text)
     {
         var prefab = Resources.Load("Prefabs/KeyPrompt");

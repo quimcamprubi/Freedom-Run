@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInput()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetButtonDown("Interact"))
         {
             if (canAddCollectible)
             {
@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
         _isSprinting = Input.GetKey(KeyCode.LeftShift);
 
-        if (Input.GetKey("down") || Input.GetKey(KeyCode.S))
+        if (Input.GetButton("Crouch"))
         {
             Animator.SetBool("ajupirse_correr", _input != 0.0f);
             ajupirse = true;
@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour
         else
             Animator.SetBool("isJumping", true);
 
-        _isHooking = Input.GetKey(KeyCode.W);
+        _isHooking = Input.GetButton("Interact");
 
         if (_isHooking && _isHookAvailable)
         {

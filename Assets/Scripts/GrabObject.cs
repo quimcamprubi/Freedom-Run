@@ -19,7 +19,7 @@ public class GrabObject : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (!Input.GetKeyDown(KeyCode.G)) return;
+        if (!Input.GetButtonDown("Interact")) return;
         if (grabbedObject == null)
         {
             var hitInfo = Physics2D.Raycast(frontCheck.position, transform.localScale, rayDistance);
