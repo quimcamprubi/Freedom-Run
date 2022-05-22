@@ -338,6 +338,7 @@ public class AIPatrol : MonoBehaviour
         rb.velocity = Vector3.zero;
         Jump(new Vector2(jumpForceY / 2 * targetPlayer.transform.localScale.x, jumpForceY));
         Instantiate(blood, transform.position, Quaternion.identity);
+        _audioSource.volume = 4;
         _audioSource.PlayOneShot(enemyHurt);
         _idleFlipTimer = 0.0f;
         StartChasing();

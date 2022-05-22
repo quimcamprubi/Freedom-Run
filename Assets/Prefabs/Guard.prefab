@@ -229,7 +229,7 @@ MonoBehaviour:
     m_Bits: 256
   direction: {x: 1, y: 0}
   defaultPosition: {x: 0, y: 0, z: 0}
-  enemyHurt: {fileID: 8300000, guid: 72002396048d1bca78ca30455137bfea, type: 3}
+  enemyHurt: {fileID: 8300000, guid: 15bbc962e60ba5640b8914414d1b7f18, type: 3}
   guardSpeed: 8.5
   currentSpeed: 0
   groundCheckDistance: 2
