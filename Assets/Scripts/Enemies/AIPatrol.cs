@@ -131,8 +131,8 @@ public class AIPatrol : MonoBehaviour
         }
     }
 
-    private void Die()
-    {
+    public void Die() {
+        Instantiate(blood, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
