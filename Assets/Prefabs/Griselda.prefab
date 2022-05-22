@@ -1217,7 +1217,7 @@ MonoBehaviour:
   attackPos: {fileID: 7846892606644450228}
   projectilePrefab: {fileID: 328568825735835114, guid: 4b7706bca6c7e9240ad63ea89a35b40d, type: 3}
   power: 600
-  canThrow: 1
+  canThrow: 0
   wallDistanceCheck: 0.9
   platformLayer:
     serializedVersion: 2

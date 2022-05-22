@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class DoorController : MonoBehaviour
@@ -50,6 +52,11 @@ public class DoorController : MonoBehaviour
     }
 
     public void LoadDestination() {
+        PlayerPrefs.SetString("LevelProgress", sceneDestination);
         SceneManager.LoadScene(sceneDestination);
+    }
+
+    public void LockedEvent() {
+        gameObject.GetComponent<OnTextCalled>().enabled = true;
     }
 }

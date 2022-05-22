@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
     private bool _isOnSlope;
 
     // Private attributes
-    private bool _isSprinting;
     private bool _isTouchingFront;
     private bool _isWallJumping;
     private float _jumpTimeCounter;
@@ -127,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInput()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetButtonDown("Interact"))
         {
             if (canAddCollectible)
             {
@@ -146,8 +145,8 @@ public class PlayerController : MonoBehaviour
                     // If door is locked, check if player has the necessary key
                     if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId))
                         availableDoor.OpenDoor();
-                    else{
-                        Debug.Log("Locked"); // TODO: In the future, change this for UI message. 
+                    else {
+                        availableDoor.LockedEvent();
                         puerta_cerrada.Play();
                     }
                 } else { // If door is unlocked, open it
@@ -184,9 +183,8 @@ public class PlayerController : MonoBehaviour
             else if (_isGrounded && !_isJumping) _canJump = true;
         }
 
-        _isSprinting = Input.GetKey(KeyCode.LeftShift);
-
-        if (Input.GetKey("down") || Input.GetKey(KeyCode.S))
+        _sprintModifier = 1.0f + (Input.GetButton("Sprint") ? 0.5f : 0.5f * Input.GetAxis("Sprint"));
+        if (Input.GetButton("Crouch"))
         {
             Animator.SetBool("ajupirse_correr", _input != 0.0f);
             ajupirse = true;
@@ -208,7 +206,7 @@ public class PlayerController : MonoBehaviour
         else
             Animator.SetBool("isJumping", true);
 
-        _isHooking = Input.GetKey(KeyCode.W);
+        _isHooking = Input.GetButton("Interact");
 
         if (_isHooking && _isHookAvailable)
         {
@@ -269,6 +267,9 @@ public class PlayerController : MonoBehaviour
         {
             case KeyItem key:
                 keysList.Add(key);
+                break;
+            case WeaponItem weapon:
+                canPorron = true;
                 break;
             case RegularItem item:
                 itemsList.Add(item);
@@ -345,7 +346,7 @@ public class PlayerController : MonoBehaviour
         {
             _canJump = false;
             _isJumping = true;
-            _sprintJump = _isSprinting;
+            _sprintJump = _sprintModifier > 1.0f;
             _jumpTimeCounter = jumpTime;
             _coyoteTimeCounter = 0f;
         }
@@ -370,8 +371,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_isGrounded)
         {
-            _sprintModifier = _isSprinting ? 1.5f : 1.0f;
-            _sprintFall = _isSprinting;
+            _sprintFall = _sprintModifier > 1.0f;
         }
         else
         {
