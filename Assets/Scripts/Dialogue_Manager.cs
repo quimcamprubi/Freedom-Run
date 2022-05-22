@@ -36,8 +36,26 @@ public class Dialogue_Manager : MonoBehaviour
             {
                 var gwendolineObject = GameObject.Find("Gwendoline Boss");
                 var griseldaObject = GameObject.Find("Griselda");
-                gwendolineObject.GetComponent<Gwendoline>().enabled = false;
-                griseldaObject.GetComponent<PlayerController>().enabled = false;
+                var guards = GameObject.FindGameObjectsWithTag("Enemy");
+                var stairway = GameObject.Find("StairwayToPorron");
+                if (gwendolineObject != null ) {
+                    gwendolineObject.GetComponent<Gwendoline>().enabled = false;
+                }
+                if (griseldaObject != null) {
+                    griseldaObject.GetComponent<PlayerController>().enabled = false;
+                    var attackMode = griseldaObject.GetComponent<PlayerAttack>();
+                    if (attackMode != null) {
+                        attackMode.enabled = false;
+                    }
+                }
+                if (guards.Length != 0) {
+                    foreach (var t in guards) {
+                        t.GetComponent<AIPatrol>().enabled = false;
+                    }
+                }
+                if (stairway != null) {
+                    stairway.gameObject.GetComponentInChildren<StairwayToPorron>().enabled = false;
+                }
             }
 
             StartDialogue();
@@ -51,10 +69,28 @@ public class Dialogue_Manager : MonoBehaviour
             dialoguePanel.SetActive(false);
             if (pauseAndUnpause)
             {
-                var griseldaObject = GameObject.Find("Griselda");
                 var gwendolineObject = GameObject.Find("Gwendoline Boss");
-                griseldaObject.GetComponent<PlayerController>().enabled = true;
-                gwendolineObject.GetComponent<Gwendoline>().enabled = true;
+                var griseldaObject = GameObject.Find("Griselda");
+                var guards = GameObject.FindGameObjectsWithTag("Enemy");
+                var stairway = GameObject.Find("StairwayToPorron");
+                if (gwendolineObject != null ) {
+                    gwendolineObject.GetComponent<Gwendoline>().enabled = true;
+                }
+                if (griseldaObject != null) {
+                    griseldaObject.GetComponent<PlayerController>().enabled = true;
+                    var attackMode = griseldaObject.GetComponent<PlayerAttack>();
+                    if (attackMode != null) {
+                        attackMode.enabled = true;
+                    }
+                }
+                if (guards.Length != 0) {
+                    foreach (var t in guards) {
+                        t.GetComponent<AIPatrol>().enabled = true;
+                    }
+                }
+                if (stairway != null) {
+                    stairway.gameObject.GetComponentInChildren<StairwayToPorron>().enabled = true;
+                }
             }
 
             StopAllCoroutines();
@@ -79,8 +115,26 @@ public class Dialogue_Manager : MonoBehaviour
             {
                 var gwendolineObject = GameObject.Find("Gwendoline Boss");
                 var griseldaObject = GameObject.Find("Griselda");
-                gwendolineObject.GetComponent<Gwendoline>().enabled = true;
-                griseldaObject.GetComponent<PlayerController>().enabled = true;
+                var guards = GameObject.FindGameObjectsWithTag("Enemy");
+                var stairway = GameObject.Find("StairwayToPorron");
+                if (gwendolineObject != null ) {
+                    gwendolineObject.GetComponent<Gwendoline>().enabled = true;
+                }
+                if (griseldaObject != null) {
+                    griseldaObject.GetComponent<PlayerController>().enabled = true;
+                    var attackMode = griseldaObject.GetComponent<PlayerAttack>();
+                    if (attackMode != null) {
+                        attackMode.enabled = true;
+                    }
+                }
+                if (guards.Length != 0) {
+                    foreach (var t in guards) {
+                        t.GetComponent<AIPatrol>().enabled = true;
+                    }
+                }
+                if (stairway != null) {
+                    stairway.gameObject.GetComponentInChildren<StairwayToPorron>().enabled = true;
+                }
             }
 
             StopAllCoroutines();
