@@ -620,6 +620,7 @@ MonoBehaviour:
   salto: {fileID: -7866144068433370089}
   hookSound: {fileID: 5241953648175944104}
   puerta_cerrada: {fileID: -788567209502174757}
+  speedFallDamage: -35
   keysList: []
   shipSound: {fileID: 218347297490549960}
   itemsList: []
@@ -1511,6 +1512,7 @@ MonoBehaviour:
   gunHolder: {fileID: 3395019274955847826}
   gunPivot: {fileID: 200778012912806693}
   firePoint: {fileID: 6238472631649079199}
+  grappleThreshold: 0.6
   m_springJoint2D: {fileID: 7240908992274604837}
   m_rigidbody: {fileID: 3395019274955847829}
   rotateOverTime: 1
