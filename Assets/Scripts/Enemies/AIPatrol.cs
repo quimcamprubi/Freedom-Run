@@ -10,6 +10,8 @@ public class AIPatrol : MonoBehaviour
 
     public Vector2 direction;
     public Vector3 defaultPosition;
+    
+    public AudioClip enemyHurt;
 
     public float guardSpeed = 2.0f;
     public float currentSpeed;
@@ -18,7 +20,7 @@ public class AIPatrol : MonoBehaviour
     public float flipDelay = 0.2f;
     public float startDazedTime = 0.6f;
     public float playerDetectionRange = 10f;
-
+    public float deathDelay = 0.5f;
     public int health = 3;
     public int distanceBoundary;
 
@@ -56,6 +58,7 @@ public class AIPatrol : MonoBehaviour
     private Vector2 enemyPosition;
     private HealthMeter healthMeter;
     private Vector2 playerPosition;
+    private AudioSource _audioSource;
 
     private void Start()
     {
@@ -66,6 +69,7 @@ public class AIPatrol : MonoBehaviour
         currentSpeed = 0;
         animator = GetComponent<Animator>();
         _idleFlipTimer = 0.0f;
+        _audioSource = GetComponent<AudioSource>();
         animator.SetBool("running", false);
         _canJump = true;
         _capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -127,7 +131,7 @@ public class AIPatrol : MonoBehaviour
         if (health <= 0 && _is_alive)
         {
             _is_alive = false;
-            Invoke(nameof(Die), 0.5f);
+            Invoke(nameof(Die), deathDelay);
         }
     }
 
@@ -334,6 +338,7 @@ public class AIPatrol : MonoBehaviour
         rb.velocity = Vector3.zero;
         Jump(new Vector2(jumpForceY / 2 * targetPlayer.transform.localScale.x, jumpForceY));
         Instantiate(blood, transform.position, Quaternion.identity);
+        _audioSource.PlayOneShot(enemyHurt);
         _idleFlipTimer = 0.0f;
         StartChasing();
     }

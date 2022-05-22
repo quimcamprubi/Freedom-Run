@@ -558,7 +558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startTimeBtwAttack: 0.4
   attackPos: {fileID: 5036305225050130567}
-  attackRange: 1.6
+  attackRange: 1.7
   animationDelayAttack: 0.16
   animationDuration: 0.32
   damage: 1
