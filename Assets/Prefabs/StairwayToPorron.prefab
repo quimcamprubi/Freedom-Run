@@ -1130,9 +1130,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 0, z: 0}
-  gravity: 1.62
-  _isDown: 0
+  gravity: 0.05
   boxingSound: {fileID: 8300000, guid: 9209c68b67f8fe64cbb7797fd092464f, type: 3}
+  bellDelay: 2.4
 --- !u!61 &6620959140854323074
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1146,7 +1146,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.5, y: -1}
+  m_Offset: {x: 1.5, y: 2.97}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1157,7 +1157,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 19, y: 8}
+  m_Size: {x: 3.07, y: 0.05}
   m_EdgeRadius: 0
 --- !u!82 &5255398251250150875
 AudioSource:

@@ -1643,30 +1643,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 6620959140854323074, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: m_Size.x
-      value: 3.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 6620959140854323074, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: m_Size.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 6620959140854323074, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6620959140854323074, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: m_Offset.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6620959140854323074, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: m_Offset.y
-      value: 2.97
-      objectReference: {fileID: 0}
-    - target: {fileID: 6620959140854323074, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6885674854359616502, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
       propertyPath: m_Name
       value: StairwayToPorron
@@ -1702,18 +1678,6 @@ PrefabInstance:
     - target: {fileID: 8563298831722147581, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
       propertyPath: m_CollisionDetection
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8787794822303138324, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001437464027434648, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: gravity
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001437464027434648, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
-      propertyPath: bellDelay
-      value: 2.4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8563298831722147581, guid: 603809a4d1c59ca4494eb66a9d03e39f, type: 3}
