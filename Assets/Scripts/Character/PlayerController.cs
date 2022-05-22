@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource salto;
     public AudioSource hookSound;
     public AudioSource puerta_cerrada;
-
+    public double speedFallDamage;
     [HideInInspector] public List<KeyItem> keysList;
     public AudioSource shipSound;
 
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
     private bool _sprintFall;
     private bool _sprintJump;
     private float _sprintModifier = 1.0f;
-
+    private double maxYvel=0;
     private Animator Animator;
 
     // Collectible items
@@ -105,7 +105,15 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
+    { 
+        if (!_isGrounded)
+        {
+            if (_rigidbody2D.velocity.y < maxYvel)
+            {
+                maxYvel = _rigidbody2D.velocity.y;
+            }
+        }
+        bool auxBool = !_isGrounded && !_isJumping;
         if (!_isGrappling)
         {
             CheckGround();
@@ -113,6 +121,14 @@ public class PlayerController : MonoBehaviour
             CheckFront();
             ApplyMovement();
             CheckHook();
+        }
+        if (_isGrounded && auxBool)
+        {
+            if (maxYvel <= speedFallDamage)
+            {
+                HealthScript.Hurt(3);
+            }
+            maxYvel = 0;
         }
     }
 
