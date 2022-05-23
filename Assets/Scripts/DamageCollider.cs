@@ -13,7 +13,7 @@ public class DamageCollider : MonoBehaviour
         healthMeter = healthMeterObj.GetComponent<HealthMeter>();
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject == healthMeter.playerObject)
         {
@@ -21,6 +21,8 @@ public class DamageCollider : MonoBehaviour
                 healthMeter.Hurt(2);
             else
                 healthMeter.Hurt();
+        } else if (other.gameObject.CompareTag("Enemy")) {
+            other.gameObject.GetComponent<AIPatrol>().Die();
         }
     }
 }

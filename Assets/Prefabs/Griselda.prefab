@@ -559,7 +559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startTimeBtwAttack: 0.4
   attackPos: {fileID: 5036305225050130567}
-  attackRange: 1.6
+  attackRange: 1.7
   animationDelayAttack: 0.16
   animationDuration: 0.32
   damage: 1
@@ -1373,7 +1373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7185677175312214196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.036, z: 0}
+  m_LocalPosition: {x: 1.05, y: 0.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3395019274955847826}
