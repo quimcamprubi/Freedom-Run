@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public bool _isGrounded;
     public bool _canJump;
     public bool _isWallSliding;
-    public bool _isGrappling;
+    public bool _isGrappling = false;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
     public GameObject Canvas;
@@ -275,6 +275,7 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = 1f;
             }
         }
+                Animator.SetBool("isGrappling", _isGrappling);
     }
 
     private void AddCollectible()
