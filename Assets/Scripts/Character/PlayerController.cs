@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource hookSound;
     public AudioSource puerta_cerrada;
     public double speedFallDamage;
-    [HideInInspector] public List<KeyItem> keysList;
+    [HideInInspector] public List<CollectibleItem> keysList;
     public AudioSource shipSound;
 
     public List<RegularItem> itemsList;
@@ -292,6 +292,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case GrapplingGunItem gun:
                 GrapplingGunScriptObject.GetComponent<GrapplingGun>().canGrapp = true;
+                keysList.Add(gun);
                 break;
         }
     }
