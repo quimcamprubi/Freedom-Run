@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
                 keysList.Add(key);
                 break;
             case WeaponItem weapon:
-                canPorron = true;
+                GetComponent<throwAttack>().GrabObject();
                 break;
             case RegularItem item:
                 itemsList.Add(item);
