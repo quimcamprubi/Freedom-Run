@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     private bool canOpenDoor;
 
     // Porron
-    private bool canPorron = true;
+    public bool canPorron = false;
     private GameObject objectToDestroy;
     private bool Paused;
 
