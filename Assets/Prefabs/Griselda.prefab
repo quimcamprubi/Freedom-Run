@@ -603,7 +603,7 @@ MonoBehaviour:
   jumpSpeed: 13
   groundCheck: {fileID: 5569981364994877386}
   groundDistanceCheck: 1.75
-  ceilingDistanceCheck: 10
+  ceilingDistanceCheck: 1.5
   wallDistanceCheck: 0.2
   platformLayer:
     serializedVersion: 2
@@ -625,6 +625,7 @@ MonoBehaviour:
   speedFallDamage: -50
   keysList: []
   shipSound: {fileID: 218347297490549960}
+  _canStandup: 0
   itemsList: []
   _isGrounded: 0
   _canJump: 0
