@@ -441,6 +441,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   ropeProgressionSpeed: 5.4
   isGrappling: 0
+  canGrapp: 0
 --- !u!1 &3395019274955847830
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,6 +621,7 @@ MonoBehaviour:
   salto: {fileID: -7866144068433370089}
   hookSound: {fileID: 5241953648175944104}
   puerta_cerrada: {fileID: -788567209502174757}
+  speedFallDamage: -50
   keysList: []
   shipSound: {fileID: 218347297490549960}
   itemsList: []
@@ -631,6 +633,7 @@ MonoBehaviour:
   _coyoteTimeCounter: 0
   Canvas: {fileID: 0}
   GrapplingGunGameObject: {fileID: 0}
+  GrapplingGunScriptObject: {fileID: 8983954840869356664}
   HealthScript: {fileID: 0}
   onMovingPlatform: 0
   platformSpeed: 0
@@ -1506,11 +1509,13 @@ MonoBehaviour:
   grappleRope: {fileID: 2834672037044542971}
   playerController: {fileID: 4652662492999582039}
   grappleToAll: 0
+  canGrapp: 1
   grappableLayerNumber: 6
   m_camera: {fileID: 0}
   gunHolder: {fileID: 3395019274955847826}
   gunPivot: {fileID: 200778012912806693}
   firePoint: {fileID: 6238472631649079199}
+  grappleThreshold: 0.6
   m_springJoint2D: {fileID: 7240908992274604837}
   m_rigidbody: {fileID: 3395019274955847829}
   rotateOverTime: 1

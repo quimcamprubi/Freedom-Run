@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource salto;
     public AudioSource hookSound;
     public AudioSource puerta_cerrada;
-
+    public double speedFallDamage;
     [HideInInspector] public List<KeyItem> keysList;
     public AudioSource shipSound;
 
@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     public float _coyoteTimeCounter;
     public GameObject Canvas;
     public GameObject GrapplingGunGameObject;
+    public GameObject GrapplingGunScriptObject;
+
     public HealthMeter HealthScript;
     public bool onMovingPlatform;
     public float platformSpeed;
@@ -57,7 +59,6 @@ public class PlayerController : MonoBehaviour
     private bool _isOnSlope;
 
     // Private attributes
-    private bool _isSprinting;
     private bool _isTouchingFront;
     private bool _isWallJumping;
     private float _jumpTimeCounter;
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour
     private bool _sprintFall;
     private bool _sprintJump;
     private float _sprintModifier = 1.0f;
-
+    private double maxYvel=0;
     private Animator Animator;
 
     // Collectible items
@@ -106,7 +107,15 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
+    { 
+        if (!_isGrounded)
+        {
+            if (_rigidbody2D.velocity.y < maxYvel)
+            {
+                maxYvel = _rigidbody2D.velocity.y;
+            }
+        }
+        bool auxBool = !_isGrounded && !_isJumping;
         if (!_isGrappling)
         {
             CheckGround();
@@ -114,6 +123,14 @@ public class PlayerController : MonoBehaviour
             CheckFront();
             ApplyMovement();
             CheckHook();
+        }
+        if (_isGrounded && auxBool)
+        {
+            if (maxYvel <= speedFallDamage)
+            {
+                HealthScript.Hurt(3);
+            }
+            maxYvel = 0;
         }
     }
 
@@ -125,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckInput()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetButtonDown("Interact"))
         {
             if (canAddCollectible)
             {
@@ -182,9 +199,8 @@ public class PlayerController : MonoBehaviour
             else if (_isGrounded && !_isJumping) _canJump = true;
         }
 
-        _isSprinting = Input.GetKey(KeyCode.LeftShift);
-
-        if (Input.GetKey("down") || Input.GetKey(KeyCode.S))
+        _sprintModifier = 1.0f + (Input.GetButton("Sprint") ? 0.5f : 0.5f * Input.GetAxis("Sprint"));
+        if (Input.GetButton("Crouch"))
         {
             Animator.SetBool("ajupirse_correr", _input != 0.0f);
             ajupirse = true;
@@ -206,7 +222,7 @@ public class PlayerController : MonoBehaviour
         else
             Animator.SetBool("isJumping", true);
 
-        _isHooking = Input.GetKey(KeyCode.W);
+        _isHooking = Input.GetButton("Interact");
 
         if (_isHooking && _isHookAvailable)
         {
@@ -273,6 +289,9 @@ public class PlayerController : MonoBehaviour
                 break;
             case RegularItem item:
                 itemsList.Add(item);
+                break;
+            case GrapplingGunItem gun:
+                GrapplingGunScriptObject.GetComponent<GrapplingGun>().canGrapp = true;
                 break;
         }
     }
@@ -343,7 +362,7 @@ public class PlayerController : MonoBehaviour
         {
             _canJump = false;
             _isJumping = true;
-            _sprintJump = _isSprinting;
+            _sprintJump = _sprintModifier > 1.0f;
             _jumpTimeCounter = jumpTime;
             _coyoteTimeCounter = 0f;
         }
@@ -368,8 +387,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_isGrounded)
         {
-            _sprintModifier = _isSprinting ? 1.5f : 1.0f;
-            _sprintFall = _isSprinting;
+            _sprintFall = _sprintModifier > 1.0f;
         }
         else
         {

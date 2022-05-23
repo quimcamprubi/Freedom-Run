@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1774537904750988396}
   - component: {fileID: 3749891561779486113}
   - component: {fileID: 1937406317896311299}
-  - component: {fileID: 1710255931998275458}
   - component: {fileID: -3064601747018582423}
   - component: {fileID: 2811553326804507933}
+  - component: {fileID: 4847704785381365654}
   m_Layer: 0
   m_Name: Ganxo_Portatil
   m_TagString: Untagged
@@ -112,19 +112,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5625, y: 0.19934402}
   m_EdgeRadius: 0
---- !u!114 &1710255931998275458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1280458307102988401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df73e6b7818d431eae15143d014b58d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collectibleItemId: Skull1
 --- !u!114 &-3064601747018582423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,3 +146,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4847704785381365654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280458307102988401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50de0fe819d343beb8713ee1b27a3ee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectibleItemId: Grapping
