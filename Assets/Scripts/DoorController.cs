@@ -36,7 +36,11 @@ public class DoorController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         var controller = other.GetComponent<PlayerController>();
-        if (controller != null) controller.NoAvailableDoor();
+        if (controller != null)
+        {
+            controller.NoAvailableDoor();
+            gameObject.GetComponent<OnTextCalled>().dialoguePanel.SetActive(false);
+        }
     }
 
     public void OpenDoor() {

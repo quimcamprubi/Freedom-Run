@@ -29,14 +29,14 @@ public class PlayerController : MonoBehaviour
     public AudioSource hookSound;
     public AudioSource puerta_cerrada;
     public double speedFallDamage;
-    [HideInInspector] public List<KeyItem> keysList;
+    [HideInInspector] public List<CollectibleItem> keysList;
     public AudioSource shipSound;
 
     public List<RegularItem> itemsList;
     public bool _isGrounded;
     public bool _canJump;
     public bool _isWallSliding;
-    public bool _isGrappling;
+    public bool _isGrappling = false;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
     public GameObject Canvas;
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     private bool canOpenDoor;
 
     // Porron
-    private bool canPorron = true;
+    public bool canPorron = false;
     private GameObject objectToDestroy;
     private bool Paused;
 
@@ -275,6 +275,7 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = 1f;
             }
         }
+                Animator.SetBool("isGrappling", _isGrappling);
     }
 
     private void AddCollectible()
@@ -285,13 +286,14 @@ public class PlayerController : MonoBehaviour
                 keysList.Add(key);
                 break;
             case WeaponItem weapon:
-                canPorron = true;
+                GetComponent<throwAttack>().GrabObject();
                 break;
             case RegularItem item:
                 itemsList.Add(item);
                 break;
             case GrapplingGunItem gun:
                 GrapplingGunScriptObject.GetComponent<GrapplingGun>().canGrapp = true;
+                keysList.Add(gun);
                 break;
         }
     }

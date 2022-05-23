@@ -40,10 +40,12 @@ public class OnTextCalled : MonoBehaviour
     {
         if (sentences.Count <= 0)
         {
-            dialoguePanel.SetActive(false);
-            StopAllCoroutines();
-            SceneManager.LoadScene(sceneDestination);
-            return;
+            if(sceneDestination!=""){
+                dialoguePanel.SetActive(false);
+                StopAllCoroutines();
+                SceneManager.LoadScene(sceneDestination);
+                return;
+            }
         }
 
         activeSentence = sentences.Dequeue();
