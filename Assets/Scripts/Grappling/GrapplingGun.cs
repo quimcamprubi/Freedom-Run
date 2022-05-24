@@ -8,7 +8,7 @@ public class GrapplingGun : MonoBehaviour
     [Header("Layers Settings:")] [SerializeField]
     private bool grappleToAll;
 
-    public bool canGrapp;
+    public bool grappleEnabled;
     [SerializeField] private int grappableLayerNumber = 9;
 
     [Header("Main Camera:")] public Camera m_camera;
@@ -39,6 +39,8 @@ public class GrapplingGun : MonoBehaviour
 
     private bool isHooked;
 
+    private bool canHook;
+
     private Vector2 lastChange;
 
     private GameManager gameManager;
@@ -52,58 +54,58 @@ public class GrapplingGun : MonoBehaviour
 
     private void Update()
     {
-        if (canGrapp)
+        if (!grappleEnabled) return;
+
+        Vector2 distanceVector;
+        bool shouldHook, shouldRelease;
+        if (gameManager.UsingGamepad)
         {
-            Vector2 distanceVector;
-            bool grappleChange;
-            if (gameManager.UsingGamepad)
-            {
-                distanceVector = new Vector2(Input.GetAxisRaw("HorizontalSecondary"),
-                    -Input.GetAxisRaw("VerticalSecondary"));
-                grappleChange = (lastChange - distanceVector).magnitude > grappleThreshold;
-            }
-            else
-            {
-                distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
-                grappleChange = Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyUp(KeyCode.Mouse0);
-            }
+            distanceVector = new Vector2(Input.GetAxisRaw("HorizontalSecondary"),
+                -Input.GetAxisRaw("VerticalSecondary"));
+            shouldHook = shouldRelease = (lastChange - distanceVector).magnitude > grappleThreshold;
+        }
+        else
+        {
+            distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
+            shouldRelease = !Input.GetKey(KeyCode.Mouse0);
+            shouldHook = Input.GetKeyDown(KeyCode.Mouse0);
+        }
 
-            if (grappleChange)
+        canHook = !isHooked && (canHook || playerController._isGrounded);
+        shouldHook = shouldHook && canHook;
+        if (shouldHook && !isHooked)
+        {
+            SetGrapplePoint(distanceVector);
+        }
+        else if (shouldRelease && isHooked)
+        {
+            ReleaseGrapple();
+        }
+        else if (isHooked)
+        {
+            if (Input.GetButtonDown("Jump"))
             {
-                if (!isHooked)
-                {
-                    SetGrapplePoint(distanceVector);
-                    return;
-                }
-
+                playerController._isWallSliding = false;
+                playerController._canJump = true;
+                playerController._coyoteTimeCounter = 2.0f;
                 ReleaseGrapple();
+                if (playerController._isGrounded) playerController.Jump();
             }
-            else if (isHooked)
-            {
-                if (Input.GetButtonDown("Jump"))
-                {
-                    playerController._isWallSliding = false;
-                    playerController._canJump = true;
-                    playerController._coyoteTimeCounter = 2.0f;
-                    ReleaseGrapple();
-                    if (playerController._isGrounded) playerController.Jump();
-                }
 
-                if (grappleRope.enabled)
-                {
-                    RotateGun(grapplePoint, false);
-                }
-                else
-                {
-                    Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
-                    RotateGun(mousePos, true);
-                }
+            if (grappleRope.enabled)
+            {
+                RotateGun(grapplePoint, false);
             }
             else
             {
                 Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
                 RotateGun(mousePos, true);
             }
+        }
+        else
+        {
+            Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
+            RotateGun(mousePos, true);
         }
     }
 
