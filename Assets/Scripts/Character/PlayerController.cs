@@ -116,9 +116,9 @@ public class PlayerController : MonoBehaviour
             }
         }
         bool auxBool = !_isGrounded && !_isJumping;
+        CheckGround();
         if (!_isGrappling)
         {
-            CheckGround();
             CheckSlope();
             CheckFront();
             ApplyMovement();
@@ -292,7 +292,7 @@ public class PlayerController : MonoBehaviour
                 itemsList.Add(item);
                 break;
             case GrapplingGunItem gun:
-                GrapplingGunScriptObject.GetComponent<GrapplingGun>().canGrapp = true;
+                GrapplingGunScriptObject.GetComponent<GrapplingGun>().grappleEnabled = true;
                 keysList.Add(gun);
                 break;
         }
