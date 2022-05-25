@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class William : MonoBehaviour
 {
@@ -8,15 +9,27 @@ public class William : MonoBehaviour
 	public GameObject williams;
 	public GameObject porron;
 
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (!porron.activeSelf){ williams.SetActive(true); }
+        //if (!porron.activeSelf){ williams.SetActive(true); }
+        bool mort = false;
+        if (porron.activeSelf)
+        {
+            williams.SetActive(false);
+        } 
+        else {
+            williams.SetActive(true);
+            mort = true;
+        }
+        if(mort == true)
+        {
+            if (williams.activeSelf == false)
+            {
+                print("funciona");
+            }
+        }
     }
 	
 }
