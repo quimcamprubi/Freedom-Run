@@ -123,6 +123,16 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &162278551 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2223704914085161456, guid: fcc15000220e3ba4aa54f9bdd392a568, type: 3}
+  m_PrefabInstance: {fileID: 255829385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &162278559 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1032716849344830383, guid: fcc15000220e3ba4aa54f9bdd392a568, type: 3}
+  m_PrefabInstance: {fileID: 255829385}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &244771603
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,6 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 420329669}
   - component: {fileID: 420329668}
+  - component: {fileID: 420329670}
   m_Layer: 0
   m_Name: Spot Light (1)
   m_TagString: Untagged
@@ -367,6 +378,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &420329670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420329667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff68f240095da94eb93a578dae9ae33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  williams: {fileID: 1518334538}
+  porron: {fileID: 162278551}
+  sceneDestination: Nivell_6_p2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,7 +507,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.370722, y: -8.595129, z: -10}
+  m_LocalPosition: {x: -29.37072, y: -8.595129, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1314484096}
@@ -697,7 +723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6735714102334639833, guid: ceb82f3302eecbf45b0738ff3814a81b, type: 3}
       propertyPath: health
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6735714102334639833, guid: ceb82f3302eecbf45b0738ff3814a81b, type: 3}
       propertyPath: enemyHurt
@@ -718,6 +744,10 @@ PrefabInstance:
     - target: {fileID: 7280030970244458110, guid: ceb82f3302eecbf45b0738ff3814a81b, type: 3}
       propertyPath: m_Name
       value: William
+      objectReference: {fileID: 0}
+    - target: {fileID: 7280030970244458110, guid: ceb82f3302eecbf45b0738ff3814a81b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8259243015880783038, guid: ceb82f3302eecbf45b0738ff3814a81b, type: 3}
       propertyPath: m_Size.x
@@ -949,6 +979,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &806614643
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 162278559}
+    m_Modifications:
+    - target: {fileID: 3299690457638023493, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_Name
+      value: PromptTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: key
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: text
+      value: Pick Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
 --- !u!1 &868989326
 GameObject:
   m_ObjectHideFlags: 0
@@ -12072,7 +12167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
       propertyPath: key
-      value: 271
+      value: 113
       objectReference: {fileID: 0}
     - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
       propertyPath: text

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class William : MonoBehaviour
 {
     // Start is called before the first frame update
 	public GameObject williams;
 	public GameObject porron;
+    public string sceneDestination;
 
 
     // Update is called once per frame
@@ -25,9 +27,10 @@ public class William : MonoBehaviour
         }
         if(mort == true)
         {
-            if (williams.activeSelf == false)
+            if (williams.activeSelf == null)
             {
-                print("funciona");
+                PlayerPrefs.SetString("LevelProgress", sceneDestination);
+                SceneManager.LoadScene(sceneDestination);
             }
         }
     }
