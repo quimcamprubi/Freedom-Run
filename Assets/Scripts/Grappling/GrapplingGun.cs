@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GrapplingGun : MonoBehaviour
@@ -50,6 +51,7 @@ public class GrapplingGun : MonoBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         grappleRope.enabled = false;
         m_springJoint2D.enabled = false;
+        canHook = true;
     }
 
     private void Update()
@@ -71,7 +73,7 @@ public class GrapplingGun : MonoBehaviour
             shouldHook = Input.GetKeyDown(KeyCode.Mouse0);
         }
 
-        canHook = !isHooked && (canHook || playerController._isGrounded);
+        canHook = !isHooked && canHook;
         shouldHook = shouldHook && canHook;
         if (shouldHook && !isHooked)
         {
@@ -126,6 +128,12 @@ public class GrapplingGun : MonoBehaviour
         m_springJoint2D.enabled = false;
         playerController._isGrappling = false;
         m_rigidbody.gravityScale = 1;
+        StartCoroutine(WaitAndReenable());
+    }
+
+    private IEnumerator WaitAndReenable() {
+        yield return new WaitForSeconds(0.5f);
+        canHook = true;
     }
 
     private void RotateGun(Vector3 lookPoint, bool allowRotationOverTime)
