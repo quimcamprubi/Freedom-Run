@@ -135,7 +135,7 @@ public class AIPatrol : MonoBehaviour
         }
     }
 
-    public void Die() {
+    public virtual void Die() {
         Instantiate(blood, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
