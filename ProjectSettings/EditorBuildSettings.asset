@@ -38,4 +38,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/The_End.unity
     guid: 85702677389e57f429c551d571e89ed0
+<<<<<<< HEAD
+=======
+  - enabled: 1
+    path: Assets/Scenes/Start_Scene.unity
+    guid: 68899b77d226bf24c8065e19da3068b0
+  - enabled: 1
+    path: Assets/Scenes/Nivell_7.unity
+    guid: 4b65252df1a29f0439ceed0f39cfc982
+  - enabled: 1
+    path: Assets/Scenes/Nivell_6_p2.unity
+    guid: 1a3527306bd65bb47accf70f39220d26
+>>>>>>> Disseny_Escenaris-Nivell7
   m_configObjects: {}
