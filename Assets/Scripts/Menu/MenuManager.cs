@@ -19,4 +19,10 @@ public class MenuManager : MonoBehaviour
         Debug.Log("GAME CLOSE (on unity debug doesn't work)");
         Application.Quit();
     }
+    
+    public void DeleteProgress()
+    {
+        PlayerPrefs.SetString("LevelProgress","Start_Scene");
+        
+    }
 }

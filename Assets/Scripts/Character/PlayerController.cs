@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float jumpSpeed;
     public Transform groundCheck;
     public float groundDistanceCheck;
+    public float ceilingDistanceCheck;
     public float wallDistanceCheck;
     public LayerMask platformLayer;
     public float slopeCheckDistance;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public double speedFallDamage;
     [HideInInspector] public List<CollectibleItem> keysList;
     public AudioSource shipSound;
+    public bool _canStandup;
 
     public List<RegularItem> itemsList;
     public bool _isGrounded;
@@ -116,13 +118,14 @@ public class PlayerController : MonoBehaviour
             }
         }
         bool auxBool = !_isGrounded && !_isJumping;
+        CheckGround();
         if (!_isGrappling)
         {
-            CheckGround();
             CheckSlope();
             CheckFront();
             ApplyMovement();
             CheckHook();
+            CheckCeiling();
         }
         if (_isGrounded && auxBool)
         {
@@ -292,7 +295,7 @@ public class PlayerController : MonoBehaviour
                 itemsList.Add(item);
                 break;
             case GrapplingGunItem gun:
-                GrapplingGunScriptObject.GetComponent<GrapplingGun>().canGrapp = true;
+                GrapplingGunScriptObject.GetComponent<GrapplingGun>().grappleEnabled = true;
                 keysList.Add(gun);
                 break;
         }
@@ -350,6 +353,20 @@ public class PlayerController : MonoBehaviour
         {
             _coyoteTimeCounter -= Time.fixedDeltaTime;
         }
+    }
+
+    private void CheckCeiling()
+    {
+
+        _canStandup = !(Physics2D.Raycast(transform.position, Vector2.up, ceilingDistanceCheck));
+        if(_canStandup)
+        {
+            Animator.SetBool("canStandup", true);
+        }
+        else{
+            Animator.SetBool("canStandup", false);
+        }
+
     }
 
     private void CheckFront()
@@ -494,7 +511,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject)
+    public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject) 
     {
         availableCollectibleItem = item;
         objectToDestroy = keyObject;

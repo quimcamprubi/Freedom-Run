@@ -28,11 +28,13 @@ public class MovingPlatform : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         other.transform.SetParent(transform, true);
+        other.gameObject.GetComponent<Rigidbody2D>().interpolation = RigidbodyInterpolation2D.None;
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        other.transform.SetParent(null);
+        other.transform.SetParent(null, true);
         other.transform.localScale = new Vector3(1, 1, 1);
+        other.gameObject.GetComponent<Rigidbody2D>().interpolation = RigidbodyInterpolation2D.Interpolate;
     }
 }
