@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class PromptTrigger : MonoBehaviour
 {
-    public KeyCode key;
+    public string[] axes;
+
+    public Texture2D textureKeyboard;
+
+    public Texture2D textureGamepad;
 
     public string text;
+
+    public bool keepParent;
 
     private GameManager gameManager;
 
@@ -15,7 +21,8 @@ public class PromptTrigger : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) {
         Debug.Log("Prompt trigger activated");
         if (other.gameObject == gameManager.playerObject) {
-            gameManager.CreatePrompt(transform.position, transform.parent, key, text);
+            var texture = gameManager.UsingGamepad ? textureGamepad : textureKeyboard;
+            gameManager.CreatePrompt(transform.position, keepParent ? transform.parent : null, axes, texture, text);
             Destroy(gameObject);
         }
     }
