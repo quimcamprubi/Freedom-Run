@@ -38,13 +38,13 @@ public class GrapplingGun : MonoBehaviour
     [HideInInspector] public Vector2 grapplePoint;
     [HideInInspector] public Vector2 grappleDistanceVector;
 
-    private bool isHooked;
-
     private bool canHook;
 
-    private Vector2 lastChange;
-
     private GameManager gameManager;
+
+    private bool isHooked;
+
+    private Vector2 lastChange;
 
     private void Start()
     {
@@ -131,7 +131,8 @@ public class GrapplingGun : MonoBehaviour
         StartCoroutine(WaitAndReenable());
     }
 
-    private IEnumerator WaitAndReenable() {
+    private IEnumerator WaitAndReenable()
+    {
         yield return new WaitForSeconds(0.5f);
         canHook = true;
     }

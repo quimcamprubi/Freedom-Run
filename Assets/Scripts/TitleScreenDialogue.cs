@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class TitleScreenDialogue : MonoBehaviour
 {
     public Dialogue dialogue;
-    public string sceneDestination = null;
+    public string sceneDestination;
     public GameObject dialoguePanel;
     public TextMeshProUGUI displayText;
     public float typingSpeed;
@@ -26,7 +27,7 @@ public class TitleScreenDialogue : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return)) DisplayNextSentence();
     }
-    
+
     private void StartDialogue()
     {
         sentences.Clear();

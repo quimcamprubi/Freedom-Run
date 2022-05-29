@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public bool _isGrounded;
     public bool _canJump;
     public bool _isWallSliding;
-    public bool _isGrappling = false;
+    public bool _isGrappling;
     public LineRenderer m_lineRenderer;
     public float _coyoteTimeCounter;
     public GameObject Canvas;
@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour
     public HealthMeter HealthScript;
     public bool onMovingPlatform;
     public float platformSpeed;
+
+    // Porron
+    public bool canPorron;
 
     private CapsuleCollider2D _capsuleCollider;
     private Vector2 _colliderSize;
@@ -76,7 +79,6 @@ public class PlayerController : MonoBehaviour
     private bool _sprintFall;
     private bool _sprintJump;
     private float _sprintModifier = 1.0f;
-    private double maxYvel=0;
     private Animator Animator;
 
     // Collectible items
@@ -86,9 +88,7 @@ public class PlayerController : MonoBehaviour
     private DoorController availableDoor;
     private bool canAddCollectible;
     private bool canOpenDoor;
-
-    // Porron
-    public bool canPorron = false;
+    private double maxYvel;
     private GameObject objectToDestroy;
     private bool Paused;
 
@@ -109,15 +109,11 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate()
-    { 
+    {
         if (!_isGrounded)
-        {
             if (_rigidbody2D.velocity.y < maxYvel)
-            {
                 maxYvel = _rigidbody2D.velocity.y;
-            }
-        }
-        bool auxBool = !_isGrounded && !_isJumping;
+        var auxBool = !_isGrounded && !_isJumping;
         CheckGround();
         if (!_isGrappling)
         {
@@ -127,12 +123,10 @@ public class PlayerController : MonoBehaviour
             CheckHook();
             CheckCeiling();
         }
+
         if (_isGrounded && auxBool)
         {
-            if (maxYvel <= speedFallDamage)
-            {
-                HealthScript.Hurt(3);
-            }
+            if (maxYvel <= speedFallDamage) HealthScript.Hurt(3);
             maxYvel = 0;
         }
     }
@@ -163,12 +157,18 @@ public class PlayerController : MonoBehaviour
                 {
                     // If door is locked, check if player has the necessary key
                     if (keysList.Any(key => key.collectibleItemId == availableDoor.unlockKeyId))
+                    {
                         availableDoor.OpenDoor();
-                    else {
+                    }
+                    else
+                    {
                         availableDoor.LockedEvent();
                         puerta_cerrada.Play();
                     }
-                } else { // If door is unlocked, open it
+                }
+                else
+                {
+                    // If door is unlocked, open it
                     availableDoor.OpenDoor();
                 }
             }
@@ -278,7 +278,8 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = 1f;
             }
         }
-                Animator.SetBool("isGrappling", _isGrappling);
+
+        Animator.SetBool("isGrappling", _isGrappling);
     }
 
     private void AddCollectible()
@@ -357,16 +358,11 @@ public class PlayerController : MonoBehaviour
 
     private void CheckCeiling()
     {
-
-        _canStandup = !(Physics2D.Raycast(transform.position, Vector2.up, ceilingDistanceCheck));
-        if(_canStandup)
-        {
+        _canStandup = !Physics2D.Raycast(transform.position, Vector2.up, ceilingDistanceCheck);
+        if (_canStandup)
             Animator.SetBool("canStandup", true);
-        }
-        else{
+        else
             Animator.SetBool("canStandup", false);
-        }
-
     }
 
     private void CheckFront()
@@ -405,13 +401,9 @@ public class PlayerController : MonoBehaviour
     private void CheckSprintModifier()
     {
         if (_isGrounded)
-        {
             _sprintFall = _sprintModifier > 1.0f;
-        }
         else
-        {
             _sprintModifier = _sprintJump || _sprintFall ? 1.5f : 1.0f;
-        }
     }
 
     private void CheckSlope()
@@ -511,7 +503,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject) 
+    public void AvailableCollectibleItem(CollectibleItem item, GameObject keyObject)
     {
         availableCollectibleItem = item;
         objectToDestroy = keyObject;

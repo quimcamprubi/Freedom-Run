@@ -21,7 +21,9 @@ public class DamageCollider : MonoBehaviour
                 healthMeter.Hurt(2);
             else
                 healthMeter.Hurt();
-        } else if (other.gameObject.CompareTag("Enemy")) {
+        }
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
             other.gameObject.GetComponent<AIPatrol>().Die();
         }
     }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class OnTextCalled : MonoBehaviour
 {
     public Dialogue dialogue;
-    public string sceneDestination = null;
+    public string sceneDestination;
     public GameObject dialoguePanel;
     public TextMeshProUGUI displayText;
     public float typingSpeed;
@@ -26,7 +27,7 @@ public class OnTextCalled : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return)) DisplayNextSentence();
     }
-    
+
     private void StartDialogue()
     {
         sentences.Clear();
@@ -39,14 +40,13 @@ public class OnTextCalled : MonoBehaviour
     private void DisplayNextSentence()
     {
         if (sentences.Count <= 0)
-        {
-            if(sceneDestination!=""){
+            if (sceneDestination != "")
+            {
                 dialoguePanel.SetActive(false);
                 StopAllCoroutines();
                 SceneManager.LoadScene(sceneDestination);
                 return;
             }
-        }
 
         activeSentence = sentences.Dequeue();
         displayText.text = activeSentence;

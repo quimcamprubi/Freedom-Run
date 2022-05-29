@@ -5,13 +5,11 @@ public class MenuManager : MonoBehaviour
 {
     public void ButtonStart()
     {
-        string levelToLoad = PlayerPrefs.GetString("LevelProgress");
-        if (levelToLoad == "") {
+        var levelToLoad = PlayerPrefs.GetString("LevelProgress");
+        if (levelToLoad == "")
             SceneManager.LoadScene("Start_Scene");
-        }
-        else {
+        else
             SceneManager.LoadScene(levelToLoad);
-        }
     }
 
     public void ButtonQuit()
@@ -19,10 +17,9 @@ public class MenuManager : MonoBehaviour
         Debug.Log("GAME CLOSE (on unity debug doesn't work)");
         Application.Quit();
     }
-    
+
     public void DeleteProgress()
     {
-        PlayerPrefs.SetString("LevelProgress","Start_Scene");
-        
+        PlayerPrefs.SetString("LevelProgress", "Start_Scene");
     }
 }

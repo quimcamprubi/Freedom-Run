@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 
     public bool UsingGamepad { get; private set; }
 
-    void Update() {
+    private void Update()
+    {
         UsingGamepad = Input.GetJoystickNames().Length > 0;
     }
 

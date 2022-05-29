@@ -10,7 +10,7 @@ public class AIPatrol : MonoBehaviour
 
     public Vector2 direction;
     public Vector3 defaultPosition;
-    
+
     public AudioClip enemyHurt;
 
     public float guardSpeed = 2.0f;
@@ -44,6 +44,7 @@ public class AIPatrol : MonoBehaviour
     public BoxCollider2D followRange;
     public BoxCollider2D attackerCollider2D;
     public GameObject targetPlayer;
+    private AudioSource _audioSource;
     private bool _canJump;
     private CapsuleCollider2D _capsuleCollider;
     private Vector2 _colliderSize;
@@ -58,7 +59,6 @@ public class AIPatrol : MonoBehaviour
     private Vector2 enemyPosition;
     private HealthMeter healthMeter;
     private Vector2 playerPosition;
-    private AudioSource _audioSource;
 
     private void Start()
     {
@@ -135,7 +135,8 @@ public class AIPatrol : MonoBehaviour
         }
     }
 
-    public virtual void Die() {
+    public virtual void Die()
+    {
         Instantiate(blood, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
