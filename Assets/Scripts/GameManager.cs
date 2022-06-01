@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviour
         UsingGamepad = Input.GetJoystickNames().Length > 0;
     }
 
-    public void CreatePrompt(Vector2 position, Transform parent, KeyCode keyCode, string text)
+    public void CreatePrompt(Vector2 position, Transform parent, string[] axes, Texture2D texture, string text)
     {
         var prefab = Resources.Load("Prefabs/KeyPrompt");
         var keyPromptObject = (GameObject) Instantiate(prefab, position, Quaternion.identity, parent);
         var keyPrompt = keyPromptObject.GetComponent<KeyPrompt>();
-        keyPrompt.keyCode = keyCode;
+        keyPrompt.axes = axes;
+        keyPrompt.texture = texture;
         keyPrompt.text = text;
     }
 }

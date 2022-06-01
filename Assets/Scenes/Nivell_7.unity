@@ -1197,6 +1197,26 @@ PrefabInstance:
       propertyPath: text
       value: Pick Up
       objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: keepParent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: textureGamepad
+      value: 
+      objectReference: {fileID: 2800000, guid: 540b92d37065405adbf460ff0d77140f, type: 3}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: axes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: textureKeyboard
+      value: 
+      objectReference: {fileID: 2800000, guid: 053658e891e1a3ee89f35f9b3ddb2ce5, type: 3}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: axes.Array.data[0]
+      value: Interact
+      objectReference: {fileID: 0}
     - target: {fileID: 3299690457638023496, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -12642,6 +12662,22 @@ PrefabInstance:
     - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
       propertyPath: text
       value: Defend Yourself
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: textureGamepad
+      value: 
+      objectReference: {fileID: 2800000, guid: 50a5a908f7099a7009a491ac43b5d113, type: 3}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: axes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: textureKeyboard
+      value: 
+      objectReference: {fileID: 2800000, guid: ebee444b958822ebe9a3ea1395de289a, type: 3}
+    - target: {fileID: 3299690457638023494, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
+      propertyPath: axes.Array.data[0]
+      value: Attack
       objectReference: {fileID: 0}
     - target: {fileID: 3299690457638023495, guid: 9f6687fecc5eeac1a85641a18e152732, type: 3}
       propertyPath: m_EdgeRadius

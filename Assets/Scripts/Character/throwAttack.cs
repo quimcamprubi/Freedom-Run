@@ -21,7 +21,7 @@ public class throwAttack : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetButtonDown("Attack"))
             if (canThrow)
             {
                 bool wallOverlap = Physics2D.OverlapCircle(attackPos.position, wallDistanceCheck, platformLayer);
