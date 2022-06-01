@@ -141,12 +141,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
-            if (canAddCollectible)
-            {
-                AddCollectible();
-                objectToDestroy.SetActive(false);
-            }
-            else if (canPorron)
+      
+            if (canPorron)
             {
                 canPorron = false;
                 GetComponent<throwAttack>().GrabObject();
@@ -170,6 +166,12 @@ public class PlayerController : MonoBehaviour
                 {
                     // If door is unlocked, open it
                     availableDoor.OpenDoor();
+                }
+            }
+            else if (canAddCollectible) {
+                AddCollectible();
+                if (objectToDestroy.activeSelf) {
+                    objectToDestroy.SetActive(false);
                 }
             }
         }
@@ -291,6 +293,9 @@ public class PlayerController : MonoBehaviour
                 break;
             case WeaponItem weapon:
                 GetComponent<throwAttack>().GrabObject();
+                if (weapon.canTeleport) {
+                    weapon.Teleport();
+                }
                 break;
             case RegularItem item:
                 itemsList.Add(item);

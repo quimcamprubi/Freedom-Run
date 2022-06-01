@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3493831611054779155}
   - component: {fileID: 8252924636857665775}
   - component: {fileID: 4097614468364081660}
-  - component: {fileID: -3110205981013753349}
   - component: {fileID: -1916175693098053975}
   - component: {fileID: 5488807082276783982}
   m_Layer: 0
@@ -97,11 +96,11 @@ Animation:
   m_GameObject: {fileID: 2223704914085161456}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: b65b4c32fd702594eb3c6a60b6d1b5c8, type: 2}
+  m_Animation: {fileID: 7400000, guid: 88a8c2ce5bdecc1478e4cba1e606e57d, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: b65b4c32fd702594eb3c6a60b6d1b5c8, type: 2}
+  - {fileID: 7400000, guid: 88a8c2ce5bdecc1478e4cba1e606e57d, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 0
+  m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!61 &8252924636857665775
@@ -146,19 +145,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.85
---- !u!114 &-3110205981013753349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2223704914085161456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05c6a45e4bc431b479e8519349f045c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 1.25
 --- !u!50 &-1916175693098053975
 Rigidbody2D:
   serializedVersion: 4
@@ -193,3 +179,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectibleItemId: 
+  canTeleport: 0
+  sceneDestination: 

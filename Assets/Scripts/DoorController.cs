@@ -35,12 +35,16 @@ public class DoorController : MonoBehaviour
         if (controller != null)
         {
             controller.NoAvailableDoor();
-            gameObject.GetComponent<OnTextCalled>().dialoguePanel.SetActive(false);
+            if (gameObject != null && gameObject.activeSelf) {
+                var dp = gameObject.GetComponent<OnTextCalled>();
+                if (dp != null) {
+                    dp.dialoguePanel.SetActive(false);
+                }
+            }
         }
     }
 
-    public void OpenDoor()
-    {
+    public void OpenDoor() {
         animator.SetTrigger("Open");
     }
 

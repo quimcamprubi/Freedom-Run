@@ -15,8 +15,8 @@ public class FloatingObject : MonoBehaviour
         Delay = Time.time + 0.7f;
     }
 
-    // Update is called once per frame
-    private void Update()
+
+    private void FixedUpdate()
     {
         if (Time.time < Delay)
         {
