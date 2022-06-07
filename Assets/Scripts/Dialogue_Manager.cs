@@ -23,7 +23,7 @@ public class Dialogue_Manager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump")) DisplayNextSentence();
+        if (Input.GetButtonDown("Dialog")) DisplayNextSentence();
     }
 
 
