@@ -12,7 +12,7 @@ public class EnterIndicatorScript : MonoBehaviour
     void Start()
     {
         var gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        textMeshPro.text = gameManager.UsingGamepad ? "B" : "Enter";
+        textMeshPro.text = gameManager.UsingGamepad ? "X" : "Enter";
     }
 
     // Update is called once per frame

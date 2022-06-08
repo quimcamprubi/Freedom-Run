@@ -24,7 +24,7 @@ public class PlayerAttack : MonoBehaviour
         if (!player.GetComponent<throwAttack>().IsArmed()) return;
         if (timeBtwAttack <= 0.0f)
         {
-            if (Input.GetKey(KeyCode.Return) && attackPos != null)
+            if (Input.GetButtonDown("Melee") && attackPos != null)
             {
                 Debug.Log("Attack Done!");
                 CancelInvoke(nameof(stopAttack));
